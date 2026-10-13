@@ -848,6 +848,15 @@ img,svg{max-width:100%}
 html[data-skin="ivory"] .pk.on{outline:2px solid #111;background:#FFF8E6}
 html[data-skin="ivory"] .pc{box-shadow:0 1px 3px rgba(0,0,0,.18),inset 0 0 0 1px rgba(0,0,0,.12)}
 html[data-skin="ivory"] .pamt{background:#FFFFFF;border-color:rgba(17,17,17,.15);color:#111}
+/* floating add button: compact, hides while scrolling down so it never sits on top of content */
+@media (max-width:860px){
+  .fab{width:56px!important;height:56px!important;padding:0!important;border-radius:50%!important;font-size:0!important;display:grid!important;place-items:center;transition:transform .25s ease,opacity .25s ease}
+  .fab::before{content:"+";font-size:30px;font-weight:400;line-height:1;margin-top:-2px}
+  .fab.hide{transform:translateY(140%);opacity:0;pointer-events:none}
+  .fab.off{display:none!important}
+}
+.more-days.ended{background:rgba(var(--ov),.08);color:var(--muted)}
+.more-days{display:inline-block;margin-left:4px;padding:0 7px;border-radius:999px;background:rgba(var(--acc),.14);color:var(--gold-hi);font-size:11.5px;font-weight:700;line-height:1.6}
 /* logo wordmark */
 .brand b{font-family:"Bodoni Moda",Didot,"Bodoni 72","Times New Roman",serif;font-weight:600;font-size:23px;letter-spacing:.005em;text-transform:none;line-height:1;font-optical-sizing:auto}
 .brand b i{font-style:italic;font-weight:500;color:var(--gold);margin-left:2px;letter-spacing:0}
@@ -899,7 +908,7 @@ html[data-skin="ivory"] .pamt{background:#FFFFFF;border-color:rgba(17,17,17,.15)
 </div>
 <main class="content" id="view"></main>
 
-<button class="fab" id="fab">+ 기록 추가</button>
+<button class="fab" id="fab" aria-label="기록 추가" title="기록 추가">+ 기록 추가</button>
 <div class="toast" id="toast"></div>
 <dialog id="evtDlg"><div class="dlg" id="evtBox"></div></dialog>
 <dialog id="askDlg"><div class="dlg" style="padding:22px 24px 18px"><p id="askMsg" style="margin:0 0 18px;font-size:15px;line-height:1.6"></p><div style="display:flex;gap:8px;justify-content:flex-end"><button type="button" class="btn" id="askNo">취소</button><button type="button" class="btn primary" id="askYes">확인</button></div></div></dialog>
@@ -1936,7 +1945,7 @@ function renderTours(){
     <a class="btn" href="https://www.bluffcatch.com/tournaments" target="_blank" rel="noopener">블러프캐치 ↗</a>
     <button class="btn primary" data-act="addTour">+ 대회 등록</button></div>`;
   if (S.tourView!=='list') return tool + renderCalendar();
-  const series = SCHEDULE.length ? `<section class="card"><h2>공식 일정 <span class="sub">모든 사용자에게 같이 보여요</span></h2><div class="mini">${SCHEDULE.map(se=>{ const ds=(se.events||[]).flatMap(e=>(e.days||[]).map(d=>d.date)).filter(Boolean).sort(); return (se.events||[]).map(ev=>{ const up=(ev.days||[]).filter(d=>d.date&&d.date>=todayISO()); const d0=up[0]||(ev.days||[]).find(d=>d.date); const key=d0? `s|${se.id}|${ev.id}|${ev.days.indexOf(d0)}`:''; return `<button ${key?`data-evt="${esc(key)}"`:''}><span style="min-width:0;flex:1"><span class="t">${se.brand?`<span class="tag b">${esc(se.brand)}</span>`:''}${esc(ev.name)}</span><span class="m">${esc(se.series||'')}${d0?' · '+dShort(d0.date):''}${se.venue?' · '+esc(se.venue):''}</span></span><span class="v n">${ev.gtd?'GTD '+fmtCur(ev.gtd,ev.cur||'KRW'):''}<small>${ev.buyin?fmtCur(ev.buyin,ev.cur||'KRW'):esc(ev.buyinText||'')}${(ev.days||[]).length>1?' · '+ev.days.length+'일정':''}</small></span></button>`; }).join(''); }).join('')}</div></section>` : '';
+  const series = SCHEDULE.length ? `<section class="card"><h2>공식 일정 <span class="sub">모든 사용자에게 같이 보여요</span></h2><div class="mini">${SCHEDULE.map(se=>{ const ds=(se.events||[]).flatMap(e=>(e.days||[]).map(d=>d.date)).filter(Boolean).sort(); return (se.events||[]).map(ev=>{ const up=(ev.days||[]).filter(d=>d.date&&d.date>=todayISO()); const d0=up[0]||(ev.days||[]).find(d=>d.date); const key=d0? `s|${se.id}|${ev.id}|${ev.days.indexOf(d0)}`:''; return `<button ${key?`data-evt="${esc(key)}"`:''}><span style="min-width:0;flex:1"><span class="t">${se.brand?`<span class="tag b">${esc(se.brand)}</span>`:''}${esc(ev.name)}</span><span class="m">${esc(se.series||'')}${(()=>{ const ds=(ev.days||[]).map(d=>d.date).filter(Boolean).sort(); if (!ds.length) return ''; const f=ds[0], l=ds[ds.length-1], t=todayISO(); if (f===l) return ' · '+dShort(f); let out=' · '+dShort(f)+' ~ '+dShort(l); if (t>f && t<=l && d0) out+=` <b class="more-days">다음 ${dShort(d0.date)}</b>`; else if (t>l) out+=' <b class="more-days ended">종료</b>'; return out; })()}${se.venue?' · '+esc(se.venue):''}</span></span><span class="v n">${ev.gtd?'GTD '+fmtCur(ev.gtd,ev.cur||'KRW'):''}<small>${ev.buyin?fmtCur(ev.buyin,ev.cur||'KRW'):esc(ev.buyinText||'')}</small></span></button>`; }).join(''); }).join('')}</div></section>` : '';
   if (!tours.length) return tool + series + `<div class="empty"><b>직접 등록한 대회가 없어요</b>자주 나가는 대회를 등록하면 달력과 기록 입력에 바로 쓸 수 있어요.</div>`;
   const cols = S.cfg.players;
   const table = `<section class="card only-wide" style="padding:6px 22px"><div class="tablewrap"><table class="num data"><thead><tr>
@@ -2076,6 +2085,7 @@ function render(){
   document.querySelectorAll('#dmodeSeg button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.dmode===S.dmode));
   $('.filters .sep').style.display = (S.view==='dash' && S.dmode==='vs') ? 'none' : '';
   renderPills(); fillBrandList();
+  $('#fab').classList.toggle('off', !(S.view==='dash' || S.view==='records'));
   $('#view').innerHTML = ({dash:renderDash, records:renderRecords, hands:renderHands, tours:renderTours, trips:renderTrips, settle:renderSettle, settings:renderSettings})[S.view]();
   if (S.view==='tours' && sampleFn) { const b=$('#pasteBtn'); if (b) b.hidden=false; }
 }
@@ -3018,6 +3028,10 @@ document.addEventListener('change', ev=>{
   if (el.hasAttribute('data-pkitem')) onPick(ctx, el.value);
 });
 
+(()=>{ let lastY=window.scrollY, t=null;
+  window.addEventListener('scroll', ()=>{ const y=window.scrollY, fab=$('#fab'); if (!fab) return;
+    if (y>lastY+6 && y>80) fab.classList.add('hide'); else if (y<lastY-6) fab.classList.remove('hide');
+    lastY=y; clearTimeout(t); t=setTimeout(()=>fab.classList.remove('hide'), 900); }, {passive:true}); })();
 /* ---------- boot ---------- */
 render();
 (async ()=>{
