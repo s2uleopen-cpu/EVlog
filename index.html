@@ -251,6 +251,9 @@ label.f textarea{min-height:140px;resize:vertical}
 .parsed label{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}
 [hidden]{display:none!important}
 #entryDlg[data-fmt="cash"] .t-only, #entryDlg[data-fmt="tour"] .c-only{display:none!important}
+#entryDlg:not([data-kind="sat"]) .sat-only{display:none!important}
+#entryDlg[data-fmt="tour"][data-kind="sat"] .nosat{display:none!important}
+#entryDlg[data-fmt="cash"] .sat-only{display:none!important}
 .fmtseg{display:grid;grid-template-columns:1fr 1fr;background:var(--sunk);border-radius:12px;padding:4px;gap:4px}
 .fmtseg button{border:0;background:none;padding:10px;border-radius:9px;font-weight:700;color:var(--muted);font-size:14px}
 .fmtseg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
@@ -757,6 +760,94 @@ img,svg{max-width:100%}
   .rates{grid-template-columns:1fr 1fr}
 }
 
+
+/* schedule */
+.calhead{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.cal .d{border:0;background:transparent;color:var(--ink);text-align:left;cursor:pointer;font:inherit;position:relative}
+.cal .d:hover{background:rgba(var(--ov),.03)}
+.cal .d.sel{background:rgba(var(--acc),.10);box-shadow:inset 0 0 0 1.5px rgba(var(--acc),.7)}
+.cal .ev{display:block;font-size:11px;padding:2px 6px;border-radius:6px;background:rgba(var(--acc),.12);color:var(--gold-hi);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cal .ev.off{background:rgba(var(--acc),.22)}
+.cal .ev.trip{background:rgba(127,209,168,.14);color:var(--up)}
+.cal .more{font-size:10.5px;color:var(--muted);padding-left:4px}
+.cal .dot{display:none}
+.agenda{margin-top:16px}
+.ag-time{font-size:12.5px;color:var(--gold-hi);min-width:44px;font-weight:600}
+.sec-h{font-size:14px;margin:20px 2px 10px;color:var(--muted);font-weight:600}
+#evtDlg{width:min(560px,94vw)}
+#evtBox header{align-items:flex-start;gap:10px}
+.evt-eyebrow{display:flex;flex-wrap:wrap;gap:4px;align-items:center;font-size:12px;color:var(--muted);margin-bottom:6px}
+.evt-poster{display:block;margin:4px 0 16px;border-radius:12px;overflow:hidden;box-shadow:0 0 0 1px rgba(var(--ov),.08)}
+.evt-poster img{display:block;width:100%;height:auto}
+.evt-dl{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0}
+.evt-dl div{padding:12px 14px;border-radius:12px;background:rgba(var(--ov),.035);min-width:0}
+.evt-dl dt{font-size:11.5px;color:var(--muted)}
+.evt-dl dd{margin:4px 0 0;font-size:15px;overflow-wrap:anywhere}
+.evt-dl dd b{font-size:18px;font-weight:600}
+.maplink{color:var(--gold-hi);font-size:12px;margin-left:4px;white-space:nowrap}
+.evt-h{font-size:13px;margin:18px 0 8px;color:var(--muted);font-weight:600}
+.evt-days{display:flex;flex-direction:column;gap:6px}
+.evt-days div{display:flex;justify-content:space-between;gap:10px;padding:10px 12px;border-radius:10px;background:rgba(var(--ov),.03)}
+.evt-days div.cur{box-shadow:inset 0 0 0 1px rgba(var(--acc),.6);background:rgba(var(--acc),.08)}
+@media (max-width:640px){
+  .cal .d{min-height:58px;padding:5px 4px}
+  .cal .ev,.cal .more{display:none}
+  .cal .d.has .dot{display:block;position:absolute;left:50%;bottom:8px;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:var(--gold)}
+  .cal .dn{font-size:13px}
+  .evt-dl{grid-template-columns:1fr 1fr}
+}
+
+
+.evt-today{margin:0 0 12px;font-size:13px;color:var(--gold-hi);font-weight:600}
+.evt-days div{align-items:center}
+.ed-l{display:flex;flex-direction:column;min-width:0}
+.ed-l small{font-size:11.5px;color:var(--muted);margin-top:2px;overflow-wrap:anywhere}
+.evt-days .n{white-space:nowrap;font-size:13px;color:var(--muted)}
+.evt-days{max-height:340px;overflow:auto}
+
+
+.cal .ev{border-left:2px solid var(--bc,rgba(var(--acc),.8))}
+.cal .ev-m,.cal .more-m{display:none}
+@media (max-width:640px){
+  .cal .d{min-height:78px;padding:4px 2px 4px;gap:2px;align-items:stretch}
+  .cal .dn{margin-left:2px}
+  .cal .ev-d,.cal .more-d,.cal .d.has .dot{display:none!important}
+  .cal .ev-m{display:block!important;font-size:9px;line-height:1.25;padding:1px 2px 1px 3px;border-radius:3px;letter-spacing:-.03em;white-space:nowrap;overflow:hidden;text-overflow:clip;background:rgba(var(--acc),.10);color:var(--ink);font-weight:600}
+  .cal .ev-m.trip{background:rgba(127,209,168,.14);color:var(--up)}
+  .cal .more-m{display:block!important;font-size:9px;color:var(--muted);padding-left:3px;line-height:1.2}
+}
+@media (max-width:360px){.cal .ev-m{font-size:8.5px}}
+@media (max-width:340px){.cal .ev-m{font-size:7.6px;padding-left:2px;letter-spacing:-.05em}.cal .d{padding-left:1px;padding-right:1px}}
+
+@media (max-width:640px){.agenda .mini .v{max-width:40%;white-space:normal;font-size:12.5px;line-height:1.35}.agenda .mini .t{-webkit-line-clamp:3}}
+@media (max-width:640px){
+  .cal .d{min-height:86px}
+  .cal .ev-m{padding:2px 2px 2px 4px!important;font-size:9px!important;line-height:1.2!important;background:rgba(var(--acc),.08)!important}
+  .cal .ev-m b{display:block;font-weight:800;color:var(--bc);font-size:9.5px;letter-spacing:-.02em;overflow:hidden;text-overflow:clip;white-space:nowrap}
+  .cal .ev-m i{display:block;font-style:normal;color:var(--ink);font-weight:500;overflow:hidden;white-space:nowrap;text-overflow:clip;font-size:8.5px;opacity:.85}
+}
+@media (max-width:340px){.cal .ev-m b{font-size:8.5px}.cal .ev-m i{font-size:7.8px}}
+
+.picker2{display:flex;flex-direction:column;gap:8px}
+.pk-tabs{display:inline-flex;gap:4px;padding:3px;border-radius:999px;box-shadow:inset 0 0 0 1px rgba(var(--ov),.1);align-self:flex-start}
+.pk-tabs button{border:0;background:none;color:var(--muted);border-radius:999px;padding:5px 12px;font-size:12.5px}
+.pk-tabs button[aria-pressed="true"]{background:rgba(var(--acc),.14);color:var(--gold-hi);font-weight:600}
+.pk-row{display:flex;gap:8px;flex-wrap:wrap}
+.pk-row select,.pk-row input{flex:1;min-width:150px;border:1px solid rgba(var(--ov),.1);background:rgba(var(--ov),.03);border-radius:8px;height:40px;padding:0 10px;color:var(--ink)}
+.pk-row input[type=date]{flex:0 0 auto;min-width:0}
+.pk-sel{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 10px;border-radius:10px;background:rgba(var(--acc),.08);box-shadow:inset 0 0 0 1px rgba(var(--acc),.35);font-size:13px}
+.pk-sel .n{color:var(--muted);font-size:12px}
+.pk-sel .btn{margin-left:auto;padding:4px 10px}
+.gl-or{font-size:11.5px;color:var(--muted);margin-top:2px}
+@media (max-width:640px){.pk-row select{min-width:0;flex:1 1 100%}}
+
+/* playing cards always print black / red, whatever the theme */
+.pc,.pk{color:#141414!important}
+.pc.red,.pk.red{color:#C0262F!important}
+.pk.on{outline-color:var(--gold)}
+html[data-skin="ivory"] .pk.on{outline:2px solid #111;background:#FFF8E6}
+html[data-skin="ivory"] .pc{box-shadow:0 1px 3px rgba(0,0,0,.18),inset 0 0 0 1px rgba(0,0,0,.12)}
+html[data-skin="ivory"] .pamt{background:#FFFFFF;border-color:rgba(17,17,17,.15);color:#111}
 /* logo wordmark */
 .brand b{font-family:"Bodoni Moda",Didot,"Bodoni 72","Times New Roman",serif;font-weight:600;font-size:23px;letter-spacing:.005em;text-transform:none;line-height:1;font-optical-sizing:auto}
 .brand b i{font-style:italic;font-weight:500;color:var(--gold);margin-left:2px;letter-spacing:0}
@@ -810,6 +901,7 @@ img,svg{max-width:100%}
 
 <button class="fab" id="fab">+ 기록 추가</button>
 <div class="toast" id="toast"></div>
+<dialog id="evtDlg"><div class="dlg" id="evtBox"></div></dialog>
 <dialog id="askDlg"><div class="dlg" style="padding:22px 24px 18px"><p id="askMsg" style="margin:0 0 18px;font-size:15px;line-height:1.6"></p><div style="display:flex;gap:8px;justify-content:flex-end"><button type="button" class="btn" id="askNo">취소</button><button type="button" class="btn primary" id="askYes">확인</button></div></div></dialog>
 <input type="file" id="restoreFile" accept="application/json,.json" hidden>
 
@@ -821,12 +913,12 @@ img,svg{max-width:100%}
       <label class="f">날짜<input type="date" id="eDate" required></label>
       <label class="f t-only">종류<select id="eKind"><option value="tour">대회</option><option value="sat">새틀라이트</option><option value="pub">홀덤펍</option></select></label>
       <label class="f">온/오프라인<select id="eCh"><option value="offline">오프라인</option><option value="online">온라인</option></select></label>
+      <div class="f full t-only"><span>대회 정보에서 불러오기 (고르면 이름·날짜·브랜드가 채워져요)</span><div id="ePick" class="picker2"></div><select id="eTour" hidden><option value="">직접 입력</option></select></div>
       <label class="f">플레이어<select id="ePlayer"></select></label>
       <label class="f" style="grid-column:span 2" id="eBrandLbl">브랜드 / 펍<select id="eBrandSel"></select></label>
       <div class="quick" id="eQuick"></div>
       <div class="f full" id="eBrandWrap" hidden><span>새 브랜드 · 펍 이름</span><div style="display:flex;gap:6px"><input id="eBrand" placeholder="예: WPL, 방이동 OO펍" style="flex:1"><button type="button" class="btn primary" id="eBrandAdd">목록에 추가</button></div>
         <label class="chk" style="margin-top:4px"><input type="checkbox" id="eBrandSave" checked> 자주 가는 곳 목록에 저장</label></div>
-      <label class="f full t-only">등록된 대회에서 불러오기 (선택)<select id="eTour"><option value="">직접 입력</option></select></label>
       <label class="f full"><span id="nameLbl">이벤트명</span><input id="eName" placeholder="예: HPT 메인이벤트, PFGT 새틀라이트, 금요일 GTD"></label>
       <label class="f c-only">블라인드<input id="eBlinds" placeholder="예: 1,000/2,000"></label>
       <label class="f c-only">플레이 시간 (시간)<input id="eHours" inputmode="decimal" type="number" min="0" step="0.5" placeholder="예: 3.5"></label>
@@ -836,7 +928,11 @@ img,svg{max-width:100%}
       <label class="f"><span id="buyLbl">바이인 (1회)</span><input id="eBuy" inputmode="decimal" type="number" min="0" step="any" required></label>
       <label class="f t-only">엔트리 수 (리엔트리 포함)<input id="eEntries" inputmode="numeric" type="number" min="1" step="1" value="1"></label>
       <label class="f">부대비용 (교통·숙박 등)<input id="eExtra" inputmode="decimal" type="number" min="0" step="any" value="0"></label>
-      <label class="f"><span id="prizeLbl">위닝 금액 (상금)</span><input id="ePrize" inputmode="decimal" type="number" min="0" step="any" value="0"></label>
+      <label class="f nosat"><span id="prizeLbl">위닝 금액 (상금)</span><input id="ePrize" inputmode="decimal" type="number" min="0" step="any" value="0"></label>
+      <label class="f sat-only">시트권 획득 수<input id="eSeats" inputmode="numeric" type="number" min="0" step="1" value="0" placeholder="0"></label>
+      <label class="f sat-only full">대상 대회 (어느 대회 시트권인지)<input id="eSeatFor" list="seatForList" placeholder="예: HPT Premium 메인 이벤트"></label>
+      <label class="f sat-only">시트권 1장 가치 (선택, 원)<input id="eSeatVal" inputmode="numeric" type="number" min="0" step="any" placeholder="ROI 계산용"></label>
+      <datalist id="seatForList"></datalist>
       <label class="f t-only">순위<input id="ePlace" inputmode="numeric" placeholder="예: 12"></label>
       <label class="f t-only">총 엔트리 (필드)<input id="eField" inputmode="numeric" type="number" min="1" placeholder="예: 640"></label>
       <label class="f">원정<select id="eTrip"></select></label>
@@ -844,12 +940,14 @@ img,svg{max-width:100%}
       <label class="f full">메모<input id="eNote" placeholder="핸드 메모, 스택 등"></label>
     </div>
     <div class="calc num" id="eCalc"></div>
-    <p class="hint t-only">필수는 날짜·이벤트명·바이인뿐이에요. 새틀라이트로 본선 티켓을 땄다면 티켓 가치를 위닝 금액에 넣으세요.</p>
+    <p class="hint t-only">필수는 날짜·이벤트명·바이인뿐이에요. 새틀라이트는 위닝 금액 대신 시트권을 몇 장 땄는지 기록해요.</p>
     <p class="hint c-only">캐시는 총 바이인(추가 바이인·탑업 포함)과 아웃 금액만 넣으면 손익이 계산돼요. 플레이 시간을 넣으면 시간당 손익도 나와요.</p>
-    <div class="box" id="eHandsBox" hidden>
-      <h4>이 게임의 핸드 리뷰</h4>
+    <div class="box" id="eHandsBox">
+      <h4>핸드 리뷰 연결</h4>
       <div id="eHands"></div>
-      <div class="toolbar" style="margin:10px 0 0"><button type="button" class="btn" id="eAddHand">+ 이 게임 핸드 기록</button></div>
+      <label class="f" id="eLinkWrap" style="margin-top:10px">저장해 둔 핸드 연결 (선택)<select id="eLinkHand"></select></label>
+      <div class="toolbar" style="margin:10px 0 0"><button type="button" class="btn primary" id="eAddHand">저장하고 핸드 리뷰 쓰기</button></div>
+      <p class="hint" style="margin:6px 0 0">이 게임에서 복기할 핸드가 있으면, 기록을 저장하면서 바로 이 게임에 연결된 핸드 리뷰로 넘어가요.</p>
     </div>
     <div class="box">
       <h4>지분 (스테이킹)</h4>
@@ -873,7 +971,7 @@ img,svg{max-width:100%}
     <label class="f">브랜드<input id="tBrand" list="brandList" placeholder="PFGT"></label>
     <label class="f">온/오프라인<select id="tCh"><option value="offline">오프라인</option><option value="online">온라인</option></select></label>
     <label class="f full">이벤트명<input id="tName" required placeholder="예: HPT 메인이벤트, PFGT 새틀라이트"></label>
-    <label class="f" hidden>장소<input id="tVenue" placeholder="예: 서울 OO호텔"></label>
+    <label class="f">장소<input id="tVenue" placeholder="예: 서울 OO호텔"></label>
     <label class="f" hidden>국가<input id="tCountry" placeholder="한국"></label>
     <label class="f">시작일<input type="date" id="tStart"></label>
     <label class="f">종료일<input type="date" id="tEnd"></label>
@@ -881,6 +979,11 @@ img,svg{max-width:100%}
     <label class="f">바이인<input id="tBuy" type="number" min="0" step="any"></label>
     <label class="f">GTD (보장 상금)<input id="tGtd" type="number" min="0" step="any"></label>
     <label class="f">링크<input id="tLink" type="url" placeholder="https://"></label>
+    <label class="f">시작 스택<input id="tStack" type="number" min="0" placeholder="예: 30000"></label>
+    <label class="f">블라인드 레벨<input id="tLevel" placeholder="예: 30분"></label>
+    <label class="f full">레이트 레지<input id="tLate" placeholder="예: Day 1 레벨 12까지"></label>
+    <label class="f full">데이 일정 (한 줄에 하나)<textarea id="tDays" placeholder="Day 1A 11/14 12:00&#10;Day 1B 11/15 12:00&#10;Day 2 11/17 13:00" style="min-height:90px"></textarea></label>
+    <label class="f full">메모<textarea id="tMemo" placeholder="리엔트리, 셔틀, 숙소 등" style="min-height:60px"></textarea></label>
     <div class="full"><span style="font-size:12px;color:var(--muted);font-weight:500">참가 예정</span><div class="going" id="tGoing"></div></div>
   </div></div>
   <footer>
@@ -943,7 +1046,7 @@ const today = new Date();
 const S = {
   entries:[], tours:[], cfg:{rates:{...DEFAULT_RATES}, rateDate:'', players:[]},
   view:'dash', mode:'month', y:today.getFullYear(), m:today.getMonth()+1, q:Math.floor(today.getMonth()/3)+1,
-  f:{ch:'all',kind:'all',cur:'all',player:'all'}, h2h:null, dmode:null, trips:[], hands:[], hand:null, tourView:'list', calY:today.getFullYear(), calM:today.getMonth()+1, editingTrip:null, editing:null, editingTour:null, parsed:[], myId:null, myName:''
+  f:{ch:'all',kind:'all',cur:'all',player:'all'}, h2h:null, dmode:null, trips:[], hands:[], hand:null, tourView:'cal', calY:today.getFullYear(), calM:today.getMonth()+1, editingTrip:null, editing:null, editingTour:null, parsed:[], myId:null, myName:''
 };
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -1087,7 +1190,7 @@ function passF(e, ignorePlayer){
 function calc(list){
   let spent=0, wonT=0, losing=0, itm=0, best=null;
   let count=0;
-  for (const e of list){ const s=spentOf(e), w=wonOf(e), n=w-s; spent+=s; wonT+=w; if (n<0) losing+=n; if (e.trip||e.backing) continue; count++; if (e.kind==='cash' ? n>0 : w>0) itm++; if (!best || n>best.n) best={n,e}; }
+  for (const e of list){ const s=spentOf(e), w=wonOf(e), n=w-s; spent+=s; wonT+=w; if (n<0) losing+=n; if (e.trip||e.backing) continue; count++; if (e.kind==='cash' ? n>0 : e.kind==='sat' ? (+e.seats>0 || w>0) : w>0) itm++; if (!best || n>best.n) best={n,e}; }
   const net=wonT-spent;
   return {spent, won:wonT, net, losing, itm, count, roi: spent? net/spent : null, best};
 }
@@ -1404,6 +1507,20 @@ function matchupCard(A, B, pList){
   return `<section class="card s12"><h2>종류·브랜드별 맞대결 <span class="sub">${periodLabel()}</span></h2>
     <div class="tablewrap"><table class="num"><thead><tr><th></th><th style="color:${esc(A.color)}">${esc(A.name)} 손익</th><th>ROI</th><th style="text-align:center">우세</th><th style="color:${esc(B.color)}">${esc(B.name)} 손익</th><th>ROI</th></tr></thead><tbody>${rows||'<tr><td colspan="6" style="color:var(--faint)">이 기간에는 기록이 없어요.</td></tr>'}</tbody></table></div></section>`;
 }
+function satCard(list){
+  const g=list.filter(e=>e.kind==='sat' && !e.trip && !e.backing); if (!g.length) return '';
+  const seats=g.reduce((a,e)=>a+(+e.seats||0),0), wins=g.filter(e=>+e.seats>0).length, c=calc(g);
+  const byT={}; g.filter(e=>+e.seats>0).forEach(e=>{ const k=e.seatFor||'대상 미입력'; byT[k]=(byT[k]||0)+(+e.seats); });
+  return `<section class="card s12"><h2>새틀라이트 <span class="sub">${periodLabel()}</span></h2>
+    <div class="statgrid n" style="grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:${Object.keys(byT).length?14:0}px">
+      <div class="statbox"><span>참가</span><b>${g.length}회</b><small>쓴 ${won(c.spent)}</small></div>
+      <div class="statbox"><span>획득 시트권</span><b>${seats}장</b><small>성공 ${wins}회</small></div>
+      <div class="statbox"><span>성공률</span><b>${Math.round(wins/g.length*100)}%</b><small>시트 1장 이상</small></div>
+      <div class="statbox"><span>시트 1장당 비용</span><b>${seats? won(c.spent/seats) : '–'}</b><small>쓴 금액 ÷ 시트권</small></div>
+    </div>
+    ${Object.keys(byT).length? `<div class="chips">${Object.entries(byT).map(([k,v])=>`<span class="bchip" style="padding-right:12px">${esc(k)} · <b>${v}장</b></span>`).join('')}</div>`:''}
+  </section>`;
+}
 function cashCard(list, span='s12'){
   const g = list.filter(e=>e.kind==='cash' && !e.trip);
   if (!g.length) return '';
@@ -1486,6 +1603,7 @@ function renderSoloDash(p, ALL){
   ${budgetsFor([p.id], ALL)}
   ${reentryCard(list)}
   ${fieldCard(pList, [p])}
+  ${satCard(list)}
   ${cashCard(list)}
   <section class="card s8"><h2>${S.mode==='month'? `${S.y}년 월별` : S.mode==='quarter'? `${S.y}년 분기별` : '연도별'} 흐름</h2><div class="chartbox">${ch.svg}</div>${ch.legend}</section>
   <section class="card s4"><h2>최근 기록 <button data-view="records">전체 보기</button></h2>
@@ -1537,7 +1655,7 @@ function entryRow(e){
   const s=spentOf(e), w=wonOf(e), n=w-s;
   return `<button class="row" data-edit="${esc(e.id)}">
     <span class="t">${esc(e.name)}</span>
-    <span class="m">${whoTag(e.player)} · <span class="tag">${kindLabel(e)}</span><span class="tag">${e.ch==='online'?'온라인':'오프라인'}</span>${e.cur!=='KRW'?`<span class="tag b">${esc(e.cur)}</span>`:''}${esc(e.date)}${e.place?' · '+esc(e.place)+'위':''}${isCash(e)&&e.blinds?' · '+esc(e.blinds):''}${isCash(e)&&e.hours?' · '+e.hours+'시간':''}${handsOf(e.id).length?` <span class="tag b">핸드 ${handsOf(e.id).length}</span>`:''}</span>
+    <span class="m">${whoTag(e.player)} · <span class="tag">${kindLabel(e)}</span><span class="tag">${e.ch==='online'?'온라인':'오프라인'}</span>${e.cur!=='KRW'?`<span class="tag b">${esc(e.cur)}</span>`:''}${esc(e.date)}${e.place?' · '+esc(e.place)+'위':''}${e.kind==='sat'&&+e.seats?' · 시트 '+e.seats+'장':''}${isCash(e)&&e.blinds?' · '+esc(e.blinds):''}${isCash(e)&&e.hours?' · '+e.hours+'시간':''}${handsOf(e.id).length?` <span class="tag b">핸드 ${handsOf(e.id).length}</span>`:''}</span>
     <span class="v n"><b class="${ud(n)}">${sgn(n)}</b><small>쓴 ${won(s)}</small></span>
   </button>`;
 }
@@ -1553,54 +1671,302 @@ function renderRecords(){
     ${list.map(e=>{const s=spentOf(e),w=wonOf(e),n=w-s,tp=topPct(e);return `<tr data-edit="${esc(e.id)}" tabindex="0">
       <td class="l">${esc(e.date)}</td><td class="l">${whoTag(e.player)}</td><td class="l"><b>${esc(e.name)}</b>${e.src?` <span class="tag">공유</span>`:''}${e.brand?` <span class="tag b">${esc(e.brand)}</span>`:''}${isCash(e)? `${e.blinds?` <span class="tag">${esc(e.blinds)}</span>`:''}${e.hours?` <span class="tag">${e.hours}h</span>`:''}`:''}${e.tripId&&S.trips.find(t=>t.id===e.tripId)?` <span class="tag">원정</span>`:''}</td>
       <td class="l"><span class="tag">${kindLabel(e)}</span><span class="tag">${e.ch==='online'?'온라인':'오프라인'}</span>${stakeTag(e)}</td>
-      <td>${fmtCur(e.buyin,e.cur)}</td><td>${isCash(e)?'–':e.entries}</td><td>${e.prize?fmtCur(e.prize,e.cur):'–'}${isCash(e)?'<small style="color:var(--faint)"> 아웃</small>':''}</td><td>${esc(e.place||'–')}${e.field?`<small style="color:var(--faint)">/${esc(e.field)}</small>`:''}</td><td>${tp!=null?(tp*100).toFixed(0)+'%':'–'}</td>
+      <td>${fmtCur(e.buyin,e.cur)}</td><td>${isCash(e)?'–':e.entries}</td><td>${e.kind==='sat' ? (+e.seats? `<b>시트 ${e.seats}장</b>` : '–') : e.prize?fmtCur(e.prize,e.cur):'–'}${isCash(e)?'<small style="color:var(--faint)"> 아웃</small>':''}</td><td>${esc(e.place||'–')}${e.field?`<small style="color:var(--faint)">/${esc(e.field)}</small>`:''}</td><td>${tp!=null?(tp*100).toFixed(0)+'%':'–'}</td>
       <td>${handsOf(e.id).length? `<button class="hcount" data-handsfor="${esc(e.id)}">${handsOf(e.id).length}</button>` : `<button class="hcount add" data-handadd="${esc(e.id)}" title="이 게임 핸드 기록">+</button>`}</td><td>${won(s)}</td><td>${won(w)}</td><td class="${ud(n)}"><b>${sgn(n)}</b></td></tr>`;}).join('')}
     </tbody></table></div></section>
     <p class="hint">표의 금액은 기록 전체 기준이에요. 지분을 판 기록은 대시보드에서 각자 지분만큼 나눠서 집계돼요.</p>`;
   return tool + table + `<div class="list only-narrow">${list.map(entryRow).join('')}</div>`;
 }
 function goingAvs(t){ const g=(t.going||[]).filter(id=>S.cfg.players.some(p=>p.id===id)); return g.length? `<span class="avs">${g.map(id=>avatar(P(id))).join('')}</span>` : ''; }
+/* ---------- tournament schedule (built in, shared through the deployed file) ----------
+   포스터를 받으면 여기에 추가해요. 이 파일을 GitHub에 올리면 모든 사용자에게 같은 일정이 보여요.
+   {
+     id:'hpt-2026-s5', brand:'HPT', series:'HPT 2026 Season 5', venue:'장소', city:'서울', poster:'posters/hpt-s5.jpg', link:'',
+     events:[
+       { id:'me', name:'Main Event', buyin:1100000, cur:'KRW', gtd:1000000000, stack:30000, level:'30분', latereg:'Day 1 레벨 12까지', reentry:'Day 1 무제한', note:'',
+         days:[ {label:'Day 1A', date:'2026-11-14', time:'12:00'}, {label:'Day 1B', date:'2026-11-15', time:'12:00'}, {label:'Day 2', date:'2026-11-17', time:'13:00'} ] }
+     ]
+   }
+*/
+const _d = (label, date, time, x={}) => ({label, date, time, ...x});
+const SCHEDULE = [
+  { id:'hpt-2026-premium', brand:'HPT', series:'HPT Premium (한게임 포커 투어)', venue:'S팩토리 (성수)', city:'서울',
+    events:[
+      { id:'me', name:'Main Event', short:'메인', buyinText:'2 TICKET', stack:30000, level:'35분 (터보 20분)', latereg:'일반 17:20 / 터보 22:10',
+        prize:'총상금 2,000,000,000 (5,003 엔트리 기준 · 626명 ITM) · 1위 400,000,000', itm:'Day 1은 12.5% 남을 때까지 진행, ITM은 Day 2 진출자', note:'Day 2 & Final 블라인드 40/50분',
+        days:[ _d('Day 1A','2026-11-26','10:30',{info:'35분 · 마감 17:20'}), _d('Day 1B (터보)','2026-11-26','18:20',{info:'20분 · 마감 22:10'}),
+               _d('Day 1C','2026-11-27','10:30',{info:'35분 · 마감 17:20'}), _d('Day 1D (터보)','2026-11-27','18:20',{info:'20분 · 마감 22:10'}),
+               _d('Day 1E','2026-11-28','10:30',{info:'35분 · 마감 17:20'}), _d('Day 1F (터보)','2026-11-28','18:20',{info:'20분 · 마감 22:10'}),
+               _d('Day 2 & Final','2026-11-29','10:30',{info:'블라인드 40/50분'}) ] },
+      { id:'mega', name:'Mega Stack', short:'메가스택', tiny:'메가', buyinText:'1 TICKET', stack:50000, level:'30분', latereg:'레벨 11 시작 전 (18:30)',
+        prize:'총상금 200,000,000 (600 엔트리 기준 · 75명 ITM) · 1위 40,000,000', itm:'ITM 12.5%',
+        days:[ _d('Day 1','2026-11-29','12:30') ] }
+    ] },
+
+  { id:'wpl-holdem-masters-9', brand:'WPL', series:'제9회 홀덤 마스터스 (총 24억 GTD)', venue:'야자수 서울센터', city:'서울 광진구 능동로19길 35, B1',
+    events:[
+      { id:'main', name:'WPL 메인 이벤트', short:'메인', buyinText:'WPL 메인 이벤트 초대권 1장', gtd:2000000000, cur:'KRW', level:'35분', reentry:'가능',
+        prize:'1위 350,000,000 · 1,000명 ITM (8,000 엔트리 기준, 엔트리와 관계없이 보장)', itm:'Day 2 진출 각 Day 1 엔트리 10% · ITM 12.5% · Day 3 진출 Day 2-A/B 각 시작 인원의 9%',
+        note:'Day 1은 모두 10:00, Day 2는 13:00 시작. 플라이트별 Day 2 중복 진출 가능하며, A·B 모두 통과하면 더 많은 스택으로 Day 3 참가.',
+        days:[ ...['2026-10-11','2026-10-17','2026-10-18','2026-10-23','2026-10-24','2026-10-25','2026-10-30','2026-10-31','2026-11-05','2026-11-06','2026-11-07','2026-11-08','2026-11-12','2026-11-13','2026-11-14'].map((d,i)=>_d(`Day 1-A${i+1}`,d,'10:00')),
+               _d('Day 2-A','2026-11-15','13:00',{info:'Day 1-A 통과자'}),
+               ...['2026-11-19','2026-11-20','2026-11-21','2026-11-25','2026-11-26','2026-11-27','2026-11-28','2026-11-30','2026-12-01','2026-12-02','2026-12-03','2026-12-04','2026-12-05','2026-12-08','2026-12-09'].map((d,i)=>_d(`Day 1-B${i+1}`,d,'10:00')),
+               _d('Day 2-B','2026-12-12','13:00',{info:'Day 1-B 통과자'}),
+               _d('Day 3 & Final','2026-12-13','13:00') ] },
+      { id:'mini', name:'미니 메인 이벤트', short:'미니메인', tiny:'미니', buyinText:'미니 메인 이벤트 초대권 1장', gtd:400000000, cur:'KRW',
+        prize:'1위 80,000,000 · 250명 ITM (2,000 엔트리 기준)',
+        days:[ ...['2026-11-01','2026-11-11','2026-11-22','2026-11-29','2026-12-06','2026-12-07','2026-12-10'].map((d,i)=>_d(`Day 1-${i+1}`,d,'10:00')),
+               _d('Day 2 & Final','2026-12-11','13:00') ] }
+    ] },
+
+  { id:'pfgt-cl-2026', brand:'PFGT', series:'PFGT × 피망 쇼다운 홀덤 토너먼트 Champions League 2026', venue:'KIMS 외 지역 경기장', city:'',
+    events:[
+      { id:'cl-main', name:'챔피언스 리그 메인 이벤트', short:'챔스메인', tiny:'챔스', buyinText:'피망 참여권 2EA', gtd:1100000000, cur:'KRW', level:'40분 (터보 20분)', latereg:'LV.9',
+        itm:'Day 1 ITM 15% (A~C) / 10% (D~) · Day 2 진출 8%', note:'메인 이벤트 온라인 새틀라이트 9/2(수) ~ 12/23(수). 플라이트별 부상은 일정에서 확인하세요.',
+        days:[ _d('Day 1A','2026-09-20','12:00',{venue:'KIMS', info:'부상 1~11위 제2회 클럽리그 출전'}),
+               _d('Day 1B','2026-10-05','12:00',{venue:'KIMS', info:'부상 CPG 주하이 패키지'}),
+               _d('Day 1C','2026-10-17','12:00',{venue:'KIMS', info:'부상 1위 APT Championship 메인 이벤트'}),
+               _d('Day 1D','2026-10-31','12:00',{venue:'부산 기장 PPL 경기장', info:'부상 1위 APT Championship 메인 이벤트'}),
+               _d('Day 1E','2026-11-08','12:00',{venue:'대구 ANPT 경기장', info:'부상 1위 APT Championship 메인 이벤트'}),
+               _d('Day 1F','2026-11-15','12:00',{venue:'전라도 (장소 추후 공지)', info:'부상 1~15위 JOPT 2027 #01 메인이벤트+밀리언즈'}),
+               _d('Day 1G','2026-11-22','12:00',{venue:'강원도 (장소 추후 공지)', info:'부상 1~15위 JOPT 2027 #01 메인이벤트+밀리언즈'}),
+               _d('Day 1H','2026-11-29','14:00',{venue:'KIMS', info:'부상 1~15위 JOPT 2027 #01 메인이벤트+밀리언즈'}),
+               _d('Day 1I','2026-12-06','12:00',{venue:'부산 기장 PPL 경기장', info:'부상 1~15위 JOPT 2027 #01 메인이벤트+밀리언즈'}),
+               _d('Day 1J','2026-12-13','12:00',{venue:'KIMS', info:'부상 1~10위 TMT 21 메인 이벤트'}),
+               _d('Day 1K','2026-12-22','14:00',{venue:'KIMS', info:'부상 1~10위 TMT 21 메인 이벤트'}),
+               _d('Day 1L','2026-12-23','14:00',{venue:'KIMS', info:'부상 1~10위 TMT 21 메인 이벤트'}),
+               _d('Day 1M','2026-12-24','14:00',{venue:'KIMS', info:'부상 1~10위 TMT 21 메인 이벤트'}),
+               _d('Day 1N (터보)','2026-12-24','19:00',{venue:'KIMS', info:'블라인드 20분'}),
+               _d('Day 1O','2026-12-25','12:00',{venue:'KIMS', info:'부상 1~10위 TMT 21 메인 이벤트'}),
+               _d('Day 1P (터보)','2026-12-25','17:00',{venue:'KIMS', info:'블라인드 20분'}),
+               _d('Day 2','2026-12-26','11:00',{venue:'KIMS', info:'블라인드 50분'}),
+               _d('Day 3','2026-12-27','12:00',{venue:'KIMS', info:'블라인드 60분'}),
+               _d('Day 4 (파이널 · 중계)','2026-12-28','14:00',{venue:'KIMS', info:'블라인드 60분 · GTD 1,100,000,000'}) ] },
+      { id:'super-mini', name:'SUPER NLH MINI MAIN', short:'슈퍼미니', tiny:'슈퍼', buyinText:'NLH 2EA', gtd:600000000, cur:'KRW', level:'30분 (터보 20분 · 하이퍼 15분)', latereg:'LV.12',
+        itm:'Day 2 진출 12.5% · 엔트리 1,500',
+        days:[ _d('Day 1A','2026-11-07','12:00',{venue:'대구 ANPT 경기장'}), _d('Day 1B','2026-11-14','12:00',{venue:'전라도 (장소 추후 공지)'}),
+               _d('Day 1C','2026-11-21','12:00',{venue:'강원도 (장소 추후 공지)'}), _d('Day 1D','2026-11-29','16:00',{venue:'KIMS'}),
+               _d('Day 1E','2026-12-05','12:00',{venue:'부산 기장 PPL 경기장'}), _d('Day 1F','2026-12-12','12:00',{venue:'KIMS'}),
+               _d('Day 1G','2026-12-13','16:00',{venue:'KIMS'}), _d('Day 1H','2026-12-17','14:00',{venue:'KIMS'}),
+               _d('Day 1I (터보)','2026-12-17','18:00',{venue:'KIMS', info:'블라인드 20분'}), _d('Day 1J','2026-12-18','12:00',{venue:'KIMS'}),
+               _d('Day 1K (터보)','2026-12-18','16:00',{venue:'KIMS', info:'블라인드 20분'}), _d('Day 1L (하이퍼 터보)','2026-12-18','19:00',{venue:'KIMS', info:'블라인드 15분'}),
+               _d('Day 2','2026-12-19','11:00',{venue:'KIMS', info:'블라인드 40분'}), _d('Day 3 (파이널 · 중계)','2026-12-20','11:00',{venue:'KIMS', info:'블라인드 50분 · GTD 600,000,000'}) ] },
+      { id:'nlh-champion', name:'NLH CHAMPION', short:'챔피언', buyinText:'NLH 1EA', level:'25/20분', latereg:'LV.13', note:'날짜별 GTD와 엔트리 기준이 달라요.',
+        days:[ _d('NLH CHAMPION','2026-09-20','15:00',{venue:'KIMS', gtd:20000000, info:'100+ 엔트리'}),
+               _d('NLH CHAMPION','2026-10-05','15:00',{venue:'KIMS', gtd:10000000, info:'50+ 엔트리'}),
+               _d('NLH CHAMPION','2026-10-17','16:00',{venue:'KIMS', gtd:20000000, info:'100+ 엔트리'}),
+               _d('NLH CHAMPION','2026-10-31','16:00',{venue:'부산 기장 PPL 경기장', gtd:30000000, info:'150+ 엔트리'}),
+               _d('NLH CHAMPION','2026-11-08','16:00',{venue:'대구 ANPT 경기장', gtd:30000000, info:'150+ 엔트리'}),
+               _d('NLH CHAMPION','2026-11-15','16:00',{venue:'전라도 (장소 추후 공지)', gtd:20000000, info:'100+ 엔트리'}),
+               _d('NLH CHAMPION','2026-11-22','16:00',{venue:'강원도 (장소 추후 공지)', gtd:20000000, info:'100+ 엔트리'}),
+               _d('NLH CHAMPION','2026-12-06','16:00',{venue:'부산 기장 PPL 경기장', gtd:30000000, info:'150 엔트리'}) ] },
+      { id:'kimts-finale', name:'파이널 위크 사이드 이벤트', short:'사이드', note:'모두 KIMS에서 진행돼요.',
+        days:[ _d('SINGLE DAY HR SATELLITE (5 TO 1)','2026-12-17','20:00',{venue:'KIMS', info:'NLH 1EA · 블라인드 12분 · LV.10 · 5엔트리 1 SEAT'}),
+               _d('NLH MIDNIGHT','2026-12-18','20:00',{venue:'KIMS', gtd:20000000, info:'NLH 1EA · 25/20분 · LV.14 · 100+'}),
+               _d('SINGLE DAY HR SATELLITE (5 TO 1)','2026-12-18','22:00',{venue:'KIMS', info:'NLH 1EA · 블라인드 12분 · LV.10 · 1 SEAT'}),
+               _d('NLH 7 MAX FREEZE-OUT','2026-12-19','13:00',{venue:'KIMS', gtd:20000000, info:'NLH 1EA · 20분 · LV.12 · 100'}),
+               _d('NLH 8 MAX BOUNTY HUNTER','2026-12-19','14:00',{venue:'KIMS', gtd:60000000, info:'NLH 2EA · 25분 · LV.12 · 150'}),
+               _d('NLH MIDNIGHT','2026-12-19','20:00',{venue:'KIMS', gtd:20000000, info:'NLH 1EA · 25/20분 · LV.14 · 100+'}),
+               _d('SINGLE DAY HR SATELLITE (5 TO 1)','2026-12-19','22:00',{venue:'KIMS', info:'NLH 1EA · 블라인드 12분 · LV.10 · 1 SEAT'}),
+               _d('SINGLE DAY HIGH-ROLLER (중계)','2026-12-20','12:00',{venue:'KIMS', gtd:200000000, info:'NLH 4EA · 30분 · LV.12 · 250'}),
+               _d('CHALLENGE','2026-12-20','14:00',{venue:'KIMS', gtd:40000000, info:'NLH 2EA · 30/25분 · LV.12 · 100'}),
+               _d('NLH 8 MAX FREEZE-OUT','2026-12-26','13:00',{venue:'KIMS', gtd:40000000, info:'NLH 2EA · 30분 · LV.10 · 100'}),
+               _d('NLH MIDNIGHT','2026-12-26','17:00',{venue:'KIMS', gtd:20000000, info:'NLH 1EA · 25/20분 · LV.13 · 100'}),
+               _d('LAST CHALLENGE','2026-12-27','13:00',{venue:'KIMS', gtd:50000000, info:'NLH 2EA · 30/25분 · LV.12 · 125'}) ] },
+      { id:'kphf-tryout', name:'KPHF 트라이아웃', short:'트라이아웃', tiny:'트라이',
+        days:[ _d('KPHF 트라이아웃','2026-11-07','17:00',{venue:'대구 ANPT 경기장'}), _d('KPHF 트라이아웃','2026-11-14','16:00',{venue:'전라도 (장소 추후 공지)'}),
+               _d('KPHF 트라이아웃','2026-11-21','17:00',{venue:'강원도 (장소 추후 공지)'}), _d('KPHF 트라이아웃','2026-12-05','17:00',{venue:'부산 기장 PPL 경기장'}),
+               _d('KPHF 트라이아웃','2026-12-12','17:00',{venue:'KIMS'}) ] },
+      { id:'club-league-2', name:'제2회 KPHF 클럽리그', short:'클럽리그', tiny:'리그',
+        days:[ _d('TEAM LADIES','2026-10-09','12:00',{gtd:8000000, info:'1인'}), _d('NLH SURVIVAL','2026-10-09','13:00',{gtd:27000000, info:'전체'}),
+               _d('NLH CHAMPION','2026-10-09','17:00',{gtd:20000000, info:'MAX 100'}), _d('ACE HIGH-ROLLER','2026-10-10','12:00',{gtd:15000000, info:'1인'}),
+               _d('SHOOT-OUT','2026-10-10','13:00',{gtd:25000000, info:'9인'}), _d('LIMITED SERIES CH2','2026-10-10','17:00',{gtd:15000000, info:'MAX 200 SEAT'}),
+               _d('BATTLE DUO','2026-10-11','12:00',{gtd:20000000, info:'2인 1팀'}), _d('NLH BOUNTY HUNTER','2026-10-11','13:00',{gtd:30000000, info:'전체'}),
+               _d('NLH CHAMPION','2026-10-11','17:00',{gtd:20000000, info:'MAX 100'}) ] }
+    ] }
+];
+
+const WD = ['일','월','화','수','목','금','토'];
+const dLabel = d => { const [y,m,dd]=d.split('-').map(Number); const w=new Date(y,m-1,dd).getDay(); return `${m}월 ${dd}일 (${WD[w]})`; };
+const dShort = d => { const [y,m,dd]=d.split('-').map(Number); const w=new Date(y,m-1,dd).getDay(); return `${m}/${dd}(${WD[w]})`; };
+/* "Day 1A 11/14 12:00" style lines typed into a registered tournament */
+function parseDays(text, year){
+  return String(text||'').split(/\n+/).map(l=>l.trim()).filter(Boolean).map(l=>{
+    const m=l.match(/(\d{1,2})[\/.-](\d{1,2})/); if (!m) return {label:l, date:'', time:''};
+    const t=l.match(/(\d{1,2}):(\d{2})/); const label=l.slice(0,m.index).trim() || l.replace(m[0],'').replace(t?t[0]:'','').trim();
+    return {label: label||'Day', date:`${year}-${String(m[1]).padStart(2,'0')}-${String(m[2]).padStart(2,'0')}`, time: t? `${t[1].padStart(2,'0')}:${t[2]}` : ''};
+  });
+}
+function schedItems(){
+  const out=[];
+  SCHEDULE.forEach(se=>(se.events||[]).forEach(ev=>(ev.days||[]).forEach((d,i)=>{ if (!d.date) return; const single = !/^day/i.test(d.label||''); out.push({key:`s|${se.id}|${ev.id}|${i}`, date:d.date, time:d.time||'', brand:se.brand||'', title: single ? d.label : ev.name, sub: single ? '' : (d.label||''), builtin:true, se, ev, day:d, venue:d.venue||se.venue||''}); })));
+  S.tours.forEach(t=>{
+    const days=parseDays(t.days, (t.start||todayISO()).slice(0,4)).filter(d=>d.date);
+    if (days.length) days.forEach((d,i)=>out.push({key:`t|${t.id}|${i}`, date:d.date, time:d.time, brand:t.brand||'', title:t.name, sub:d.label, tour:t, day:d}));
+    else if (t.start){ const end=t.end||t.start; for (let d=t.start; d<=end; d=addDay(d)) out.push({key:`t|${t.id}|${d}`, date:d, time:'', brand:t.brand||'', title:t.name, sub: t.end&&t.end!==t.start? (d===t.start?'시작':d===end?'마지막 날':'') : '', tour:t}); }
+  });
+  S.trips.forEach(r=>{ if (!r.start) return; const end=r.end||r.start; for (let d=r.start; d<=end; d=addDay(d)) out.push({key:`r|${r.id}|${d}`, date:d, time:'', brand:'', title:r.name, sub:'원정', trip:r}); });
+  return out.sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+}
+function addDay(d){ const [y,m,dd]=d.split('-').map(Number); const x=new Date(y,m-1,dd+1); return `${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}-${String(x.getDate()).padStart(2,'0')}`; }
+function itemGoing(it){ if (it.tour) return it.tour.going||[]; if (it.builtin){ return ((S.cfg.schedGoing||{})[`${it.se.id}|${it.ev.id}`])||[]; } return []; }
 function renderCalendar(){
   const y=S.calY, m=S.calM, first=new Date(y,m-1,1), startDow=first.getDay(), days=new Date(y,m,0).getDate();
-  const pad=n=>String(n).padStart(2,'0'), ds=(Y,M,D)=>`${Y}-${pad(M)}-${pad(D)}`, todayStr=ds(today.getFullYear(),today.getMonth()+1,today.getDate());
-  const cells=[]; const start=new Date(y,m-1,1-startDow);
-  const total = Math.ceil((startDow+days)/7)*7;
+  const pad=n=>String(n).padStart(2,'0'), ds=(Y,M,D)=>`${Y}-${pad(M)}-${pad(D)}`, todayStr=todayISO();
+  const items=schedItems(), byDay={}; items.forEach(it=>{ (byDay[it.date]=byDay[it.date]||[]).push(it); });
+  const monthKey=`${y}-${pad(m)}`;
+  if (!S.calSel || S.calSel.slice(0,7)!==monthKey){
+    S.calSel = todayStr.slice(0,7)===monthKey ? todayStr : (Object.keys(byDay).filter(d=>d.startsWith(monthKey)).sort()[0] || `${monthKey}-01`);
+  }
+  const start=new Date(y,m-1,1-startDow), total=Math.ceil((startDow+days)/7)*7, cells=[];
   for (let i=0;i<total;i++){ const d=new Date(start); d.setDate(start.getDate()+i); cells.push(d); }
-  const inRange=(x,a,b)=>a && x>=a && x<=(b||a);
-  const html = cells.map(d=>{
-    const key=ds(d.getFullYear(),d.getMonth()+1,d.getDate()), out=d.getMonth()!==m-1;
-    const evs = S.tours.filter(t=>inRange(key,t.start,t.end)).map(t=>`<button class="ev" data-edittour="${esc(t.id)}" title="${esc(t.name)}">${key===t.start?goingAvs(t):''}<span class="nm">${esc((t.brand?t.brand+' ':'')+t.name)}</span></button>`).join('')
-      + S.trips.filter(r=>inRange(key,r.start,r.end)).map(r=>`<button class="ev trip" data-edittrip="${esc(r.id)}" title="${esc(r.name)}"><span class="nm">✈ ${esc(r.name)}</span></button>`).join('');
-    return `<div class="d ${out?'out':''} ${key===todayStr?'today':''}"><span class="dn">${d.getDate()}</span>${evs}</div>`;
+  const grid = cells.map(d=>{
+    const key=ds(d.getFullYear(),d.getMonth()+1,d.getDate()), out=d.getMonth()!==m-1, list=byDay[key]||[];
+    const shown=list.slice(0,2).map(it=>`<span class="ev ev-d ${it.trip?'trip':''} ${it.builtin?'off':''}" style="--bc:${brandColor(it.brand)}">${esc(calLabel(it))}</span>`).join('') + list.slice(0,2).map(it=>{ const m=calMini(it); return `<span class="ev ev-m ${it.trip?'trip':''}" style="--bc:${brandColor(it.brand)}"><b>${esc(m.top)}</b>${m.bot?`<i>${esc(m.bot)}</i>`:''}</span>`; }).join('');
+    return `<button class="d ${out?'out':''} ${key===todayStr?'today':''} ${key===S.calSel?'sel':''} ${list.length?'has':''}" data-calday="${key}"><span class="dn">${d.getDate()}</span>${shown}${list.length>2?`<span class="more more-d">+${list.length-2}</span>`:''}${list.length>2?`<span class="more more-m">+${list.length-2}</span>`:''}${list.length?`<i class="dot"></i>`:''}</button>`;
   }).join('');
-  return `<div class="toolbar"><div class="stepper"><button data-cal="-1" aria-label="이전 달">‹</button><span class="num">${y}년 ${m}월</span><button data-cal="1" aria-label="다음 달">›</button></div><span class="hint" style="margin:0 0 0 8px">대회 첫날에 참가 예정인 사람이 표시돼요.</span></div>
-    <div class="cal">${['일','월','화','수','목','금','토'].map(w=>`<div class="h">${w}</div>`).join('')}${html}</div>`;
+  const sel=(byDay[S.calSel]||[]);
+  const agenda = `<section class="card agenda"><h2>${dLabel(S.calSel)} 일정 <span class="sub">${sel.length? sel.length+'개':''}</span></h2>
+    ${sel.length? `<div class="mini">${sel.map(it=>`<button data-evt="${esc(it.key)}"><span class="ag-time n">${esc(it.time||'종일')}</span><span style="min-width:0;flex:1"><span class="t">${it.brand?`<span class="tag b">${esc(it.brand)}</span>`:''}${esc(it.title)}${it.sub?` <span class="tag">${esc(it.sub)}</span>`:''}</span><span class="m">${it.builtin? esc(it.venue||it.se.series||'') : it.tour? esc(it.tour.venue||'') : '원정'}${it.builtin&&it.day.info?' · '+esc(it.day.info):''}</span></span><span class="v n">${it.ev? (it.day.gtd? 'GTD '+fmtCur(it.day.gtd,'KRW') : it.ev.buyin? fmtCur(it.ev.buyin,it.ev.cur||'KRW') : esc(it.ev.buyinText||'')) : it.tour&&it.tour.buyin? fmtCur(it.tour.buyin,it.tour.cur) : ''}<small>${(()=>{ const g=itemGoing(it).filter(id=>S.cfg.players.some(p=>p.id===id)); return g.length? g.map(id=>esc(P(id).name)).join(', ')+' 참가' : ''; })()}</small></span></button>`).join('')}</div>`
+      : `<p class="hint" style="margin:0">이 날은 등록된 일정이 없어요.</p>`}
+  </section>`;
+  return `<div class="calhead"><div class="stepper"><button data-cal="-1" aria-label="이전 달">‹</button><span class="num">${y}년 ${m}월</span><button data-cal="1" aria-label="다음 달">›</button></div><span class="hint" style="margin:0">날짜를 누르면 그날 일정이 아래에 떠요.</span></div>
+    <div class="cal">${WD.map(w=>`<div class="h">${w}</div>`).join('')}${grid}</div>${agenda}`;
+}
+const BRAND_COL = {WPL:'#D4AF5A', PFGT:'#9B7BF2', HPT:'#E35D66', KPHF:'#4FA3E0'};
+function brandColor(b){ if (!b) return 'rgba(var(--acc),.8)'; if (BRAND_COL[b.toUpperCase()]) return BRAND_COL[b.toUpperCase()]; let h=0; for (const c of b) h=(h*31+c.charCodeAt(0))%360; return `hsl(${h} 60% 62%)`; }
+/* phone calendar: "WPL D1", "PFGT D2", "HPT F" */
+function calMini(it){
+  if (it.trip) return {top:'원정', bot:it.title};
+  const sub=it.sub||''; let day='';
+  if (/final|파이널/i.test(sub) && !/day\s*1/i.test(sub)) day='F';
+  else { const m=sub.match(/day\s*(\d)/i); if (m) day='D'+m[1]; }
+  let cat = it.builtin ? (it.ev.tiny || it.ev.short || it.ev.name) : it.title;
+  if (it.brand && cat.toUpperCase().startsWith(it.brand.toUpperCase())) cat=cat.slice(it.brand.length).trim();
+  if (!it.brand) return {top: cat, bot: day};
+  return {top: it.brand, bot: [cat, day].filter(Boolean).join(' ')};
+}
+function calLabel(it){
+  const sub=(it.sub||'').replace(/^Day\s*/i,'D').replace(/\s*\((터보|하이퍼 터보)\)/,'T');
+  let name = it.builtin ? (it.ev.short || it.ev.name || it.title) : it.title;
+  if (it.brand && name.toUpperCase().startsWith(it.brand.toUpperCase())) name = name.slice(it.brand.length).trim();
+  return [it.brand, name, sub].filter(Boolean).join(' ');
+}
+function evtRows(rows){ return `<dl class="evt-dl">${rows.filter(r=>r[1]!==''&&r[1]!=null&&r[1]!==0).map(([k,v])=>`<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>`; }
+function openEvt(key){
+  const it=schedItems().find(x=>x.key===key); if (!it) return;
+  if (it.trip){ openTrip(it.trip); return; }
+  let html='';
+  if (it.builtin){
+    const {se,ev}=it, cur=ev.cur||'KRW', gk=`${se.id}|${ev.id}`, going=((S.cfg.schedGoing||{})[gk])||[];
+    const poster = ev.poster||se.poster;
+    html = `<header><div><div class="evt-eyebrow">${se.brand?`<span class="tag b">${esc(se.brand)}</span>`:''}${esc(se.series||'')}<span class="tag">공식 일정</span></div><h3>${esc(ev.name)}</h3></div><button type="button" class="btn ghost" data-close>닫기</button></header>
+      <div class="body">
+        ${poster? `<a href="${esc(poster)}" target="_blank" rel="noopener" class="evt-poster"><img src="${esc(poster)}" alt="${esc(se.series||'')} 포스터" loading="lazy"></a>`:''}
+        ${it.day.label && !/^day/i.test(it.day.label) ? `<p class="evt-today">${esc(it.day.label)} · ${dShort(it.date)} ${esc(it.day.time||'')}</p>`:''}
+        ${evtRows([['바이인', ev.buyin? `<b class="n">${fmtCur(ev.buyin,cur)}</b>` : esc(ev.buyinText||'')],['GTD', it.day.gtd? `<span class="n">${fmtCur(it.day.gtd,cur)}</span>` : ev.gtd? `<span class="n">${fmtCur(ev.gtd,cur)}</span>`:''],['시작 스택', ev.stack? `<span class="n">${Number(ev.stack).toLocaleString()}</span>`:''],['블라인드 레벨', esc(ev.level||'')],['레이트 레지', esc(ev.latereg||'')],['리엔트리', esc(ev.reentry||'')],['장소', it.venue? `${esc(it.venue)}${!it.day.venue && se.city?` · ${esc(se.city)}`:''}${/추후/.test(it.venue)?'':` <a href="https://map.naver.com/p/search/${encodeURIComponent(it.venue.replace(/\s*\(.*\)/,''))}" target="_blank" rel="noopener" class="maplink">지도 ↗</a>`}`:''],['상금', esc(ev.prize||'')],['진출 · ITM', esc(ev.itm||'')],['이 날 정보', esc(it.day.info||'')]])}
+        ${(ev.days||[]).length? `<h4 class="evt-h">전체 일정 (${ev.days.length})</h4><div class="evt-days">${ev.days.map(d=>`<div class="${d.date===it.date&&d.label===it.day.label&&d.time===it.day.time?'cur':''}"><span class="ed-l"><b>${esc(d.label||'')}</b>${d.venue||d.gtd||d.info?`<small>${[d.venue, d.gtd? 'GTD '+fmtCur(d.gtd,'KRW'):'', d.info].filter(Boolean).map(esc).join(' · ')}</small>`:''}</span><span class="n">${d.date? dShort(d.date):''} ${esc(d.time||'')}</span></div>`).join('')}</div>`:''}
+        ${ev.note? `<p class="hint">${esc(ev.note)}</p>`:''}
+        <h4 class="evt-h">참가 예정</h4><div class="going">${S.cfg.players.map(p=>`<label><input type="checkbox" data-sgoing="${esc(gk)}" value="${esc(p.id)}" ${going.includes(p.id)?'checked':''}>${avatar(p)}${esc(p.name)}</label>`).join('')}</div>
+        ${se.link? `<p style="margin:14px 0 0"><a class="btn" href="${esc(se.link)}" target="_blank" rel="noopener">공식 안내 ↗</a></p>`:''}
+      </div>
+      <footer><span style="flex:1"></span><button type="button" class="btn primary" data-evtentry="${esc(key)}">이 대회 기록 추가</button></footer>`;
+  } else {
+    const t=it.tour, days=parseDays(t.days, (t.start||todayISO()).slice(0,4));
+    html = `<header><div><div class="evt-eyebrow">${t.brand?`<span class="tag b">${esc(t.brand)}</span>`:''}${t.start? esc(t.start.slice(5).replace('-','/'))+(t.end&&t.end!==t.start?' ~ '+esc(t.end.slice(5).replace('-','/')):''):''}</div><h3>${esc(t.name)}</h3></div><button type="button" class="btn ghost" data-close>닫기</button></header>
+      <div class="body">
+        ${evtRows([['바이인', t.buyin? `<b class="n">${fmtCur(t.buyin,t.cur)}</b>`:''],['GTD', t.gtd? `<span class="n">${fmtCur(t.gtd,t.cur)}</span>`:''],['시작 스택', t.stack? `<span class="n">${Number(t.stack).toLocaleString()}</span>`:''],['블라인드 레벨', esc(t.level||'')],['레이트 레지', esc(t.latereg||'')],['장소', t.venue? `${esc(t.venue)} <a href="https://map.naver.com/p/search/${encodeURIComponent(t.venue)}" target="_blank" rel="noopener" class="maplink">지도 ↗</a>`:''],['참가 예정', goingAvs(t)]])}
+        ${days.length? `<h4 class="evt-h">일정</h4><div class="evt-days">${days.map(d=>`<div class="${d.date===it.date?'cur':''}"><b>${esc(d.label)}</b><span class="n">${d.date? dShort(d.date):''} ${esc(d.time||'')}</span></div>`).join('')}</div>`:''}
+        ${t.memo? `<p class="hint" style="white-space:pre-wrap">${esc(t.memo)}</p>`:''}
+        ${t.link? `<p style="margin:14px 0 0"><a class="btn" href="${esc(t.link)}" target="_blank" rel="noopener">링크 열기 ↗</a></p>`:''}
+      </div>
+      <footer><button type="button" class="btn" data-edittour="${esc(t.id)}">수정</button><span style="flex:1"></span><button type="button" class="btn primary" data-evtentry="${esc(key)}">이 대회 기록 추가</button></footer>`;
+  }
+  $('#evtBox').innerHTML = html; $('#evtDlg').showModal();
+}
+/* schedule items you can pick when recording a game or a hand (recent past to upcoming) */
+function schedChoices(extraKey){
+  const t=todayISO(), from=addDays(t,-60), to=addDays(t,120);
+  const seen=new Set(), groups={};
+  schedItems().forEach(it=>{
+    if (it.trip) return;
+    if (it.tour){ const k='t|'+it.tour.id; if (seen.has(k)) return; } 
+    if (!(it.key===extraKey || (it.date>=from && it.date<=to))) return;
+    const g = it.builtin ? (it.se.brand+' · '+(it.se.series||'')) : '직접 등록한 대회';
+    if (it.tour) seen.add('t|'+it.tour.id);
+    (groups[g]=groups[g]||[]).push(it);
+  });
+  return groups;
+}
+function addDays(d,n){ const [y,m,dd]=d.split('-').map(Number); const x=new Date(y,m-1,dd+n); return `${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}-${String(x.getDate()).padStart(2,'0')}`; }
+function schedOptLabel(it){
+  const nm = it.builtin ? (it.title + (it.sub? ' '+it.sub : '')) : it.title;
+  return `${dShort(it.date)}${it.time?' '+it.time:''} · ${nm}`;
+}
+function schedOptions(selKey){
+  const g=schedChoices(selKey);
+  return Object.entries(g).map(([name,list])=>`<optgroup label="${esc(name)}">${list.map(it=>`<option value="k:${esc(it.key)}" ${it.key===selKey?'selected':''}>${esc(schedOptLabel(it))}</option>`).join('')}</optgroup>`).join('');
+}
+function schedEntryName(it){
+  if (it.tour) return it.tour.name;
+  const {se,ev,day}=it;
+  return !/^day/i.test(day.label||'') ? day.label : `${se.brand?se.brand+' ':''}${ev.name} ${day.label||''}`.trim();
+}
+/* fill the record form from a schedule item */
+function fillEntryFromSched(key){
+  const it=schedItems().find(x=>x.key===key); if (!it) return;
+  S.formEvKey = key;
+  if (it.tour){ const t=it.tour; $('#eName').value=t.name; $('#eVenue').value=t.venue||''; fillBrandSel(t.brand||''); $('#eCh').value=t.ch||'offline'; $('#eCur').value=t.cur||'KRW'; if (t.buyin) $('#eBuy').value=t.buyin; }
+  else { const {se,ev,day}=it; $('#eName').value=schedEntryName(it); fillBrandSel(se.brand||''); $('#eVenue').value=day.venue||se.venue||''; $('#eCh').value='offline'; $('#eCur').value=ev.cur||'KRW'; if (ev.buyin) $('#eBuy').value=ev.buyin; }
+  $('#eKind').value = /새틀|satellite/i.test(schedEntryName(it)) ? 'sat' : 'tour';
+  $('#eRate').value = $('#eCur').value==='KRW'?1:(S.cfg.rates[$('#eCur').value]||''); $('#eRate').disabled = $('#eCur').value==='KRW';
+  $('#eDate').value=it.date; autoTrip(); syncKind(); updCalc(); if (typeof renderEntryPick==='function') renderEntryPick();
+}
+function entryFromEvt(key){
+  const it=schedItems().find(x=>x.key===key); if (!it) return;
+  $('#evtDlg').close(); openEntry();
+  $('#eTour').innerHTML = '<option value="">직접 입력</option>' + schedOptions(key); $('#eTour').value='k:'+key;
+  fillEntryFromSched(key);
 }
 function renderTours(){
   const tours = [...S.tours].sort((a,b)=>(b.start||'').localeCompare(a.start||''));
   const tool = `<div class="toolbar">
-    <div class="seg"><button data-tv="list" aria-pressed="${S.tourView==='list'}">목록</button><button data-tv="cal" aria-pressed="${S.tourView==='cal'}">달력</button></div>
+    <div class="seg"><button data-tv="cal" aria-pressed="${S.tourView!=='list'}">달력</button><button data-tv="list" aria-pressed="${S.tourView==='list'}">목록</button></div>
     <span style="flex:1"></span>
-    <a class="btn" href="https://www.bluffcatch.com/tournaments" target="_blank" rel="noopener">블러프캐치 일정 ↗</a>
-    <button class="btn" data-act="paste" id="pasteBtn" hidden>붙여넣기로 등록</button>
+    <a class="btn" href="https://www.bluffcatch.com/tournaments" target="_blank" rel="noopener">블러프캐치 ↗</a>
     <button class="btn primary" data-act="addTour">+ 대회 등록</button></div>`;
-  if (S.tourView==='cal') return tool + renderCalendar();
-  if (!tours.length) return tool + `<div class="empty"><b>등록된 대회가 없어요</b>PFGT, HPT, WPL처럼 같이 나갈 대회를 등록해 두세요.</div>`;
+  if (S.tourView!=='list') return tool + renderCalendar();
+  const series = SCHEDULE.length ? `<section class="card"><h2>공식 일정 <span class="sub">모든 사용자에게 같이 보여요</span></h2><div class="mini">${SCHEDULE.map(se=>{ const ds=(se.events||[]).flatMap(e=>(e.days||[]).map(d=>d.date)).filter(Boolean).sort(); return (se.events||[]).map(ev=>{ const up=(ev.days||[]).filter(d=>d.date&&d.date>=todayISO()); const d0=up[0]||(ev.days||[]).find(d=>d.date); const key=d0? `s|${se.id}|${ev.id}|${ev.days.indexOf(d0)}`:''; return `<button ${key?`data-evt="${esc(key)}"`:''}><span style="min-width:0;flex:1"><span class="t">${se.brand?`<span class="tag b">${esc(se.brand)}</span>`:''}${esc(ev.name)}</span><span class="m">${esc(se.series||'')}${d0?' · '+dShort(d0.date):''}${se.venue?' · '+esc(se.venue):''}</span></span><span class="v n">${ev.gtd?'GTD '+fmtCur(ev.gtd,ev.cur||'KRW'):''}<small>${ev.buyin?fmtCur(ev.buyin,ev.cur||'KRW'):esc(ev.buyinText||'')}${(ev.days||[]).length>1?' · '+ev.days.length+'일정':''}</small></span></button>`; }).join(''); }).join('')}</div></section>` : '';
+  if (!tours.length) return tool + series + `<div class="empty"><b>직접 등록한 대회가 없어요</b>자주 나가는 대회를 등록하면 달력과 기록 입력에 바로 쓸 수 있어요.</div>`;
   const cols = S.cfg.players;
   const table = `<section class="card only-wide" style="padding:6px 22px"><div class="tablewrap"><table class="num data"><thead><tr>
     <th class="l">기간</th><th class="l">브랜드</th><th class="l">대회명</th><th class="l">장소</th><th class="l">참가 예정</th><th>바이인</th><th>GTD</th>${cols.map(p=>`<th>${esc(p.name)}</th>`).join('')}</tr></thead><tbody>
-    ${tours.map(t=>`<tr data-edittour="${esc(t.id)}" tabindex="0">
+    ${tours.map(t=>`<tr data-tourinfo="${esc(t.id)}" tabindex="0">
       <td class="l">${esc(t.start||'')}${t.end&&t.end!==t.start?' ~ '+esc(t.end.slice(5)):''}</td><td class="l">${t.brand?`<span class="tag b">${esc(t.brand)}</span>`:''}</td>
-      <td class="l"><b>${esc(t.name)}</b></td><td class="l">${esc([t.venue,t.country].filter(Boolean).join(', '))}</td><td class="l">${goingAvs(t)||'<span style="color:var(--faint)">–</span>'}</td>
+      <td class="l"><b>${esc(t.name)}</b></td><td class="l">${esc(t.venue||'')}</td><td class="l">${goingAvs(t)||'<span style="color:var(--faint)">–</span>'}</td>
       <td>${t.buyin?fmtCur(t.buyin,t.cur):'–'}</td><td>${t.gtd?fmtCur(t.gtd,t.cur):'–'}</td>
       ${cols.map(p=>{const m=rowsAll().filter(e=>e.tourId===t.id&&e.player===p.id); if(!m.length) return '<td>–</td>'; const n=calc(m).net; return `<td class="${ud(n)}">${sgn(n)}</td>`;}).join('')}</tr>`).join('')}
     </tbody></table></div></section>`;
   const cards = `<div class="list only-narrow">` + tours.map(t=>{ const mine=S.entries.filter(e=>e.tourId===t.id), c=calc(mine);
-    return `<button class="row" data-edittour="${esc(t.id)}"><span class="t">${t.brand?`<span class="tag b">${esc(t.brand)}</span>`:''}${esc(t.name)} ${goingAvs(t)}</span>
+    return `<button class="row" data-tourinfo="${esc(t.id)}"><span class="t">${t.brand?`<span class="tag b">${esc(t.brand)}</span>`:''}${esc(t.name)} ${goingAvs(t)}</span>
       <span class="m">${esc(t.start||'')}${t.end&&t.end!==t.start?' ~ '+esc(t.end):''}${t.venue?' · '+esc(t.venue):''}${t.buyin?' · 바이인 '+fmtCur(t.buyin,t.cur):''}</span>
       <span class="v n">${mine.length? `<b class="${ud(c.net)}">${sgn(c.net)}</b><small>${mine.length}회 기록</small>` : `<small>기록 없음</small>`}</span></button>`; }).join('') + `</div>`;
-  return tool + table + cards;
+  return tool + series + `<h3 class="sec-h">직접 등록한 대회</h3>` + table + cards;
 }
+document.addEventListener('click', ev=>{
+  const t=ev.target.closest('[data-calday],[data-evt],[data-evtentry],[data-tourinfo]'); if (!t) return;
+  if (t.dataset.calday){ S.calSel=t.dataset.calday; const [y,m]=S.calSel.split('-').map(Number); if (m!==S.calM||y!==S.calY){ S.calY=y; S.calM=m; } render(); setTimeout(()=>{ const a=document.querySelector('.agenda'); if (a && window.innerWidth<860) a.scrollIntoView({behavior:'smooth',block:'start'}); },30); return; }
+  if (t.dataset.evt){ openEvt(t.dataset.evt); return; }
+  if (t.dataset.evtentry){ entryFromEvt(t.dataset.evtentry); return; }
+  if (t.dataset.tourinfo){ const tt=S.tours.find(x=>x.id===t.dataset.tourinfo); if (!tt) return; const it=schedItems().find(x=>x.tour&&x.tour.id===tt.id); if (it) openEvt(it.key); else openTour(tt); }
+});
+document.addEventListener('change', async ev=>{
+  const el=ev.target; if (!el.dataset || !el.dataset.sgoing) return;
+  const k=el.dataset.sgoing; S.cfg.schedGoing=S.cfg.schedGoing||{}; const cur=new Set(S.cfg.schedGoing[k]||[]);
+  if (el.checked) cur.add(el.value); else cur.delete(el.value); S.cfg.schedGoing[k]=[...cur];
+  try{ await store.putCfg(); }catch{} render();
+});
+
 function tripStats(t){
   const rows = rowsAll().filter(e=>e.tripId===t.id);
   return S.cfg.players.map(p=>{ const mine=rows.filter(e=>e.player===p.id); if(!mine.length) return null;
@@ -1719,7 +2085,8 @@ const curOptions = sel => { sel.innerHTML = Object.keys(CURS).map(k=>`<option va
 curOptions($('#eCur')); curOptions($('#tCur'));
 const playerOpts = sel => S.cfg.players.map(p=>`<option value="${esc(p.id)}" ${p.id===sel?'selected':''}>${esc(p.name)}</option>`).join('');
 function fillSelects(){
-  $('#eTour').innerHTML = '<option value="">직접 입력</option>' + [...S.tours].sort((a,b)=>(b.start||'').localeCompare(a.start||'')).map(t=>`<option value="${esc(t.id)}">${esc((t.brand?t.brand+' ':'')+t.name)}${t.start?' ('+esc(t.start)+')':''}</option>`).join('');
+  const sel = S.editing && S.editing.evKey ? S.editing.evKey : '';
+  $('#eTour').innerHTML = '<option value="">직접 입력</option>' + schedOptions(sel);
   $('#ePlayer').innerHTML = playerOpts();
   $('#eTrip').innerHTML = '<option value="">없음</option>' + [...S.trips].sort((a,b)=>(b.start||'').localeCompare(a.start||'')).map(t=>`<option value="${esc(t.id)}">${esc(t.name)}</option>`).join('');
 }
@@ -1735,13 +2102,15 @@ function readEntry(){
     date: $('#eDate').value, kind: curFmt()==='cash' ? 'cash' : $('#eKind').value, ch: $('#eCh').value, cur: $('#eCur').value,
     name: $('#eName').value.trim(), brand: brandValue(), venue: $('#eVenue').value.trim(),
     buyin: +$('#eBuy').value||0, entries: curFmt()==='cash' ? 1 : Math.max(1, +$('#eEntries').value||1), extra: +$('#eExtra').value||0,
-    prize: +$('#ePrize').value||0, place: curFmt()==='cash' ? '' : $('#ePlace').value.trim(), field: curFmt()==='cash' ? 0 : +$('#eField').value||0, tripId: $('#eTrip').value||'',
-    blinds: curFmt()==='cash' ? $('#eBlinds').value.trim() : '', hours: curFmt()==='cash' ? (+$('#eHours').value||0) : 0, tourId: curFmt()==='cash' ? '' : ($('#eTour').value||''),
+    prize: (curFmt()!=='cash' && $('#eKind').value==='sat') ? (Math.max(0,+$('#eSeats').value||0) * (+$('#eSeatVal').value||0)) : (+$('#ePrize').value||0),
+    seats: (curFmt()!=='cash' && $('#eKind').value==='sat') ? Math.max(0,+$('#eSeats').value||0) : 0, seatVal: (curFmt()!=='cash' && $('#eKind').value==='sat') ? (+$('#eSeatVal').value||0) : 0, seatFor: (curFmt()!=='cash' && $('#eKind').value==='sat') ? $('#eSeatFor').value.trim() : '', place: curFmt()==='cash' ? '' : $('#ePlace').value.trim(), field: curFmt()==='cash' ? 0 : +$('#eField').value||0, tripId: $('#eTrip').value||'',
+    blinds: curFmt()==='cash' ? $('#eBlinds').value.trim() : '', hours: curFmt()==='cash' ? (+$('#eHours').value||0) : 0, tourId: curFmt()==='cash' ? '' : (()=>{ const k=S.formEvKey||''; return k.startsWith('t|') ? k.split('|')[1] : (!k && S.editing ? (S.editing.tourId||'') : ''); })(), evKey: curFmt()==='cash' ? '' : (S.formEvKey||''),
     rate: $('#eCur').value==='KRW'?1:(+$('#eRate').value||0), note: $('#eNote').value.trim(),
     stakes: readStakes(), stakePrepaid: $('#ePrepaid').checked
   };
 }
 function updCalc(){
+  if (curFmt()!=='cash' && $('#eKind').value==='sat'){ const e=readEntry(), sp=spentOf(e); $('#eCalc').innerHTML = `<span>쓴 ${won(sp)}</span><b>시트권 ${e.seats}장${e.seatFor?' · '+esc(e.seatFor):''}</b>` + (e.seatVal? `<span style="width:100%;color:var(--muted)">시트 가치 ${won(e.seats*e.seatVal)} 기준 손익 ${sgn(e.seats*e.seatVal - sp)}</span>` : `<span style="width:100%;color:var(--muted)">시트권 가치를 넣으면 ROI에도 반영돼요</span>`); return; }
   const e=readEntry(), st=validStakes(e), sold=Math.min(1,st.reduce((a,x)=>a+x.pct,0)/100);
   const s=spentOf(e), w=wonOf(e);
   $('#eCalc').innerHTML = `<span>쓴 ${won(s)}</span><span>번 ${won(w)}</span><b class="${ud(w-s)}">${sgn(w-s)}</b>` + (isCash(e)&&e.hours>0? `<span style="width:100%;color:var(--muted)">시간당 ${sgn((w-s)/e.hours)}</span>`:'') + (sold? `<span style="width:100%;color:var(--muted)">지분 ${Math.round(sold*100)}% 판매 → ${esc(P(e.player).name)} 몫 ${sgn((w-s)*(1-sold))}</span>`:'');
@@ -1752,32 +2121,37 @@ function openEntry(e){
   const d = e || {date:todayISO(), kind:'tour', ch:'offline', cur:'KRW', entries:1, extra:0, prize:0, rate:1,
     player: S.f.player!=='all' ? S.f.player : myPlayerId()};
   $('#entryTitle').textContent = e? '기록 수정' : '기록 추가';
-  $('#ePlayer').value=d.player||myPlayerId(); $('#eTour').value=d.tourId||''; $('#eDate').value=d.date; $('#eKind').value=d.kind; $('#eCh').value=d.ch; $('#eCur').value=d.cur;
+  $('#ePlayer').value=d.player||myPlayerId(); S.formEvKey = d.evKey || ''; $('#eTour').value = d.evKey ? 'k:'+d.evKey : ''; $('#eDate').value=d.date; $('#eKind').value=d.kind; $('#eCh').value=d.ch; $('#eCur').value=d.cur;
   $('#eName').value=d.name||''; $('#eVenue').value=d.venue||'';
   $('#eBuy').value=d.buyin??''; $('#eEntries').value=d.entries??1; $('#eExtra').value=d.extra??0; $('#ePrize').value=d.prize??0;
-  $('#ePlace').value=d.place||''; $('#eField').value=d.field||''; $('#eTrip').value=d.tripId||'';
+  $('#ePlace').value=d.place||''; $('#eSeats').value=d.seats||0; $('#eSeatVal').value=d.seatVal||''; $('#eSeatFor').value=d.seatFor||''; $('#eField').value=d.field||''; $('#eTrip').value=d.tripId||'';
   $('#eRate').value=d.cur==='KRW'?1:(d.rate||S.cfg.rates[d.cur]||''); $('#eNote').value=d.note||'';
   $('#stakeRows').innerHTML = (d.stakes||[]).map(stakeRowHTML).join(''); $('#ePrepaid').checked=!!d.stakePrepaid;
   $('#eBlinds').value=d.blinds||''; $('#eHours').value=d.hours||''; if (d.kind==='cash') $('#eKind').value='tour';
   $('#entryDlg').dataset.fmt = d.kind==='cash' ? 'cash' : (e ? 'tour' : (lsGet('evlog.lastFmt')||'tour'));
   document.querySelectorAll('#eFmt button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.fmt===$('#entryDlg').dataset.fmt));
-  $('#eHandsBox').hidden = !e;
-  if (e){ const hs=handsOf(e.id); $('#eHands').innerHTML = hs.length? hs.map(x=>`<div class="ehand"><span class="hcards">${cardsHTML(parseCards(x.cards).slice(0,2))}</span><span style="flex:1;min-width:0">${esc(x.title||x.hero)}</span><button type="button" class="btn" data-ehopen="${esc(x.id)}">열기</button></div>`).join('') : '<p class="hint" style="margin:0">아직 이 게임에 연결된 핸드가 없어요.</p>'; }
-  fillBrandSel(d.brand||''); $('#eRate').disabled = d.cur==='KRW'; $('#eDelete').hidden = !e; if (!e) autoTrip(); syncKind(); updCalc(); $('#entryDlg').showModal();
+  { const hs = e ? handsOf(e.id) : []; $('#eHands').innerHTML = hs.length? hs.map(x=>`<div class="ehand"><span class="hcards">${cardsHTML(parseCards(x.cards).slice(0,2))}</span><span style="flex:1;min-width:0">${esc(x.title||x.hero)}</span><button type="button" class="btn" data-ehopen="${esc(x.id)}">열기</button></div>`).join('') : (e? '<p class="hint" style="margin:0">아직 이 게임에 연결된 핸드가 없어요.</p>' : '');
+    const free = S.hands.filter(x=>!x.entryId || !S.entries.some(r=>r.id===x.entryId)).sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+    $('#eLinkHand').innerHTML = '<option value="">연결 안 함</option>' + free.map(x=>`<option value="${esc(x.id)}">${esc((x.date||'').slice(5).replace('-','.'))} · ${esc(x.title || (x.hero+' '+(x.cards||'')))}</option>`).join('');
+    $('#eLinkWrap').hidden = !free.length;
+    $('#eAddHand').textContent = e ? '+ 이 게임 핸드 리뷰 쓰기' : '저장하고 핸드 리뷰 쓰기'; }
+  fillBrandSel(d.brand||''); $('#eRate').disabled = d.cur==='KRW'; $('#eDelete').hidden = !e; if (!e) autoTrip(); syncKind(); updCalc(); S.pick.entry.ev=''; S.pick.entry.mode = S.formEvKey ? 'event' : 'date'; renderEntryPick(); $('#entryDlg').showModal();
 }
-$('#eAddHand').addEventListener('click', ()=>{ const id=S.editing&&S.editing.id; $('#entryDlg').close(); if (id) startHandFor(id); });
+$('#eAddHand').addEventListener('click', ()=>{ S.saveThenHand=true; const f=$('#entryForm'); if (f.requestSubmit) f.requestSubmit(); else f.dispatchEvent(new Event('submit',{cancelable:true})); });
 $('#eHands').addEventListener('click', ev=>{ const b=ev.target.closest('[data-ehopen]'); if (!b) return; const y=S.hands.find(z=>z.id===b.dataset.ehopen); if (!y) return; $('#entryDlg').close(); S.hand=JSON.parse(JSON.stringify(y)); saveDraft(); S.view='hands'; render(); window.scrollTo(0,0); });
-$('#entryDlg').addEventListener('close', ()=>{ setTimeout(()=>{ if (S.pendingHandLink && !$('#entryDlg').open) S.pendingHandLink=false; }, 0); });
+$('#entryDlg').addEventListener('close', ()=>{ setTimeout(()=>{ if (!$('#entryDlg').open){ S.pendingHandLink=false; S.saveThenHand=false; } }, 0); });
 $('#addStake').addEventListener('click', ()=>{
   const me=$('#ePlayer').value, other=S.cfg.players.find(p=>p.id!==me);
   if (!other){ toast('지분을 나누려면 플레이어가 두 명 이상 있어야 해요'); return; }
   $('#stakeRows').insertAdjacentHTML('beforeend', stakeRowHTML({p:other.id})); updCalc();
 });
 $('#stakeRows').addEventListener('click', ev=>{ const b=ev.target.closest('[data-srm]'); if (b){ b.closest('.stake-row').remove(); updCalc(); } });
-$('#eDate').addEventListener('change', autoTrip);
+$('#eDate').addEventListener('change', ()=>{ autoTrip(); if (S.pick && S.pick.entry.mode==='date') renderEntryPick(); });
 $('#eCur').addEventListener('change', ()=>{ const c=$('#eCur').value; $('#eRate').value = c==='KRW'?1:(S.cfg.rates[c]||''); $('#eRate').disabled = c==='KRW'; updCalc(); });
 $('#eTour').addEventListener('change', ()=>{
-  const t = S.tours.find(x=>x.id===$('#eTour').value); if (!t) return;
+  const v=$('#eTour').value; if (!v){ S.formEvKey=''; return; }
+  if (v.startsWith('k:')){ fillEntryFromSched(v.slice(2)); return; }
+  const t = S.tours.find(x=>x.id===v); if (!t) return;
   $('#eName').value=t.name; $('#eVenue').value=t.venue||''; $('#eKind').value=/새틀|satellite|sat\b/i.test(t.name)?'sat':'tour'; fillBrandSel(t.brand||''); $('#eCh').value=t.ch||'offline';
   $('#eCur').value=t.cur||'KRW'; $('#eRate').value = t.cur==='KRW'?1:(S.cfg.rates[t.cur]||''); $('#eRate').disabled = t.cur==='KRW';
   if (t.buyin) $('#eBuy').value=t.buyin; if (t.start && !S.editing){ $('#eDate').value=t.start; autoTrip(); } updCalc();
@@ -1785,7 +2159,9 @@ $('#eTour').addEventListener('change', ()=>{
 $('#entryForm').addEventListener('input', updCalc);
 const syncKind = () => {
   const cash = curFmt()==='cash';
-  $('#prizeLbl').textContent = cash ? '아웃 금액 (캐시아웃)' : $('#eKind').value==='sat' ? '위닝 금액 (티켓 가치 포함)' : '위닝 금액 (상금)';
+  $('#entryDlg').dataset.kind = cash ? 'cash' : $('#eKind').value;
+  $('#seatForList').innerHTML = [...new Set([...SCHEDULE.flatMap(se=>(se.events||[]).map(ev=>`${se.brand} ${ev.name}`)), ...S.tours.map(t=>(t.brand?t.brand+' ':'')+t.name)])].map(n=>`<option value="${esc(n)}">`).join('');
+  $('#prizeLbl').textContent = cash ? '아웃 금액 (캐시아웃)' : '위닝 금액 (상금)';
   $('#buyLbl').textContent = cash ? '총 바이인 (탑업 포함)' : '바이인 (1회)';
   $('#nameLbl').textContent = cash ? '게임 이름 (선택)' : '이벤트명';
   $('#eName').placeholder = cash ? '예: 금요일 캐시, 링게임' : '예: HPT 메인이벤트, PFGT 새틀라이트, 금요일 GTD';
@@ -1817,7 +2193,7 @@ function budgetWarn(pid, date){
   return r>=1? ` · ${m}월 예산 초과 (${Math.round(r*100)}%)` : r>=.7? ` · ${m}월 예산 ${Math.round(r*100)}% 사용` : '';
 }
 $('#entryForm').addEventListener('submit', async ev=>{
-  ev.preventDefault(); const e=readEntry();
+  ev.preventDefault(); const goHand=S.saveThenHand; S.saveThenHand=false; const e=readEntry(); S.formEvKey='';
   if (isCash(e) && !e.name) e.name = (e.brand? e.brand+' ' : '') + '캐시' + (e.blinds? ' '+e.blinds : '');
   if (!e.date || !e.name){ toast('날짜와 이벤트명을 입력하세요'); return; }
   lsSet('evlog.lastFmt', isCash(e)?'cash':'tour');
@@ -1828,7 +2204,9 @@ $('#entryForm').addEventListener('submit', async ev=>{
   }
   const i=S.entries.findIndex(x=>x.id===e.id); if (i>=0) S.entries[i]=e; else S.entries.push(e);
   $('#entryDlg').close(); render();
-  if (S.pendingHandLink && S.hand){ S.pendingHandLink=false; S.hand.entryId=e.id; S.hand.date=e.date; saveDraft(); S.view='hands'; render(); }
+  const linkId=$('#eLinkHand').value; if (linkId){ const hd=S.hands.find(x=>x.id===linkId); if (hd){ hd.entryId=e.id; hd.date=e.date; store.saveLocal(); if (store.mode==='db'){ store.put('hands', hd).catch(()=>{}); } } }
+  if (S.pendingHandLink && S.hand){ S.pendingHandLink=false; S.saveThenHand=false; S.hand.entryId=e.id; S.hand.evKey=''; S.hand.date=e.date; saveDraft(); S.view='hands'; render(); }
+  else if (goHand) startHandFor(e.id);
   try{ await store.put('entries', e); toast(`${P(e.player).name}님 기록을 저장했어요${budgetWarn(e.player,e.date)}`); }catch{ toast('저장하지 못했어요. 편집 권한이 있는지 확인하세요'); }
 });
 $('#eDelete').addEventListener('click', async ()=>{
@@ -1843,14 +2221,14 @@ function openTour(t){
   $('#tourTitle').textContent = t?'대회 수정':'대회 등록';
   $('#tBrand').value=d.brand||''; $('#tCh').value=d.ch||'offline'; $('#tName').value=d.name||''; $('#tVenue').value=d.venue||'';
   $('#tCountry').value=d.country||''; $('#tStart').value=d.start||''; $('#tEnd').value=d.end||''; $('#tCur').value=d.cur||'KRW';
-  $('#tBuy').value=d.buyin??''; $('#tGtd').value=d.gtd??''; $('#tLink').value=d.link||'';
+  $('#tBuy').value=d.buyin??''; $('#tGtd').value=d.gtd??''; $('#tLink').value=d.link||''; $('#tStack').value=d.stack||''; $('#tLevel').value=d.level||''; $('#tLate').value=d.latereg||''; $('#tDays').value=d.days||''; $('#tMemo').value=d.memo||''; if ($('#evtDlg').open) $('#evtDlg').close();
   $('#tGoing').innerHTML = S.cfg.players.map(p=>`<label><input type="checkbox" value="${esc(p.id)}" ${(d.going||[]).includes(p.id)?'checked':''}>${avatar(p)}${esc(p.name)}</label>`).join('');
   $('#tDelete').hidden=!t; $('#tourDlg').showModal();
 }
 $('#tourForm').addEventListener('submit', async ev=>{
   ev.preventDefault();
   const t={id:S.editingTour?.id||uid(), brand:$('#tBrand').value.trim(), ch:$('#tCh').value, name:$('#tName').value.trim(), venue:$('#tVenue').value.trim(),
-    country:$('#tCountry').value.trim(), start:$('#tStart').value, end:$('#tEnd').value, cur:$('#tCur').value, buyin:+$('#tBuy').value||0, gtd:+$('#tGtd').value||0, link:$('#tLink').value.trim(),
+    country:$('#tCountry').value.trim(), start:$('#tStart').value, end:$('#tEnd').value, cur:$('#tCur').value, buyin:+$('#tBuy').value||0, gtd:+$('#tGtd').value||0, link:$('#tLink').value.trim(), stack:+$('#tStack').value||0, level:$('#tLevel').value.trim(), latereg:$('#tLate').value.trim(), days:$('#tDays').value.trim(), memo:$('#tMemo').value.trim(),
     going:[...document.querySelectorAll('#tGoing input:checked')].map(i=>i.value)};
   if (!t.name){ toast('대회명을 입력하세요'); return; }
   const i=S.tours.findIndex(x=>x.id===t.id); if (i>=0) S.tours[i]=t; else S.tours.push(t);
@@ -1926,9 +2304,9 @@ $('#parseSave').addEventListener('click', async ()=>{
 /* ---------- CSV ---------- */
 async function exportCSV(){
   const list = S.entries.filter(e=>inPeriod(e)&&passF(e)).sort((a,b)=>a.date.localeCompare(b.date));
-  const head=['날짜','플레이어','지분','블라인드','시간','구분','온오프','브랜드','이름','장소','통화','바이인','엔트리','부대비용','상금','순위','환율','쓴금액(원)','번금액(원)','순손익(원)','메모'];
+  const head=['날짜','플레이어','지분','블라인드','시간','시트권','대상 대회','구분','온오프','브랜드','이름','장소','통화','바이인','엔트리','부대비용','상금','순위','환율','쓴금액(원)','번금액(원)','순손익(원)','메모'];
   const q=v=>`"${String(v??'').replace(/"/g,'""')}"`;
-  const rows=list.map(e=>[e.date,P(e.player).name,validStakes(e).map(x=>P(x.p).name+' '+x.pct+'%').join(' / '),e.blinds||'',e.hours||'',kindLabel(e),e.ch==='online'?'온라인':'오프라인',e.brand,e.name,e.venue,e.cur,e.buyin,e.entries,e.extra,e.prize,e.place,e.rate,Math.round(spentOf(e)),Math.round(wonOf(e)),Math.round(wonOf(e)-spentOf(e)),e.note].map(q).join(','));
+  const rows=list.map(e=>[e.date,P(e.player).name,validStakes(e).map(x=>P(x.p).name+' '+x.pct+'%').join(' / '),e.blinds||'',e.hours||'',e.seats||'',e.seatFor||'',kindLabel(e),e.ch==='online'?'온라인':'오프라인',e.brand,e.name,e.venue,e.cur,e.buyin,e.entries,e.extra,e.prize,e.place,e.rate,Math.round(spentOf(e)),Math.round(wonOf(e)),Math.round(wonOf(e)-spentOf(e)),e.note].map(q).join(','));
   const data='\ufeff'+[head.map(q).join(','),...rows].join('\n');
   if (!dl){ try{ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([data],{type:'text/csv'})); a.download=`poker-ledger-${periodLabel().replace(/\s/g,'')}.csv`; document.body.appendChild(a); a.click(); a.remove(); }catch{ toast('내보내기를 쓸 수 없어요'); } return; }
   try{ await dl.save({filename:`poker-ledger-${periodLabel().replace(/\s/g,'')}.csv`, data}); }catch{}
@@ -2286,12 +2664,17 @@ const gameLabel = e => `${e.date.slice(2).replace(/-/g,'.')} · ${e.name}${e.buy
 const handsOf = id => S.hands.filter(x=>x.entryId===id);
 function gameLinkCard(h){
   const e = S.entries.find(r=>r.id===h.entryId);
-  const opts = [...S.entries].sort((a,b)=>b.date.localeCompare(a.date)).map(r=>`<option value="${esc(r.id)}" ${r.id===h.entryId?'selected':''}>${esc(gameLabel(r))}</option>`).join('');
-  return `<div class="gamelink ${e?'on':''}">
+  const recs = [...S.entries].sort((a,b)=>b.date.localeCompare(a.date));
+  const opts = recs.map(r=>`<option value="${esc(r.id)}" ${r.id===h.entryId?'selected':''}>${esc(gameLabel(r))}</option>`).join('');
+  if (!S.pick.hand.date) S.pick.hand.date = h.date || todayISO();
+  const evIt = !e && h.evKey ? schedItems().find(x=>x.key===h.evKey) : null;
+  return `<div class="gamelink ${e||evIt?'on':''}">
     <div class="gl-l"><span class="gl-t">이 핸드가 나온 게임</span>
-      <select data-hk="entryId" data-rerender="1"><option value="">연결 안 함</option>${opts}</select></div>
+      <select data-hk="entryId" data-rerender="1"><option value="">${recs.length? '내 바이인 기록에서 선택' : '저장된 바이인 기록이 없어요'}</option>${opts}</select></div>
+    ${e? '' : `<div class="gl-or">또는 대회 정보 일정에서</div><div class="picker2">${pickerHTML('hand', h.evKey||'', S.pick.hand.date)}</div>`}
     ${e? `<div class="gl-info n"><span class="tag">${kindLabel(e)}</span>${e.brand?`<span class="tag b">${esc(e.brand)}</span>`:''}<span>바이인 ${fmtCur(e.buyin,e.cur)}${+e.entries>1?' × '+e.entries:''}</span><b class="${ud(wonOf(e)-spentOf(e))}">${sgn(wonOf(e)-spentOf(e))}</b><button type="button" class="btn" data-hx="opengame">기록 보기</button></div>`
-       : `<div class="gl-info"><span class="hint" style="margin:0">바이인 기록을 고르면 핸드가 그 게임에 묶여요.</span><button type="button" class="btn" data-hx="newgame">+ 게임 먼저 기록</button></div>`}
+       : evIt ? `<div class="gl-info"><span class="tag b">${esc(evIt.brand||'대회')}</span><span>${esc(schedOptLabel(evIt))}</span><button type="button" class="btn" data-hx="mkentry">이 대회 바이인 기록 만들기</button></div>`
+       : `<div class="gl-info"><span class="hint" style="margin:0">내 바이인 기록이나 대회 정보 일정에서 고르면 돼요.</span><button type="button" class="btn" data-hx="newgame">+ 게임 먼저 기록</button></div>`}
   </div>`;
 }
 function renderHands(){
@@ -2350,7 +2733,7 @@ function renderHands(){
     ${S.hands.length? `<div class="toolbar">${filt}</div>`:''}
     ${list.length? `<div class="hlist">${list.map(x=>{ const e=S.entries.find(r=>r.id===x.entryId); return `<div class="hitem">
       <div class="hcards">${cardsHTML(parseCards(x.cards).slice(0,2))}</div>
-      <div style="min-width:0;flex:1"><b>${esc(x.title || `${x.hero} · ${[x.sb,x.bb].filter(Boolean).join('/')}`)}</b><div class="hint" style="margin:0">${esc(x.date||'')} · ${esc(x.hero)}</div>${e?`<button class="glink" data-hx="filtergame" data-id="${esc(e.id)}">🔗 ${esc(gameLabel(e))}</button>`:''}</div>
+      <div style="min-width:0;flex:1"><b>${esc(x.title || `${x.hero} · ${[x.sb,x.bb].filter(Boolean).join('/')}`)}</b><div class="hint" style="margin:0">${esc(x.date||'')} · ${esc(x.hero)}</div>${e?`<button class="glink" data-hx="filtergame" data-id="${esc(e.id)}">🔗 ${esc(gameLabel(e))}</button>`:(()=>{ const it=x.evKey? schedItems().find(z=>z.key===x.evKey):null; return it? `<span class="glink" style="cursor:default">🗓 ${esc(schedOptLabel(it))}</span>`:''; })()}</div>
       <button class="btn" data-hx="copyhand" data-id="${esc(x.id)}">복사</button><button class="btn" data-hx="openhand" data-id="${esc(x.id)}">열기</button><button class="btn ghost" data-hx="delhand" data-id="${esc(x.id)}">삭제</button></div>`; }).join('')}</div>`
       : '<p class="hint" style="margin:0">저장한 핸드가 없어요. 복기하고 싶은 핸드를 저장해 두세요.</p>'}
   </section>
@@ -2383,7 +2766,12 @@ document.addEventListener('change', ev=>{
   const el=ev.target; if (!el.dataset || !el.dataset.hk || S.view!=='hands') return;
   if (el.tagName==='SELECT' || el.type==='checkbox'){
     setPath(S.hand, el.dataset.hk, el.type==='checkbox'?el.checked:el.value);
-    if (el.dataset.hk==='entryId'){ const e=S.entries.find(r=>r.id===el.value); if (e) S.hand.date=e.date; }
+    if (el.dataset.hk==='entryId'){
+      const v=el.value;
+      if (v.startsWith('k:')){ const key=v.slice(2); const it=schedItems().find(x=>x.key===key); const rec=S.entries.find(r=>r.evKey===key && r.player===myPlayerId()) || S.entries.find(r=>r.evKey===key);
+        if (rec){ S.hand.entryId=rec.id; S.hand.evKey=''; S.hand.date=rec.date; } else { S.hand.entryId=''; S.hand.evKey=key; if (it) S.hand.date=it.date; } }
+      else { S.hand.evKey=''; const e=S.entries.find(r=>r.id===v); if (e) S.hand.date=e.date; }
+    }
     saveDraft();
     if (el.dataset.rerender || /\.act$/.test(el.dataset.hk) || /\.pos$/.test(el.dataset.hk) || el.dataset.hk==='hero') render(); else { refreshPots(); refreshHandOut(); }
   }
@@ -2460,6 +2848,7 @@ document.addEventListener('click', async ev=>{
   if (x==='newhand'){ const dirty = h.cards || h.st.pre.acts.length || h.st.flop.board || h.note; if (dirty && !(await ask('지금 입력 중인 핸드를 비우고 새로 시작할까요? 저장하지 않은 내용은 사라져요.', '새 핸드'))) return; const keep={sb:h.sb,bb:h.bb,ante:h.ante,anteMode:h.anteMode,size:h.size,hero:h.hero}; S.hand={...newHand(),...keep}; saveDraft(); render(); const pk=$('#cardPicker'); if (pk) pk.hidden=true; window.scrollTo(0,0); toast('새 핸드를 시작했어요'); }
   if (x==='potauto'){ const st=h.st[b.dataset.st]; st.potManual=false; st.pot=''; saveDraft(); render(); }
   if (x==='copy') copyText(handText(h));
+  if (x==='mkentry'){ const key=h.evKey; if (!key) return; S.pendingHandLink=true; openEntry(); $('#eTour').innerHTML='<option value="">직접 입력</option>'+schedOptions(key); $('#eTour').value='k:'+key; fillEntryFromSched(key); return; }
   if (x==='opengame'){ const e=S.entries.find(r=>r.id===h.entryId); if (e) openEntry(e); }
   if (x==='newgame'){ S.pendingHandLink=true; openEntry(); }
   if (x==='filtergame'){ S.handFilter=b.dataset.id; render(); }
@@ -2470,7 +2859,7 @@ document.addEventListener('click', async ev=>{
 });
 
 /* ---------- friend share codes (no server: the code carries the records) ---------- */
-const SHARE_F = ['date','kind','ch','cur','name','brand','buyin','entries','extra','prize','place','field','rate','blinds','hours'];
+const SHARE_F = ['date','kind','ch','cur','name','brand','buyin','entries','extra','prize','place','field','rate','blinds','hours','seats','seatVal','seatFor'];
 function b64u(bytes){ let s=''; for (let i=0;i<bytes.length;i+=0x8000) s+=String.fromCharCode.apply(null, bytes.subarray(i,i+0x8000)); return btoa(s).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''); }
 function unb64u(t){ t=t.replace(/-/g,'+').replace(/_/g,'/'); while (t.length%4) t+='='; const s=atob(t), b=new Uint8Array(s.length); for (let i=0;i<s.length;i++) b[i]=s.charCodeAt(i); return b; }
 async function encodeShare(obj){
@@ -2537,7 +2926,7 @@ async function importShare(){
   p.remoteAt=d.at; p.remoteName=d.name;
   const old=S.entries.filter(e=>e.src===d.id);
   S.entries=S.entries.filter(e=>e.src!==d.id);
-  const fresh=d.e.map(row=>{ const o={id:uid(), player:p.id, src:d.id, by:'', stakes:[]}; SHARE_F.forEach((f,i)=>{ const v=row[i]; o[f] = (v===0 && ['name','brand','place','blinds','date','kind','ch','cur'].includes(f)) ? '' : v; }); if (!o.cur) o.cur='KRW'; if (!o.kind) o.kind='tour'; if (!o.ch) o.ch='offline'; if (!o.rate) o.rate=1; if (!o.entries) o.entries=1; return o; });
+  const fresh=d.e.map(row=>{ const o={id:uid(), player:p.id, src:d.id, by:'', stakes:[]}; SHARE_F.forEach((f,i)=>{ const v=row[i]; o[f] = (v===0 && ['name','brand','place','blinds','date','kind','ch','cur','seatFor'].includes(f)) ? '' : v; }); if (!o.cur) o.cur='KRW'; if (!o.kind) o.kind='tour'; if (!o.ch) o.ch='offline'; if (!o.rate) o.rate=1; if (!o.entries) o.entries=1; return o; });
   S.entries.push(...fresh);
   if (store.mode==='db'){ for (const e of old){ try{ await store.del('entries', e.id); }catch{} } }
   await persistAll(fresh);
@@ -2570,6 +2959,65 @@ document.addEventListener('click', async ev=>{
 
 let _wasMob = window.innerWidth<640;
 window.addEventListener('resize', ()=>{ const m=window.innerWidth<640; if (m!==_wasMob){ _wasMob=m; clearTimeout(window._rz); window._rz=setTimeout(()=>{ if (!document.querySelector('dialog[open]')) render(); }, 150); } });
+/* two-step schedule picker: by date (then events that day) or by event (then its days) */
+S.pick = S.pick || {entry:{mode:'date', ev:''}, hand:{mode:'date', ev:'', date:''}};
+function pickEventGroups(){
+  const map=new Map();
+  schedItems().forEach(it=>{
+    if (it.trip) return;
+    const gk = it.builtin ? `${it.se.id}|${it.ev.id}` : `t|${it.tour.id}`;
+    if (!map.has(gk)) map.set(gk, {key:gk, label: it.builtin ? `${it.se.brand} · ${it.ev.name}` : `${it.tour.brand?it.tour.brand+' · ':''}${it.tour.name}`, series: it.builtin? (it.se.brand+' · '+(it.se.series||'')) : '직접 등록한 대회', items:[]});
+    map.get(gk).items.push(it);
+  });
+  const t=todayISO();
+  return [...map.values()].map(g=>({...g, last:g.items[g.items.length-1].date})).sort((a,b)=>{ const ap=a.last<t, bp=b.last<t; if (ap!==bp) return ap?1:-1; return a.items[0].date.localeCompare(b.items[0].date); });
+}
+function pkName(it){ let t=it.title||''; if (it.brand && t.toUpperCase().startsWith(it.brand.toUpperCase())) t=t.slice(it.brand.length).trim(); return `${it.brand?it.brand+' ':''}${t}${it.sub?' '+it.sub:''}`; }
+function groupKeyOf(itemKey){ if (!itemKey) return ''; const p=itemKey.split('|'); return p[0]==='s' ? `${p[1]}|${p[2]}` : `t|${p[1]}`; }
+function pickerHTML(ctx, selKey, date){
+  const st=S.pick[ctx], items=schedItems().filter(x=>!x.trip);
+  const sel = selKey ? items.find(x=>x.key===selKey) : null;
+  const tabs = `<div class="pk-tabs"><button type="button" data-pkmode="date" data-ctx="${ctx}" aria-pressed="${st.mode==='date'}">날짜로 찾기</button><button type="button" data-pkmode="event" data-ctx="${ctx}" aria-pressed="${st.mode==='event'}">대회로 찾기</button></div>`;
+  let body='';
+  if (st.mode==='date'){
+    const d = date || todayISO();
+    const day = items.filter(x=>x.date===d);
+    body = `<div class="pk-row">${ctx==='hand'?`<input type="date" data-pkdate data-ctx="${ctx}" value="${esc(d)}">`:''}
+      <select data-pkitem data-ctx="${ctx}"><option value="">${day.length? `${dShort(d)} 대회 ${day.length}개 중 선택` : `${dShort(d)}에는 등록된 대회가 없어요`}</option>${day.map(it=>`<option value="${esc(it.key)}" ${it.key===selKey?'selected':''}>${esc(`${it.time||'종일'} · ${pkName(it)}`)}</option>`).join('')}</select></div>
+      ${ctx==='entry'?`<p class="hint" style="margin:4px 0 0">위 날짜에 열리는 대회가 나와요. 날짜를 바꾸면 목록도 바뀌어요.</p>`:''}`;
+  } else {
+    const groups=pickEventGroups(), gk = st.ev || groupKeyOf(selKey);
+    const g = groups.find(x=>x.key===gk);
+    const bySeries={}; groups.forEach(x=>{ (bySeries[x.series]=bySeries[x.series]||[]).push(x); });
+    body = `<div class="pk-row"><select data-pkev data-ctx="${ctx}"><option value="">대회 선택</option>${Object.entries(bySeries).map(([sn,list])=>`<optgroup label="${esc(sn)}">${list.map(x=>`<option value="${esc(x.key)}" ${x.key===gk?'selected':''}>${esc(x.label)}${x.last<todayISO()?' (종료)':''}</option>`).join('')}</optgroup>`).join('')}</select>
+      <select data-pkitem data-ctx="${ctx}" ${g?'':'disabled'}><option value="">${g? `일자 선택 (${g.items.length})` : '대회를 먼저 고르세요'}</option>${g? g.items.map(it=>`<option value="${esc(it.key)}" ${it.key===selKey?'selected':''}>${esc(`${dShort(it.date)} ${it.time||''} · ${it.sub||it.title}`)}</option>`).join('') : ''}</select></div>`;
+  }
+  const chosen = sel ? `<div class="pk-sel"><span class="tag b">${esc(sel.brand||'대회')}</span><b>${esc(pkName(sel).replace(new RegExp('^'+(sel.brand||'')+'\\s*'),''))}</b><span class="n">${dShort(sel.date)} ${esc(sel.time||'')}</span><button type="button" class="btn ghost" data-pkclear data-ctx="${ctx}">해제</button></div>` : '';
+  return tabs + body + chosen;
+}
+function renderEntryPick(){ const el=$('#ePick'); if (el) el.innerHTML = pickerHTML('entry', S.formEvKey||'', $('#eDate').value); }
+function onPick(ctx, key){
+  if (ctx==='entry'){ if (key) fillEntryFromSched(key); else S.formEvKey=''; renderEntryPick(); return; }
+  const h=S.hand; if (!h) return;
+  if (!key){ h.evKey=''; saveDraft(); render(); return; }
+  const it=schedItems().find(x=>x.key===key);
+  const rec=S.entries.find(r=>r.evKey===key && r.player===myPlayerId()) || S.entries.find(r=>r.evKey===key);
+  if (rec){ h.entryId=rec.id; h.evKey=''; h.date=rec.date; } else { h.entryId=''; h.evKey=key; if (it) h.date=it.date; }
+  saveDraft(); render();
+}
+document.addEventListener('click', ev=>{
+  const b=ev.target.closest('[data-pkmode],[data-pkclear]'); if (!b) return;
+  const ctx=b.dataset.ctx;
+  if (b.dataset.pkmode){ S.pick[ctx].mode=b.dataset.pkmode; if (ctx==='entry') renderEntryPick(); else render(); return; }
+  if (b.hasAttribute('data-pkclear')) onPick(ctx, '');
+});
+document.addEventListener('change', ev=>{
+  const el=ev.target, ctx=el.dataset && el.dataset.ctx; if (!ctx || !S.pick[ctx]) return;
+  if (el.hasAttribute('data-pkdate')){ S.pick[ctx].date=el.value; if (ctx==='entry') renderEntryPick(); else render(); return; }
+  if (el.hasAttribute('data-pkev')){ S.pick[ctx].ev=el.value; if (ctx==='entry') renderEntryPick(); else render(); return; }
+  if (el.hasAttribute('data-pkitem')) onPick(ctx, el.value);
+});
+
 /* ---------- boot ---------- */
 render();
 (async ()=>{
