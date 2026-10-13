@@ -685,6 +685,78 @@ html[data-skin="ivory"] .skin[aria-pressed="true"]{box-shadow:0 0 0 2px #111}
 .friend{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(var(--ov),.06)}
 .friend:last-of-type{border-bottom:0}
 
+
+/* ===== phone fit: nothing spills past the screen ===== */
+html,body{max-width:100%;overflow-x:clip}
+img,svg{max-width:100%}
+.card,.summary,.vs,.kpi,.sum,.statbox,.sharebox{min-width:0;overflow-wrap:anywhere}
+@media (max-width:640px){
+  body{font-size:14.5px}
+  input,select,textarea{font-size:16px!important}
+  .content{padding-left:12px;padding-right:12px}
+  .ctrl,.filters{padding-left:12px;padding-right:12px}
+  .card{padding:16px 14px}
+  .summary{padding:16px 14px 18px}
+  .sum-head{flex-wrap:wrap;gap:8px}
+  .sum-head .who{white-space:nowrap}
+  .sum-title{letter-spacing:.18em}
+  .sum-head .btn{padding:6px 12px;font-size:12.5px}
+  .sum span,.sum small{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.45}
+  .sum b{font-size:clamp(16px,5.2vw,21px)}
+  .sh-big{font-size:clamp(26px,8.6vw,34px)}
+  .sh-meta{line-height:1.5}
+  .kpi dd{font-size:clamp(16px,5vw,21px)}
+  .kpi small,.statbox small{white-space:normal}
+  .mini .t{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.4}
+  .mini .v{font-size:13.5px}
+  .glink{white-space:normal;overflow:visible;text-overflow:clip}
+  .chartbox svg{min-width:0!important;width:100%}
+  table{font-size:12.5px}
+  th,td{padding:8px 5px}
+  .tbl-money th:nth-child(3),.tbl-money td:nth-child(3),.tbl-money th:nth-child(4),.tbl-money td:nth-child(4){display:none}
+  .tbl-cash th:nth-child(2),.tbl-cash td:nth-child(2),.tbl-cash th:nth-child(4),.tbl-cash td:nth-child(4){display:none}
+  .tbl-settle th:nth-child(2),.tbl-settle td:nth-child(2),.tbl-settle th:nth-child(6),.tbl-settle td:nth-child(6){display:none}
+  table.goals thead{display:none}
+  table.goals,table.goals tbody,table.goals tr,table.goals td{display:block;width:100%}
+  table.goals tr{padding:12px 0;border-bottom:1px solid rgba(var(--ov),.08)}
+  table.goals td{padding:4px 0;border:0}
+  table.goals td[data-lbl]::before{content:attr(data-lbl);display:block;font-size:11.5px;color:var(--muted);margin-bottom:4px}
+  table.goals .gin{min-width:0!important;width:100%}
+  .rates{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stake-row{grid-template-columns:1fr 90px auto}
+  .cost-row{grid-template-columns:1fr 1fr;}
+  .cost-row .btn{grid-column:span 2}
+  .owe{gap:8px}.owe .amt{font-size:19px}
+  .vs-top{gap:10px}
+  .tug-l{font-size:10.5px;gap:6px}
+  .tug-l span:nth-child(2){display:none}
+  .pend-call{margin-left:0;width:100%}
+  .pend-who{flex-wrap:wrap;gap:6px 8px}
+  .street-in .cardin{min-width:0;flex:1 1 100%}
+  .gamelink .gl-l select{min-width:0}
+  .friend{flex-wrap:wrap}
+  .hitem{flex-wrap:wrap}.hitem > div:nth-child(2){flex:1 1 60%}
+  .toolbar{gap:6px}
+  .btn{padding:8px 12px}
+  .fab{padding:12px 18px;font-size:14px}
+  dialog{width:calc(100vw - 16px)}
+  .dlg .body{padding:6px 16px 12px}.dlg header{padding:18px 16px 6px}.dlg footer{padding:12px 16px 16px}
+}
+@media (max-width:380px){
+  .sum-grid{grid-template-columns:1fr!important}
+  .sum{border-left:0!important;padding-left:0!important}
+  .kpis{grid-template-columns:1fr 1fr}
+  .statgrid{grid-template-columns:1fr!important}
+  .seg button{padding:6px 10px}
+  .stepper span{min-width:96px;font-size:12.5px}
+  #entryForm .grid2{grid-template-columns:1fr}
+  .grid2{grid-template-columns:1fr}
+  .grid2 .full,.grid2 [style*="span 2"]{grid-column:auto!important}
+  .actrow{grid-template-columns:1fr 1fr 34px}
+  .actrow input{grid-column:1 / 3}
+  .rates{grid-template-columns:1fr 1fr}
+}
+
 /* logo wordmark */
 .brand b{font-family:"Bodoni Moda",Didot,"Bodoni 72","Times New Roman",serif;font-weight:600;font-size:23px;letter-spacing:.005em;text-transform:none;line-height:1;font-optical-sizing:auto}
 .brand b i{font-style:italic;font-weight:500;color:var(--gold);margin-left:2px;letter-spacing:0}
@@ -914,7 +986,7 @@ const store = {
   mode:'local', db:null,
   saveLocal(){ lsSet(LS_KEY, JSON.stringify({entries:S.entries,tours:S.tours,trips:S.trips,hands:S.hands,cfg:S.cfg})); },
   loadLocal(){
-    try{ const l=JSON.parse(lsGet(LS_KEY)); if (l){ S.entries=l.entries||[]; S.tours=l.tours||[]; S.trips=l.trips||[]; S.hands=l.hands||[]; S.cfg={...S.cfg,...(l.cfg||{})}; return; } }catch{}
+    try{ const l=JSON.parse(lsGet(LS_KEY)); if (l){ S.entries=l.entries||[]; S.tours=l.tours||[]; S.trips=l.trips||[]; S.hands=l.hands||[]; S.cfg={...S.cfg,...(l.cfg||{}), rates:{...DEFAULT_RATES, ...((l.cfg||{}).rates||{})}}; return; } }catch{}
     try{ const o=JSON.parse(lsGet(LS_OLD)); if (o){ S.entries=o.entries||[]; S.tours=o.tours||[]; if (o.settings) S.cfg={...S.cfg, rates:{...DEFAULT_RATES,...(o.settings.rates||{})}, rateDate:o.settings.rateDate||''}; } }catch{}
   },
   async init(){
@@ -1070,7 +1142,7 @@ function prevCalc(fn){
 /* ---------- chart ---------- */
 function chartSVG(bk, list, players){
   const series = bk.map(b=>({...b, ...calc(list.filter(b.fn)), per: players.map(p=>calc(list.filter(e=>b.fn(e)&&e.player===p.id)).net)}));
-  const W=880,H=300,pl=60,pr=14,pt=14,pb=30, iw=W-pl-pr, ih=H-pt-pb;
+  const MOB=window.innerWidth<640, W=MOB?400:880,H=MOB?280:300,pl=MOB?46:60,pr=14,pt=14,pb=30, iw=W-pl-pr, ih=H-pt-pb;
   const allN = series.flatMap(s=>[s.net, ...s.per]);
   const top = Math.max(1, ...series.map(s=>Math.max(s.spent,s.won)), ...allN), bot = Math.min(0, ...allN), span = top-bot || 1;
   const yv = v => pt + (top - v)/span*ih;
@@ -1078,14 +1150,14 @@ function chartSVG(bk, list, players){
   const tick = v => { const a=Math.abs(v); return (v<0?'-':'') + (a>=1e8? (a/1e8).toFixed(1)+'억' : a>=1e4? Math.round(a/1e4).toLocaleString()+'만' : Math.round(a)); };
   let g='';
   for (let i=0;i<=4;i++){ const v = bot + span*i/4, y=yv(v);
-    g+=`<line x1="${pl}" x2="${W-pr}" y1="${y}" y2="${y}" stroke="var(--line)" stroke-dasharray="2 4"/><text x="${pl-8}" y="${y+4}" text-anchor="end" font-size="11" fill="var(--faint)" font-family="Inter,sans-serif">${tick(v)}</text>`; }
+    g+=`<line x1="${pl}" x2="${W-pr}" y1="${y}" y2="${y}" stroke="var(--line)" stroke-dasharray="2 4"/><text x="${pl-8}" y="${y+4}" text-anchor="end" font-size="${MOB?12:11}" fill="var(--faint)" font-family="Inter,sans-serif">${tick(v)}</text>`; }
   g+=`<line x1="${pl}" x2="${W-pr}" y1="${yv(0)}" y2="${yv(0)}" stroke="var(--muted)"/>`;
   series.forEach((s,i)=>{
     const x0 = pl + i*bw + gap;
     if (s.cur) g+=`<rect x="${pl+i*bw}" y="${pt}" width="${bw}" height="${ih}" fill="var(--hi)" rx="10"/>`;
     g+=`<rect x="${x0}" y="${yv(s.spent)}" width="${w-2}" height="${Math.max(0,yv(0)-yv(s.spent))}" fill="var(--down)" opacity=".55" rx="4"><title>${s.label} 쓴 금액 ${won(s.spent)}</title></rect>`;
     g+=`<rect x="${x0+w}" y="${yv(s.won)}" width="${w-2}" height="${Math.max(0,yv(0)-yv(s.won))}" fill="var(--up)" opacity=".8" rx="4"><title>${s.label} 번 금액 ${won(s.won)}</title></rect>`;
-    g+=`<text x="${pl+i*bw+bw/2}" y="${H-9}" text-anchor="middle" font-size="11.5" fill="${s.cur?'var(--ink)':'var(--muted)'}" font-weight="${s.cur?800:500}">${s.label}</text>`;
+    if (!(MOB && series.length>8 && i%2===1 && !s.cur)) g+=`<text x="${pl+i*bw+bw/2}" y="${H-9}" text-anchor="middle" font-size="${MOB?12:11.5}" fill="${s.cur?'var(--ink)':'var(--muted)'}" font-weight="${s.cur?800:500}">${s.label}</text>`;
   });
   const lines = players.length>1 ? players.map((p,k)=>({color:p.color, name:p.name, vals:series.map(s=>s.per[k])})) : [{color:'var(--pri)', name:'순손익', vals:series.map(s=>s.net)}];
   lines.forEach(L=>{
@@ -1126,7 +1198,7 @@ function periodBounds(){
 }
 function cumulativeSVG(list, players){
   const [d0,d1]=periodBounds(), t0=Date.parse(d0), t1=Date.parse(d1)+864e5, span=t1-t0;
-  const W=760,H=360,pl=58,pr=16,pt=16,pb=28, iw=W-pl-pr, ih=H-pt-pb;
+  const MOB=window.innerWidth<640, W=MOB?400:760,H=MOB?280:360,pl=MOB?46:58,pr=16,pt=16,pb=28, iw=W-pl-pr, ih=H-pt-pb;
   const lines = players.map(p=>{
     let acc=0; const pts=[[t0,0]];
     [...list.filter(e=>e.player===p.id)].sort((a,b)=>a.date.localeCompare(b.date)).forEach(e=>{ const t=Date.parse(e.date)+432e5; pts.push([t,acc]); acc+=wonOf(e)-spentOf(e); pts.push([t,acc]); });
@@ -1139,13 +1211,13 @@ function cumulativeSVG(list, players){
   const X=t=>pl+(t-t0)/span*iw, Y=v=>pt+(hi-v)/(hi-lo)*ih;
   const tick = v => { const a=Math.abs(v); return (v<0?'-':'') + (a>=1e8? (a/1e8).toFixed(1)+'억' : a>=1e4? Math.round(a/1e4).toLocaleString()+'만' : Math.round(a)); };
   let g='';
-  for (let i=0;i<=4;i++){ const v=lo+(hi-lo)*i/4, y=Y(v); g+=`<line x1="${pl}" x2="${W-pr}" y1="${y}" y2="${y}" stroke="var(--line)" stroke-dasharray="2 4"/><text x="${pl-10}" y="${y+4}" text-anchor="end" font-size="11" fill="var(--faint)" font-family="Inter,sans-serif">${tick(v)}</text>`; }
+  for (let i=0;i<=4;i++){ const v=lo+(hi-lo)*i/4, y=Y(v); g+=`<line x1="${pl}" x2="${W-pr}" y1="${y}" y2="${y}" stroke="var(--line)" stroke-dasharray="2 4"/><text x="${pl-10}" y="${y+4}" text-anchor="end" font-size="${MOB?12:11}" fill="var(--faint)" font-family="Inter,sans-serif">${tick(v)}</text>`; }
   g+=`<line x1="${pl}" x2="${W-pr}" y1="${Y(0)}" y2="${Y(0)}" stroke="var(--faint)"/>`;
   // x ticks
   const ticks = S.mode==='month' ? [1,8,15,22,29].filter(d=>Date.parse(d0)+(d-1)*864e5<t1).map(d=>[t0+(d-1)*864e5, d+'일'])
     : (()=>{ const out=[]; const [y,m]=d0.split('-').map(Number); const n=S.mode==='quarter'?3:12; for(let i=0;i<n;i++){ const dt=new Date(y,m-1+i,1); out.push([dt.getTime(), (dt.getMonth()+1)+'월']); } return out; })();
-  ticks.forEach(([t,l])=>g+=`<text x="${X(t)}" y="${H-8}" font-size="11" fill="var(--faint)" text-anchor="${S.mode==='month'?'middle':'start'}">${l}</text>`);
-  const nowT=Date.now(); if (nowT>t0 && nowT<t1) g+=`<line x1="${X(nowT)}" x2="${X(nowT)}" y1="${pt}" y2="${pt+ih}" stroke="var(--pri)" stroke-dasharray="3 3" opacity=".5"/><text x="${X(nowT)+4}" y="${pt+10}" font-size="10.5" fill="var(--pri)">오늘</text>`;
+  ticks.forEach(([t,l])=>g+=`<text x="${X(t)}" y="${H-8}" font-size="${MOB?12:11}" fill="var(--faint)" text-anchor="${S.mode==='month'?'middle':'start'}">${l}</text>`);
+  const nowT=Date.now(); if (nowT>t0 && nowT<t1) g+=`<line x1="${X(nowT)}" x2="${X(nowT)}" y1="${pt}" y2="${pt+ih}" stroke="var(--pri)" stroke-dasharray="3 3" opacity=".5"/><text x="${X(nowT)+4}" y="${pt+10}" font-size="${MOB?11:10.5}" fill="var(--pri)">오늘</text>`;
   lines.forEach(L=>{
     const d = L.pts.map((q,i)=>(i?'L':'M')+X(q[0]).toFixed(1)+','+Y(q[1]).toFixed(1)).join(' ');
     const last=L.pts[L.pts.length-1];
@@ -1296,7 +1368,7 @@ function detailCard(ch, players, ALL, span){
   const allL = ALL.filter(e=>passF(e,true) && ids.includes(e.player) && ch.series.some(s=>s.fn(e)));
   const totPer = showPer? players.map(p=>{const v=calc(allL.filter(e=>e.player===p.id)).net; return `<td class="${ud(v)}">${sgn(v)}</td>`;}).join('') : '';
   return `<section class="card ${span}"><h2>${unit} 상세</h2>
-    <div class="tablewrap"><table class="num">${TH(perTh)}<tbody>${ch.series.map(s=>trOf(s.label,s,s.cur?'cur':(s.count?'':'zero'),perTd(s))).join('')}</tbody>
+    <div class="tablewrap"><table class="num tbl-money">${TH(perTh)}<tbody>${ch.series.map(s=>trOf(s.label,s,s.cur?'cur':(s.count?'':'zero'),perTd(s))).join('')}</tbody>
     <tfoot>${trOf('합계', calc(allL), '', totPer)}</tfoot></table></div></section>`;
 }
 function highlightCard(list){
@@ -1349,7 +1421,7 @@ function cashCard(list, span='s12'){
       <div class="statbox"><span>캐시 손익</span><b class="${ud(c.net)}">${sgn(c.net)}</b><small>바이인 ${won(c.spent)}</small></div>
       <div class="statbox"><span>시간당 손익</span><b class="${ud(tnet)}">${hrs? sgn(tnet/hrs) : '–'}</b><small>${hrs? '시간 입력한 세션 기준':'플레이 시간을 넣으면 보여요'}</small></div>
     </div>
-    <div class="tablewrap"><table class="num"><thead><tr><th>블라인드</th><th>세션</th><th>시간</th><th>바이인</th><th>손익</th><th>시간당</th></tr></thead><tbody>${rows}</tbody></table></div></section>`;
+    <div class="tablewrap"><table class="num tbl-cash"><thead><tr><th>블라인드</th><th>세션</th><th>시간</th><th>바이인</th><th>손익</th><th>시간당</th></tr></thead><tbody>${rows}</tbody></table></div></section>`;
 }
 function budgetsFor(ids, ALL){ const keep=S.f.player; S.f.player='all'; const save=S.cfg.players; S.cfg.players=save.filter(p=>ids.includes(p.id)); const h=budgetCard(ALL); S.cfg.players=save; S.f.player=keep; return h; }
 function summaryStrip(p, ALL, pc, prev){
@@ -1423,7 +1495,7 @@ function renderSoloDash(p, ALL){
   ${splitCard('원화 / 외화', [['원화',e=>e.cur==='KRW'],['외화',e=>e.cur!=='KRW']], list)}
   ${detailCard(ch, [p], ALL, 's7')}
   ${upcomingCard('s5', p.id)}
-  ${brandRows? `<section class="card s12"><h2>브랜드별 성적 <span class="sub">${periodLabel()} · ${esc(p.name)}</span></h2><div class="tablewrap"><table class="num">${TH()}<tbody>${brandRows}</tbody></table></div></section>`:''}
+  ${brandRows? `<section class="card s12"><h2>브랜드별 성적 <span class="sub">${periodLabel()} · ${esc(p.name)}</span></h2><div class="tablewrap"><table class="num tbl-money">${TH()}<tbody>${brandRows}</tbody></table></div></section>`:''}
   </div>`;
 }
 function renderVsDash(A, B, ALL){
@@ -1565,7 +1637,7 @@ function renderSettle(){
   if (!items.length) return head + `<div class="empty"><b>정산할 지분이 없어요</b>기록 추가 화면 아래쪽 '지분'에서 친구가 산 비율을 넣어보세요.</div>`;
   return head + `<div class="dash">
     <section class="card s5"><h2>지금 정산할 금액</h2>${owes.length? owes.map(o=>`<div class="owe">${whoTag(o.from)}<span class="arrow">→</span>${whoTag(o.to)}<span class="amt n">${won(o.amt)}</span><button class="btn" data-settle="${esc(o.key)}">정산 완료</button><span class="hint" style="width:100%;margin:0">미정산 지분 ${o.n}건</span></div>`).join('') : '<p class="hint">모두 정산됐어요.</p>'}</section>
-    <section class="card s7"><h2>지분 내역</h2><div class="tablewrap"><table class="num data"><thead><tr><th class="l">날짜</th><th class="l">대회</th><th class="l">플레이어</th><th class="l">지분 산 사람</th><th>지분</th><th>바이인 몫</th><th>상금 몫</th><th>상태</th></tr></thead><tbody>
+    <section class="card s7"><h2>지분 내역</h2><div class="tablewrap"><table class="num data tbl-settle"><thead><tr><th class="l">날짜</th><th class="l">대회</th><th class="l">플레이어</th><th class="l">지분 산 사람</th><th>지분</th><th>바이인 몫</th><th>상금 몫</th><th>상태</th></tr></thead><tbody>
       ${items.map(x=>`<tr data-edit="${esc(x.e.id)}" tabindex="0"><td class="l">${esc(x.e.date)}</td><td class="l">${esc(x.e.name)}</td><td class="l">${whoTag(x.horse)}</td><td class="l">${whoTag(x.backer)}</td><td>${x.pct}%</td><td>${x.buy?won(x.buy):'<span style="color:var(--faint)">받음</span>'}</td><td>${x.prize?won(x.prize):'–'}</td><td>${x.settled?'<span class="tag">정산됨</span>':'<span class="tag b">미정산</span>'}</td></tr>`).join('')}
     </tbody></table></div></section></div>`;
 }
@@ -1596,10 +1668,10 @@ function renderSettings(){
     <p class="hint" style="margin:-6px 0 14px">개인 대시보드 맨 위 요약에 표시돼요. 핸던몹은 공개 연동 기능이 없어서, 프로필 주소와 누적 상금을 직접 넣어두면 요약에서 바로 비교하고 열어볼 수 있어요.</p>
     <div class="tablewrap"><table class="goals"><thead><tr><th class="l">플레이어</th><th class="l">${today.getFullYear()}년 순수익 목표 (원)</th><th class="l">목표 ROI (%)</th><th class="l">핸던몹 프로필 주소</th><th class="l">핸던몹 누적 상금 ($)</th></tr></thead><tbody>
     ${S.cfg.players.map(p=>`<tr><td class="l">${whoTag(p.id)}</td>
-      <td class="l"><input class="gin num" type="number" min="0" step="100000" data-gnet="${esc(p.id)}" value="${+p.goalNet||''}" placeholder="예: 5000000"></td>
-      <td class="l"><input class="gin num" type="number" step="1" data-groi="${esc(p.id)}" value="${p.goalRoi??''}" placeholder="예: 20"></td>
-      <td class="l"><input class="gin" type="url" data-hmurl="${esc(p.id)}" value="${esc(p.hmUrl||'')}" placeholder="https://pokerdb.thehendonmob.com/player.php?n=…" style="min-width:260px"></td>
-      <td class="l"><input class="gin num" type="number" min="0" step="1" data-hmtot="${esc(p.id)}" value="${+p.hmTotal||''}" placeholder="예: 12500"></td></tr>`).join('')}
+      <td class="l" data-lbl="연간 순수익 목표 (원)"><input class="gin num" type="number" min="0" step="100000" data-gnet="${esc(p.id)}" value="${+p.goalNet||''}" placeholder="예: 5000000"></td>
+      <td class="l" data-lbl="목표 ROI (%)"><input class="gin num" type="number" step="1" data-groi="${esc(p.id)}" value="${p.goalRoi??''}" placeholder="예: 20"></td>
+      <td class="l" data-lbl="핸던몹 프로필 주소"><input class="gin" type="url" data-hmurl="${esc(p.id)}" value="${esc(p.hmUrl||'')}" placeholder="https://pokerdb.thehendonmob.com/player.php?n=…" style="min-width:260px"></td>
+      <td class="l" data-lbl="핸던몹 누적 상금 ($)"><input class="gin num" type="number" min="0" step="1" data-hmtot="${esc(p.id)}" value="${+p.hmTotal||''}" placeholder="예: 12500"></td></tr>`).join('')}
     </tbody></table></div>
     <div class="toolbar" style="margin:14px 0 0"><button class="btn primary" data-act="saveGoals">목표 저장</button><a class="btn" href="https://www.thehendonmob.com/" target="_blank" rel="noopener">핸던몹에서 내 프로필 찾기 ↗</a></div>
   </section>
@@ -2496,6 +2568,8 @@ document.addEventListener('click', async ev=>{
     await persistAll([]); toast('삭제했어요'); render(); }
 });
 
+let _wasMob = window.innerWidth<640;
+window.addEventListener('resize', ()=>{ const m=window.innerWidth<640; if (m!==_wasMob){ _wasMob=m; clearTimeout(window._rz); window._rz=setTimeout(()=>{ if (!document.querySelector('dialog[open]')) render(); }, 150); } });
 /* ---------- boot ---------- */
 render();
 (async ()=>{
