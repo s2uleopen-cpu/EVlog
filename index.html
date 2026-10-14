@@ -251,9 +251,12 @@ label.f textarea{min-height:140px;resize:vertical}
 .parsed label{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}
 [hidden]{display:none!important}
 #entryDlg[data-fmt="cash"] .t-only, #entryDlg[data-fmt="tour"] .c-only{display:none!important}
-#entryDlg:not([data-kind="sat"]) .sat-only{display:none!important}
-#entryDlg[data-fmt="tour"][data-kind="sat"] .nosat{display:none!important}
-#entryDlg[data-fmt="cash"] .sat-only{display:none!important}
+#entryDlg[data-pt="ticket"] .pt-cash, #entryDlg[data-pt="cash"] .pt-ticket, #entryDlg[data-fmt="cash"] .pt-ticket{display:none!important}
+#entryDlg[data-fmt="cash"] .pt-cash{display:flex!important}
+.seg2{display:inline-flex;gap:4px;padding:3px;border-radius:999px;box-shadow:inset 0 0 0 1px rgba(var(--ov),.1);align-self:flex-start}
+.seg2 button{border:0;background:none;color:var(--muted);border-radius:999px;padding:6px 14px;font-size:13px}
+.seg2 button[aria-pressed="true"]{background:rgba(var(--acc),.16);color:var(--gold-hi);font-weight:600}
+#sPresets button{font-size:12px}
 .fmtseg{display:grid;grid-template-columns:1fr 1fr;background:var(--sunk);border-radius:12px;padding:4px;gap:4px}
 .fmtseg button{border:0;background:none;padding:10px;border-radius:9px;font-weight:700;color:var(--muted);font-size:14px}
 .fmtseg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
@@ -298,7 +301,8 @@ label.f textarea{min-height:140px;resize:vertical}
 .trip h3{margin:0;font-size:17px;letter-spacing:-.02em}
 .trip .when{font-size:12.5px;color:var(--muted);margin:2px 0 14px}
 .trip table td{padding:7px 6px}
-.cost-row{display:grid;grid-template-columns:1fr 1.2fr 1fr auto;gap:8px;align-items:end;margin-top:8px}
+.cost-row{display:grid;grid-template-columns:1fr 1fr 1.3fr .8fr 1.2fr auto;gap:8px;align-items:end;margin-top:8px}
+.evlinks{display:flex;flex-direction:column;gap:2px;margin-top:6px}
 /* settle */
 .owe{display:flex;align-items:center;gap:14px;padding:16px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
 .owe:last-child{border-bottom:0}
@@ -857,6 +861,89 @@ html[data-skin="ivory"] .pamt{background:#FFFFFF;border-color:rgba(17,17,17,.15)
 }
 .more-days.ended{background:rgba(var(--ov),.08);color:var(--muted)}
 .more-days{display:inline-block;margin-left:4px;padding:0 7px;border-radius:999px;background:rgba(var(--acc),.14);color:var(--gold-hi);font-size:11.5px;font-weight:700;line-height:1.6}
+.dday{flex:none;min-width:52px;text-align:center;font-size:11.5px;font-weight:700;padding:3px 6px;border-radius:8px;background:rgba(var(--ov),.06);color:var(--muted);font-variant-numeric:tabular-nums}
+.dday.soon{background:rgba(var(--acc),.16);color:var(--gold-hi)}
+.upc-gtd{}
+.mini .m .gtd{color:var(--gold-hi);font-weight:600}
+.favmark{color:var(--gold);font-size:12px}
+@media (max-width:640px){.cost-row{grid-template-columns:1fr 1fr!important}.cost-row .btn{grid-column:span 2}.tbl-trip th:nth-child(3),.tbl-trip td:nth-child(3),.tbl-trip th:nth-child(4),.tbl-trip td:nth-child(4){display:none}}
+#expDlg[data-type="personal"] .x-shared, #expDlg[data-type="shared"] .x-personal{display:none!important}
+.parts{display:flex;flex-direction:column;gap:6px}
+.prow{display:flex;align-items:center;gap:8px}
+.prow input[data-pv]{width:120px;border:1px solid rgba(var(--ov),.1);background:rgba(var(--ov),.03);border-radius:8px;padding:7px 9px;color:var(--ink)}
+.prow .pshare{min-width:84px;text-align:right;font-size:12.5px;color:var(--gold-hi)}
+#xFx input{border:1px solid rgba(var(--ov),.1);background:rgba(var(--ov),.03);border-radius:8px;padding:9px 10px;color:var(--ink);height:40px}
+.trip-tabs{margin-top:14px}
+.trip-head h2::before{display:none}
+.s6x{grid-column:span 6}@media (max-width:1180px){.s6x{grid-column:span 12}}
+.cat-ic{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;background:rgba(var(--ov),.05);flex:none}
+.pairrow{display:grid;grid-template-columns:1fr auto auto;gap:4px 12px;align-items:center;padding:12px 0;border-bottom:1px solid rgba(var(--ov),.06)}
+.pairrow:last-child{border-bottom:0}.pairrow .m{grid-column:1;font-size:12px;color:var(--muted)}.pairrow .v{grid-row:1/span 2;grid-column:2;font-weight:600}.pairrow .btn{grid-row:1/span 2;grid-column:3}
+@media (max-width:640px){.tbl-mem th:nth-child(4),.tbl-mem td:nth-child(4),.tbl-mem th:nth-child(5),.tbl-mem td:nth-child(5),.tbl-mem th:nth-child(6),.tbl-mem td:nth-child(6){display:none}.prow input[data-pv]{width:96px}}
+
+/* ===== stage 3: navigation ===== */
+.subnav,.bnav,.ftoggle{display:none}
+#entryDlg[data-fx="0"] .fx-only{display:none}
+details.more{border-radius:10px;box-shadow:inset 0 0 0 1px rgba(var(--ov),.08);padding:10px 12px}
+details.more summary{cursor:pointer;font-size:13px;color:var(--ink);list-style:none}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary::before{content:"+ ";color:var(--gold)}
+details.more[open] summary::before{content:"− "}
+.cmpcard{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.cmpcard h2::before{display:none}
+.rcard{display:flex!important;flex-direction:column;align-items:stretch!important;gap:4px;text-align:left}
+.rc-top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.rc-name{font-weight:600;font-size:15px;min-width:0;overflow-wrap:anywhere}
+.rc-net{font-size:17px;font-weight:700;white-space:nowrap}
+.rc-meta{font-size:12px;color:var(--muted)}
+.rc-bot{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:12px;color:var(--muted);align-items:center}
+@media (max-width:860px){
+  nav.tabs,.top .right{display:none!important}
+  .top-in{height:52px!important;padding-top:0!important}
+  .brand svg{width:26px;height:26px}
+  .brand b{font-size:20px}
+  .subnav.on{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:8px 12px 0;position:sticky;top:52px;z-index:9;background:var(--bg)}
+  .subnav::-webkit-scrollbar{display:none}
+  .subnav button{flex:none;border:0;background:rgba(var(--ov),.05);color:var(--muted);border-radius:999px;padding:7px 13px;font-size:13px}
+  .subnav button[aria-current="page"]{background:rgba(var(--acc),.16);color:var(--gold-hi);font-weight:600}
+  .bnav{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(var(--base),.92);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-top:1px solid rgba(var(--ov),.08);padding:4px 4px calc(4px + env(safe-area-inset-bottom,0px))}
+  .bnav button{border:0;background:none;color:var(--faint);display:flex;flex-direction:column;align-items:center;gap:2px;padding:5px 0 3px;font-size:10.5px;font-weight:500}
+  .bnav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .bnav button[aria-current="page"]{color:var(--gold-hi)}
+  .bnav button[aria-current="page"] svg{stroke-width:2.1}
+  body{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
+  .content{padding-bottom:40px!important}
+  .fab{bottom:calc(72px + env(safe-area-inset-bottom,0px))!important}
+  .toast{bottom:calc(80px + env(safe-area-inset-bottom,0px))!important}
+  .ctrl{padding-top:12px!important;padding-bottom:6px!important;gap:8px!important}
+  .ctrl .eyebrow{font-size:11px}
+  .ctrl h1{font-size:22px!important}
+  #periodArea{flex-wrap:nowrap!important;gap:6px!important;width:100%}
+  #periodArea .seg button{padding:6px 10px}
+  #periodArea .stepper{flex:1;justify-content:space-between}
+  .ftoggle{display:inline-flex;border:1px solid rgba(var(--ov),.12);background:transparent;color:var(--muted);border-radius:999px;padding:5px 12px;font-size:12.5px}
+  .ftoggle.on{border-color:var(--gold);color:var(--gold-hi)}
+  .filters{padding-top:2px!important}
+  .filters select{display:none}
+  .filters.open select{display:inline-block}
+  .filters .sep{display:none!important}
+  .rcard{padding:14px 14px!important}
+}
+
+
+/* stage 4 */
+.mcard .m-line{margin:-4px 0 12px;font-size:14px;color:var(--muted)}
+.mcard .m-line b{font-size:22px;font-weight:600;margin-left:4px}
+.m-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+@media (max-width:640px){.m-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+.goalbar{margin-top:14px}.gb-top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-bottom:6px}
+.ins{display:flex;flex-direction:column;gap:8px}
+.ins-row{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.5;text-align:left;border:0;background:rgba(var(--ov),.03);border-radius:10px;padding:10px 12px;color:var(--ink);width:100%}
+button.ins-row{cursor:pointer}
+.ins-i{flex:none;width:20px;text-align:center}
+.favbtn{border:0;background:none;color:var(--faint);font-size:18px;line-height:1;padding:4px 6px;cursor:pointer;flex:none}
+.favbtn.on{color:var(--gold)}
+
 /* logo wordmark */
 .brand b{font-family:"Bodoni Moda",Didot,"Bodoni 72","Times New Roman",serif;font-weight:600;font-size:23px;letter-spacing:.005em;text-transform:none;line-height:1;font-optical-sizing:auto}
 .brand b i{font-style:italic;font-weight:500;color:var(--gold);margin-left:2px;letter-spacing:0}
@@ -864,15 +951,15 @@ html[data-skin="ivory"] .pamt{background:#FFFFFF;border-color:rgba(17,17,17,.15)
 </head>
 <body>
 <header class="top"><div class="top-in">
-  <div class="brand"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14.5" fill="none" stroke="var(--gold)" stroke-width="1"/><circle cx="16" cy="16" r="11.5" fill="none" stroke="var(--gold)" stroke-width=".6" stroke-dasharray="1.6 2.2" opacity=".8"/><path d="M16 9.2c2.6 3 5.6 4.6 5.6 7.3 0 1.8-1.4 3-3 3-1 0-1.8-.4-2.3-1l.9 3.3h-2.4l.9-3.3c-.5.6-1.3 1-2.3 1-1.6 0-3-1.2-3-3 0-2.7 3-4.3 5.6-7.3Z" fill="var(--gold)"/></svg><b>EV<i>log</i></b><small>POKER LEDGER</small></div>
+  <div class="brand" role="link" tabindex="0" title="홈으로" style="cursor:pointer"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14.5" fill="none" stroke="var(--gold)" stroke-width="1"/><circle cx="16" cy="16" r="11.5" fill="none" stroke="var(--gold)" stroke-width=".6" stroke-dasharray="1.6 2.2" opacity=".8"/><path d="M16 9.2c2.6 3 5.6 4.6 5.6 7.3 0 1.8-1.4 3-3 3-1 0-1.8-.4-2.3-1l.9 3.3h-2.4l.9-3.3c-.5.6-1.3 1-2.3 1-1.6 0-3-1.2-3-3 0-2.7 3-4.3 5.6-7.3Z" fill="var(--gold)"/></svg><b>EV<i>log</i></b><small>POKER LEDGER</small></div>
   <nav class="tabs" role="tablist">
     <button role="tab" data-view="dash" aria-selected="true">대시보드</button>
     <button role="tab" data-view="records" aria-selected="false">기록</button>
     <button role="tab" data-view="hands" aria-selected="false">핸드 리뷰</button>
-    <button role="tab" data-view="tours" aria-selected="false">대회 정보</button>
+    <button role="tab" data-view="tours" aria-selected="false">대회 일정</button>
     <button role="tab" data-view="trips" aria-selected="false">원정</button>
-    <button role="tab" data-view="settle" aria-selected="false">정산</button>
-    <button role="tab" data-view="settings" aria-selected="false">설정</button>
+    <button role="tab" data-view="settle" aria-selected="false">스테이킹·정산</button>
+    <button role="tab" data-view="settings" aria-selected="false">MY</button>
   </nav>
   <div class="right">
     <span class="me" id="storeNote">불러오는 중…</span>
@@ -880,6 +967,9 @@ html[data-skin="ivory"] .pamt{background:#FFFFFF;border-color:rgba(17,17,17,.15)
   </div>
 </div></header>
 
+<nav class="subnav" id="subNav" aria-label="기록 메뉴">
+  <button data-view="records">수익 기록</button><button data-view="hands">핸드 리뷰</button><button data-view="settle">스테이킹·정산</button><button data-view="trips">원정 관리</button>
+</nav>
 <div class="ctrl">
   <div class="ttl"><div class="eyebrow" id="pageEyebrow">대시보드</div><h1 id="pageTitle">대시보드</h1></div>
   <div class="seg dmode" id="dmodeSeg" role="group" aria-label="대시보드 보기 방식">
@@ -900,14 +990,21 @@ html[data-skin="ivory"] .pamt{background:#FFFFFF;border-color:rgba(17,17,17,.15)
   </div>
 </div>
 <div class="filters" id="filterGrp">
+  <button type="button" class="ftoggle" id="fToggle" aria-expanded="false">필터</button>
   <span id="playerPills" style="display:contents"></span>
   <span class="sep"></span>
   <select id="fCh" aria-label="온라인 오프라인"><option value="all">온·오프 전체</option><option value="offline">오프라인</option><option value="online">온라인</option></select>
-  <select id="fKind" aria-label="대회 펍 구분"><option value="all">종류 전체</option><option value="cash">캐시 게임</option><option value="tour">대회</option><option value="sat">새틀라이트</option><option value="pub">홀덤펍</option></select>
-  <select id="fCur" aria-label="통화 구분"><option value="all">원화·외화 전체</option><option value="krw">원화</option><option value="fx">외화</option></select>
+  <select id="fKind" aria-label="대회 펍 구분"><option value="all">유형 전체</option><option value="dom">국내 페이아웃</option><option value="intl">국제 페이아웃</option><option value="sat">새틀라이트</option><option value="pub">홀덤펍 토너먼트</option><option value="cash">캐시게임</option></select>
+  <select id="fCur" aria-label="국내 해외 구분"><option value="all">국내·해외 전체</option><option value="krw">국내</option><option value="fx">해외</option></select>
 </div>
 <main class="content" id="view"></main>
 
+<nav class="bnav" id="bNav" aria-label="메인 메뉴">
+  <button data-view="dash" data-g="dash"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg><span>홈</span></button>
+  <button data-view="records" data-g="rec"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><span>기록</span></button>
+  <button data-view="tours" data-g="sched"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>대회 일정</span></button>
+  <button data-view="settings" data-g="my"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><span>MY</span></button>
+</nav>
 <button class="fab" id="fab" aria-label="기록 추가" title="기록 추가">+ 기록 추가</button>
 <div class="toast" id="toast"></div>
 <dialog id="evtDlg"><div class="dlg" id="evtBox"></div></dialog>
@@ -920,7 +1017,7 @@ html[data-skin="ivory"] .pamt{background:#FFFFFF;border-color:rgba(17,17,17,.15)
     <div class="grid2">
       <div class="full fmtseg" id="eFmt" role="group" aria-label="게임 방식"><button type="button" data-fmt="tour" aria-pressed="true">토너먼트</button><button type="button" data-fmt="cash" aria-pressed="false">캐시 게임</button></div>
       <label class="f">날짜<input type="date" id="eDate" required></label>
-      <label class="f t-only">종류<select id="eKind"><option value="tour">대회</option><option value="sat">새틀라이트</option><option value="pub">홀덤펍</option></select></label>
+      <label class="f t-only">게임 유형<select id="eKind"><option value="dom">국내 페이아웃 토너먼트</option><option value="intl">국제 페이아웃 토너먼트</option><option value="sat">새틀라이트</option><option value="pub">홀덤펍 토너먼트</option></select></label>
       <label class="f">온/오프라인<select id="eCh"><option value="offline">오프라인</option><option value="online">온라인</option></select></label>
       <div class="f full t-only"><span>대회 정보에서 불러오기 (고르면 이름·날짜·브랜드가 채워져요)</span><div id="ePick" class="picker2"></div><select id="eTour" hidden><option value="">직접 입력</option></select></div>
       <label class="f">플레이어<select id="ePlayer"></select></label>
@@ -934,24 +1031,30 @@ html[data-skin="ivory"] .pamt{background:#FFFFFF;border-color:rgba(17,17,17,.15)
       <div class="blindq c-only" id="eBlindQ"></div>
       <label class="f" hidden>장소 / 사이트<input id="eVenue" placeholder="예: 파라다이스 시티"></label>
       <label class="f">통화<select id="eCur"></select></label>
-      <label class="f"><span id="buyLbl">바이인 (1회)</span><input id="eBuy" inputmode="decimal" type="number" min="0" step="any" required></label>
+      <div class="f full t-only"><span>바이인 결제</span><div class="seg2" id="ePay"><button type="button" data-pay="cash" aria-pressed="true">현금</button><button type="button" data-pay="ticket" aria-pressed="false">참가권 사용</button></div>
+        <select id="eUseTicket" hidden></select></div>
+      <label class="f"><span id="buyLbl">바이인 (1회)</span><input id="eBuy" inputmode="decimal" type="text" data-money autocomplete="off" required></label>
       <label class="f t-only">엔트리 수 (리엔트리 포함)<input id="eEntries" inputmode="numeric" type="number" min="1" step="1" value="1"></label>
-      <label class="f">부대비용 (교통·숙박 등)<input id="eExtra" inputmode="decimal" type="number" min="0" step="any" value="0"></label>
-      <label class="f nosat"><span id="prizeLbl">위닝 금액 (상금)</span><input id="ePrize" inputmode="decimal" type="number" min="0" step="any" value="0"></label>
-      <label class="f sat-only">시트권 획득 수<input id="eSeats" inputmode="numeric" type="number" min="0" step="1" value="0" placeholder="0"></label>
-      <label class="f sat-only full">대상 대회 (어느 대회 시트권인지)<input id="eSeatFor" list="seatForList" placeholder="예: HPT Premium 메인 이벤트"></label>
-      <label class="f sat-only">시트권 1장 가치 (선택, 원)<input id="eSeatVal" inputmode="numeric" type="number" min="0" step="any" placeholder="ROI 계산용"></label>
+      <div class="f full t-only"><span>시상 형태</span><div class="seg2" id="ePT"><button type="button" data-pt="cash" aria-pressed="true">현금</button><button type="button" data-pt="ticket" aria-pressed="false">참가권</button></div></div>
+      <label class="f pt-cash"><span id="prizeLbl">상금 (현금)</span><input id="ePrize" inputmode="decimal" type="text" data-money autocomplete="off" value="0"></label>
+      <label class="f pt-ticket">참가권 획득 수<input id="eTickets" inputmode="numeric" type="number" min="0" step="1" value="0"></label>
+      <label class="f pt-ticket">참가권 1장 가치 (참고)<input id="eTicketVal" inputmode="decimal" type="text" data-money autocomplete="off" placeholder="수익에는 안 들어가요"></label>
+      <label class="f pt-ticket full">대상 대회 (어느 대회 참가권인지)<input id="eTicketFor" list="seatForList" placeholder="예: HPT Main Event"></label>
       <datalist id="seatForList"></datalist>
       <label class="f t-only">순위<input id="ePlace" inputmode="numeric" placeholder="예: 12"></label>
-      <label class="f t-only">총 엔트리 (필드)<input id="eField" inputmode="numeric" type="number" min="1" placeholder="예: 640"></label>
-      <label class="f">원정<select id="eTrip"></select></label>
-      <label class="f">환율 (1단위 = 원)<input id="eRate" inputmode="decimal" type="number" min="0" step="any"></label>
-      <label class="f full">메모<input id="eNote" placeholder="핸드 메모, 스택 등"></label>
+      <label class="f fx-only">환율 (1단위 = 원)<input id="eRate" inputmode="decimal" type="number" min="0" step="any"></label>
+      <details class="f full more" id="eMore"><summary>추가 정보 <span class="hint" id="eMoreSum" style="margin:0"></span></summary>
+        <div class="grid2" style="margin-top:10px">
+          <label class="f">원정<select id="eTrip"></select></label>
+          <label class="f t-only">총 엔트리 (필드)<input id="eField" inputmode="numeric" type="number" min="1" placeholder="예: 640"></label>
+          <label class="f">부대비용 (교통·숙박 등)<input id="eExtra" inputmode="decimal" type="text" data-money autocomplete="off" value="0"></label>
+          <label class="f full">메모<input id="eNote" placeholder="핸드 메모, 스택 등"></label>
+        </div></details>
     </div>
     <div class="calc num" id="eCalc"></div>
-    <p class="hint t-only">필수는 날짜·이벤트명·바이인뿐이에요. 새틀라이트는 위닝 금액 대신 시트권을 몇 장 땄는지 기록해요.</p>
+    <p class="hint t-only">필수는 날짜·이벤트명·바이인이에요. 수익과 ROI에는 현금만 들어가고, 참가권 가치는 참고로만 따로 보여요.</p>
     <p class="hint c-only">캐시는 총 바이인(추가 바이인·탑업 포함)과 아웃 금액만 넣으면 손익이 계산돼요. 플레이 시간을 넣으면 시간당 손익도 나와요.</p>
-    <div class="box" id="eHandsBox">
+    <div class="box" id="eHandsBox" hidden>
       <h4>핸드 리뷰 연결</h4>
       <div id="eHands"></div>
       <label class="f" id="eLinkWrap" style="margin-top:10px">저장해 둔 핸드 연결 (선택)<select id="eLinkHand"></select></label>
@@ -959,12 +1062,23 @@ html[data-skin="ivory"] .pamt{background:#FFFFFF;border-color:rgba(17,17,17,.15)
       <p class="hint" style="margin:6px 0 0">이 게임에서 복기할 핸드가 있으면, 기록을 저장하면서 바로 이 게임에 연결된 핸드 리뷰로 넘어가요.</p>
     </div>
     <div class="box">
-      <h4>지분 (스테이킹)</h4>
-      <p class="hint" style="margin:0">다른 플레이어가 이 바이인의 일부를 샀다면 추가하세요. 바이인과 상금이 지분만큼 나눠서 집계돼요.</p>
-      <div id="stakeRows"></div>
-      <div class="toolbar" style="margin:10px 0 0"><button type="button" class="btn" id="addStake">+ 지분 추가</button></div>
-      <label class="chk"><input type="checkbox" id="ePrepaid"> 지분 바이인은 이미 받았어요</label>
-    </div>
+      <h4>스테이킹 (투자)</h4>
+      <p class="hint" style="margin:0">투자자 1명(개인 또는 업체)이 바이인을 대신 내거나 나눠 냈다면 추가하세요. 바이인 부담과 상금 배분 비율을 따로 정할 수 있어요.</p>
+      <div id="stakeBox" hidden>
+        <div class="grid2" style="margin-top:10px">
+          <label class="f full">투자자<select id="sInv"></select><input id="sInvName" placeholder="이름 또는 업체명" style="margin-top:6px" hidden></label>
+          <label class="f">투자자 바이인 부담 %<input id="sBuyPct" inputmode="decimal" type="text" placeholder="예: 100"></label>
+          <label class="f">투자자 상금 배분 %<input id="sPrizePct" inputmode="decimal" type="text" placeholder="예: 50"></label>
+          <div class="quick full" id="sPresets"><button type="button" data-sp="100,50">투자자 100% 부담 · 상금 50:50</button><button type="button" data-sp="50,50">50:50 · 50:50</button><button type="button" data-sp="50,30">50:50 · 상금 7(나):3</button></div>
+          <label class="f full">계약 메모<input id="sMemo" placeholder="예: 메이크업 없음, 1월 정산"></label>
+        </div>
+        <label class="chk"><input type="checkbox" id="sBuyDone"> 투자자 바이인 몫은 이미 받았어요</label>
+        <label class="chk"><input type="checkbox" id="sPrizeDone"> 상금 배분 정산 완료</label>
+        <div class="calc num" id="sCalc"></div>
+        <div class="toolbar" style="margin:10px 0 0"><button type="button" class="btn danger" id="sRemove">스테이킹 삭제</button></div>
+      </div>
+      <div class="toolbar" id="sAddWrap" style="margin:10px 0 0"><button type="button" class="btn" id="addStake">+ 투자자 추가</button></div>
+</div>
   </div>
   <footer>
     <button type="button" class="btn danger" id="eDelete" hidden>삭제</button>
@@ -985,8 +1099,8 @@ html[data-skin="ivory"] .pamt{background:#FFFFFF;border-color:rgba(17,17,17,.15)
     <label class="f">시작일<input type="date" id="tStart"></label>
     <label class="f">종료일<input type="date" id="tEnd"></label>
     <label class="f">통화<select id="tCur"></select></label>
-    <label class="f">바이인<input id="tBuy" type="number" min="0" step="any"></label>
-    <label class="f">GTD (보장 상금)<input id="tGtd" type="number" min="0" step="any"></label>
+    <label class="f">바이인<input id="tBuy" inputmode="decimal" type="text" data-money autocomplete="off"></label>
+    <label class="f">GTD (보장 상금)<input id="tGtd" inputmode="decimal" type="text" data-money autocomplete="off"></label>
     <label class="f">링크<input id="tLink" type="url" placeholder="https://"></label>
     <label class="f">시작 스택<input id="tStack" type="number" min="0" placeholder="예: 30000"></label>
     <label class="f">블라인드 레벨<input id="tLevel" placeholder="예: 30분"></label>
@@ -1008,16 +1122,23 @@ html[data-skin="ivory"] .pamt{background:#FFFFFF;border-color:rgba(17,17,17,.15)
   <div class="body">
     <div class="grid2">
       <label class="f full">원정 이름<input id="rName" required placeholder="예: 11월 마닐라 APT"></label>
-      <label class="f">장소<input id="rPlace" placeholder="예: 마닐라"></label>
-      <label class="f">메모<input id="rMemo" placeholder="숙소, 항공편 등"></label>
+      <label class="f">국가<input id="rCountry" placeholder="예: 필리핀"></label>
+      <label class="f">도시<input id="rPlace" placeholder="예: 마닐라"></label>
+      <label class="f full">참가 대회 시리즈<input id="rSeries" placeholder="예: APT 마닐라 2026"></label>
+      <label class="f full">메모<input id="rMemo" placeholder="숙소, 항공편 등"></label>
       <label class="f">출발일<input type="date" id="rStart" required></label>
-      <label class="f">복귀일<input type="date" id="rEnd"></label>
+      <label class="f">귀국일<input type="date" id="rEnd"></label>
     </div>
     <div class="box">
-      <h4>원정 비용 (원화)</h4>
-      <p class="hint" style="margin:0">항공·숙박·식비처럼 대회 밖에서 쓴 돈이에요. 각자 쓴 금액으로 넣으면 원정 손익과 쓴 금액에 포함돼요.</p>
-      <div id="costRows"></div>
-      <div class="toolbar" style="margin:10px 0 0"><button type="button" class="btn" id="addCost">+ 비용 추가</button></div>
+      <h4>원정에 연결할 대회 일정</h4>
+      <p class="hint" style="margin:0">원정 기간에 열리는 대회 일정이에요. 참가할 대회를 체크해 두세요.</p>
+      <div id="rEvLinks" class="evlinks"></div>
+    </div>
+    <div class="box">
+      <h4>동행자</h4>
+      <p class="hint" style="margin:0">함께 간 사람 이름만 넣으면 돼요. 본인은 기본으로 포함돼요. 경비는 원정 상세의 "경비 내역"에서 추가해요.</p>
+      <div class="chips" id="rMembers" style="margin-top:10px"></div>
+      <div style="display:flex;gap:6px;margin-top:10px"><input id="rMemberName" placeholder="동행자 이름" style="flex:1;min-width:0;border:1px solid rgba(var(--ov),.1);background:rgba(var(--ov),.03);border-radius:8px;padding:8px 10px;color:var(--ink)"><button type="button" class="btn" id="rMemberAdd">추가</button></div>
     </div>
   </div>
   <footer>
@@ -1026,6 +1147,39 @@ html[data-skin="ivory"] .pamt{background:#FFFFFF;border-color:rgba(17,17,17,.15)
     <button type="button" class="btn" data-close>취소</button>
     <button type="submit" class="btn primary">저장</button>
   </footer>
+</form></dialog>
+
+<dialog id="expDlg"><form class="dlg" method="dialog" id="expForm">
+  <header><h3 id="expTitle">경비 추가</h3><button type="button" class="btn ghost" data-close>닫기</button></header>
+  <div class="body"><div class="grid2">
+    <label class="f">항목<select id="xCat"></select></label>
+    <label class="f">지출 날짜<input type="date" id="xDate"></label>
+    <label class="f full">지출명<input id="xTitle" placeholder="예: 호텔 3박, 공항 택시"></label>
+    <label class="f">금액<input id="xAmount" type="text" inputmode="decimal" data-money autocomplete="off"></label>
+    <label class="f">통화<select id="xCur"></select></label>
+    <div class="f full" id="xFx" hidden><span>외화 지출 · 적용 환율 또는 원화 환산액 중 하나</span><div style="display:flex;gap:8px"><input id="xRate" inputmode="decimal" placeholder="적용 환율 (1단위=원)" style="flex:1;min-width:0"><input id="xKrw" type="text" inputmode="numeric" data-money placeholder="원화 환산액 (선택)" style="flex:1;min-width:0"></div></div>
+    <label class="f">실제 결제자<select id="xPayer"></select></label>
+    <div class="f"><span>경비 구분</span><div class="seg2" id="xType"><button type="button" data-xt="personal">개인</button><button type="button" data-xt="shared">공동</button></div></div>
+    <label class="f full x-personal">부담하는 사람<select id="xOwner"></select></label>
+    <div class="f full x-shared"><span>분할 방식</span><div class="seg2" id="xMode"><button type="button" data-xm="equal">균등</button><button type="button" data-xm="amount">금액 직접</button><button type="button" data-xm="ratio">비율</button></div></div>
+    <div class="f full x-shared"><span>나눌 사람</span><div id="xParts" class="parts"></div></div>
+    <label class="f full">메모<input id="xMemo" placeholder="선택"></label>
+  </div>
+  <div class="calc num" id="xCalc"></div>
+  <p class="hint">원정 손익에는 본인 최종 부담액만 들어가요. 다른 사람 몫은 정산할 금액으로 따로 계산돼요.</p></div>
+  <footer><button type="button" class="btn danger" id="xDelete" hidden>삭제</button><span style="flex:1"></span><button type="button" class="btn" data-close>취소</button><button type="submit" class="btn primary">저장</button></footer>
+</form></dialog>
+
+<dialog id="xferDlg"><form class="dlg" method="dialog" id="xferForm">
+  <header><h3 id="xfTitle">송금 기록</h3><button type="button" class="btn ghost" data-close>닫기</button></header>
+  <div class="body"><div class="grid2">
+    <label class="f">보낸 사람<select id="xfFrom"></select></label>
+    <label class="f">받은 사람<select id="xfTo"></select></label>
+    <label class="f">금액 (원)<input id="xfAmount" type="text" inputmode="numeric" data-money autocomplete="off"></label>
+    <label class="f">송금 날짜<input type="date" id="xfDate"></label>
+    <label class="f full">메모<input id="xfMemo" placeholder="예: 카카오페이"></label>
+  </div><p class="hint">실제로 주고받은 금액만 기록하세요. 일부만 보내도 돼요.</p></div>
+  <footer><button type="button" class="btn danger" id="xfDelete" hidden>기록 취소</button><span style="flex:1"></span><button type="button" class="btn" data-close>닫기</button><button type="submit" class="btn primary">저장</button></footer>
 </form></dialog>
 
 <dialog id="pasteDlg"><div class="dlg">
@@ -1055,7 +1209,7 @@ const today = new Date();
 const S = {
   entries:[], tours:[], cfg:{rates:{...DEFAULT_RATES}, rateDate:'', players:[]},
   view:'dash', mode:'month', y:today.getFullYear(), m:today.getMonth()+1, q:Math.floor(today.getMonth()/3)+1,
-  f:{ch:'all',kind:'all',cur:'all',player:'all'}, h2h:null, dmode:null, trips:[], hands:[], hand:null, tourView:'cal', calY:today.getFullYear(), calM:today.getMonth()+1, editingTrip:null, editing:null, editingTour:null, parsed:[], myId:null, myName:''
+  f:{ch:'all',kind:'all',cur:'all',player:'all'}, h2h:null, dmode:null, trips:[], hands:[], hand:null, tripView:null, tripTab:'sum', tourView:'cal', calY:today.getFullYear(), calM:today.getMonth()+1, editingTrip:null, editing:null, editingTour:null, parsed:[], myId:null, myName:''
 };
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -1084,7 +1238,9 @@ const SKINS = [
 const SKIN_META = {noir:'#09090B', navy:'#0A1020', felt:'#07130E', ivory:'#F6F6F4'};
 function setSkin(id){ document.documentElement.dataset.skin=id; lsSet('evlog.skin', id); const m=document.querySelector('meta[name="theme-color"]'); if (m) m.content=SKIN_META[id]||'#09090B'; }
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
-const toast = t => { const el=$('#toast'); el.textContent=t; el.classList.add('on'); clearTimeout(toast._t); toast._t=setTimeout(()=>el.classList.remove('on'),1900); };
+const toast = t => { const el=$('#toast'); const host=document.querySelector('dialog[open]')||document.body; if (el.parentNode!==host) host.appendChild(el); el.textContent=t; el.classList.add('on'); clearTimeout(toast._t); toast._t=setTimeout(()=>el.classList.remove('on'),1900); };
+const num = v => { const n=parseFloat(String(v??'').replace(/,/g,'')); return Number.isFinite(n) ? n : 0; };
+const fmtIn = v => { if (v===''||v==null) return ''; const n=num(v); if (!n && String(v).trim()!=='0' && +v!==0) return ''; const [i,d]=String(n).split('.'); return Number(i).toLocaleString('en-US')+(d?'.'+d:''); };
 const lsGet = k => { try { return localStorage.getItem(k); } catch { return null; } };
 const lsSet = (k,v) => { try { localStorage.setItem(k,v); } catch {} };
 
@@ -1151,6 +1307,7 @@ const store = {
   async putCfg(){ if (this.mode==='db') await this.db.doc('config/settings').set(S.cfg); else this.saveLocal(); }
 };
 function ensureMe(){
+  if (Array.isArray(S.cfg.brands) && !S.cfg.brands.some(b=>b.type==='online')) S.cfg.brands.push({name:'Prime',type:'online'},{name:'포커브로스',type:'online'});
   if (!Array.isArray(S.cfg.brands)) S.cfg.brands = DEFAULT_BRANDS.map(b=>({...b}));
   S.cfg.players.forEach(p=>{ p.color = fixColor(p.color); });
   if (!S.cfg.players.length) S.cfg.players=[{id:uid(), name:S.myName||'나', color:PCOLORS[0], owner:S.myId||''}];
@@ -1164,23 +1321,48 @@ const myPlayerId = () => {
 };
 
 /* ---------- math ---------- */
-const shareOf = e => e.share==null ? 1 : e.share;
-const spentOf = e => ((+e.buyin||0)*(+e.entries||1) + (+e.extra||0)) * (+e.rate||1) * shareOf(e);
-const wonOf = e => (+e.prize||0) * (+e.rate||1) * shareOf(e);
-const buyOf = e => (+e.buyin||0)*(+e.entries||1)*(+e.rate||1);
-const validStakes = e => (e.stakes||[]).filter(s=>s.p && +s.pct>0 && s.p!==e.player);
-/* every money movement, split by who carries it: own share of each game, bought stakes, and trip costs */
-function rowsAll(){
-  const out=[];
-  for (const e of S.entries){
-    const st=validStakes(e), sold=Math.min(1, st.reduce((a,x)=>a+ +x.pct,0)/100);
-    out.push({...e, oid:e.id, share:1-sold});
-    st.forEach(x=>out.push({...e, oid:e.id, player:x.p, share:+x.pct/100, backing:true, horse:e.player}));
-  }
-  for (const t of S.trips) (t.costs||[]).forEach((c,i)=>{ if(!c.p || !(+c.amount>0)) return;
-    out.push({id:t.id+'#'+i, tripRow:t.id, trip:true, kind:'trip', ch:'offline', cur:'KRW', rate:1, date:t.start||'', name:'원정비 · '+t.name+(c.label?' ('+c.label+')':''), player:c.p, buyin:+c.amount, entries:1, extra:0, prize:0, tripId:t.id}); });
-  return out;
+const shareOf = e => 1;
+/* stake: one investor (friend player or a named person/company); buy-in share and prize share are separate */
+const stakeOf = e => { const st=e && e.stake; return st && ((+st.buyPct||0)>0 || (+st.prizePct||0)>0) ? st : null; };
+const buyGross = e => (+e.buyin||0) * Math.max(1, +e.entries||1);
+const buyCash = e => e.payType==='ticket' ? (+e.buyin||0) * Math.max(0, (+e.entries||1)-1) : buyGross(e);
+/* my own money in / out (stake shares removed, ticket entries cost no cash) */
+const spentOf = e => { if (e.trip) return (+e.buyin||0)*(+e.rate||1); const st=stakeOf(e), a=st? Math.min(100,+st.buyPct||0)/100 : 0; return (buyCash(e)*(1-a) + (+e.extra||0)) * (+e.rate||1); };
+const wonOf = e => { if (e.trip) return 0; const st=stakeOf(e), b=st? Math.min(100,+st.prizePct||0)/100 : 0; return (+e.prize||0)*(1-b)*(+e.rate||1); };
+/* whole-tournament result, before any stake split */
+const grossNet = e => ((+e.prize||0) - buyCash(e) - (+e.extra||0)) * (+e.rate||1);
+const buyOf = e => buyCash(e)*(+e.rate||1);
+const validStakes = e => [];
+const invName = st => st ? (st.inv ? P(st.inv).name : (st.invName||'투자자')) : '';
+function migrateEntry(e){
+  if (!e || e.v>=2) return e;
+  if (e.kind==='tour' || !e.kind) e.kind = (e.cur && e.cur!=='KRW') ? 'intl' : 'dom';
+  if (e.kind==='sat'){
+    const seats=+e.seats||0, val=+e.seatVal||0;
+    if (seats>0){ e.tickets=seats; e.ticketVal=val; e.ticketFor=e.seatFor||''; e.prize=Math.max(0,(+e.prize||0)-seats*val); }
+    e.prizeType = (+e.prize||0)>0 && !seats ? 'cash' : 'ticket';
+  } else if (!e.prizeType) e.prizeType='cash';
+  const st=(e.stakes||[]).find(x=>x && x.p && +x.pct>0 && x.p!==e.player);
+  if (st && !e.stake) e.stake={inv:st.p, invName:'', buyPct:+st.pct, prizePct:+st.pct, memo:'', buyDone:!!e.stakePrepaid, prizeDone:!!st.settled};
+  delete e.stakes; delete e.stakePrepaid;
+  e.v=2; return e;
 }
+function migrateAll(){
+  const need=S.entries.some(e=>!(e.v>=2));
+  if (!need) return false;
+  try{ if (!lsGet('evlog.backup.pre-v2')) lsSet('evlog.backup.pre-v2', JSON.stringify({entries:S.entries, trips:S.trips, cfg:S.cfg, at:new Date().toISOString()})); }catch{}
+  S.entries.forEach(migrateEntry);
+  return true;
+}
+/* tickets won and where they were used */
+function ticketPool(player){
+  return S.entries.filter(e=>(+e.tickets||0)>0 && (!player || e.player===player)).map(e=>{
+    const used=S.entries.filter(x=>x.usedFrom===e.id).length;
+    return {src:e.id, e, player:e.player, total:+e.tickets, used, left:Math.max(0,(+e.tickets)-used), name:e.ticketFor||'(대상 미입력)', val:+e.ticketVal||0};
+  }).sort((a,b)=>(b.e.date||'').localeCompare(a.e.date||''));
+}
+function rowsAll(){ return S.entries.map(e=>({...e, oid:e.id})); }
+function tripCostKRW(c){ return (+c.amount||0) * (c.cur && c.cur!=='KRW' ? (+c.rate || +S.cfg.rates[c.cur] || 0) : 1); }
 const parseD = d => { const [y,m] = (d||'').split('-').map(Number); return {y, m, q:Math.ceil(m/3)}; };
 function inPeriod(e, mode=S.mode, y=S.y, m=S.m, q=S.q){
   const d = parseD(e.date);
@@ -1192,40 +1374,42 @@ function passF(e, ignorePlayer){
   if (!ignorePlayer && S.f.player!=='all' && e.player!==S.f.player) return false;
   if (S.f.ch!=='all' && e.ch!==S.f.ch) return false;
   if (S.f.kind!=='all' && e.kind!==S.f.kind) return false;
-  if (S.f.cur==='krw' && e.cur!=='KRW') return false;
-  if (S.f.cur==='fx' && e.cur==='KRW') return false;
+  if (S.f.cur==='krw' && isIntl(e)) return false;
+  if (S.f.cur==='fx' && !isIntl(e)) return false;
   return true;
 }
 function calc(list){
   let spent=0, wonT=0, losing=0, itm=0, best=null;
   let count=0;
-  for (const e of list){ const s=spentOf(e), w=wonOf(e), n=w-s; spent+=s; wonT+=w; if (n<0) losing+=n; if (e.trip||e.backing) continue; count++; if (e.kind==='cash' ? n>0 : e.kind==='sat' ? (+e.seats>0 || w>0) : w>0) itm++; if (!best || n>best.n) best={n,e}; }
+  for (const e of list){ const s=spentOf(e), w=wonOf(e), n=w-s; spent+=s; wonT+=w; if (n<0) losing+=n; if (e.trip||e.backing) continue; count++; if (e.kind==='cash' ? n>0 : ((+e.prize||0)>0 || (+e.tickets||0)>0)) itm++; if (!best || n>best.n) best={n,e}; }
   const net=wonT-spent;
   return {spent, won:wonT, net, losing, itm, count, roi: spent? net/spent : null, best};
 }
-const DEFAULT_BRANDS = [{name:'PFGT',type:'tour'},{name:'HPT',type:'tour'},{name:'WPL',type:'tour'},{name:'APT',type:'tour'},{name:'WSOP',type:'tour'}];
+const DEFAULT_BRANDS = [{name:'PFGT',type:'tour'},{name:'HPT',type:'tour'},{name:'WPL',type:'tour'},{name:'APT',type:'tour'},{name:'WSOP',type:'tour'},{name:'Prime',type:'online'},{name:'포커브로스',type:'online'}];
 const brandsOf = type => (S.cfg.brands||[]).filter(b=>b.type===type).map(b=>b.name);
 function fillBrandSel(cur){
-  const kind=brandKind()==='pub'?'pub':'tour', all=(S.cfg.brands||[]).map(b=>b.name);
+  const bk=brandKind(), kind= bk==='online'?'online' : bk==='pub'?'pub':'tour', all=(S.cfg.brands||[]).map(b=>b.name);
   const g = (label,list) => list.length? `<optgroup label="${label}">${list.map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join('')}</optgroup>` : '';
-  const groups = kind==='pub' ? g('홀덤펍',brandsOf('pub'))+g('대회 브랜드',brandsOf('tour')) : g('대회 브랜드',brandsOf('tour'))+g('홀덤펍',brandsOf('pub'));
+  const groups = kind==='online' ? g('온라인 플랫폼',brandsOf('online'))+g('대회 브랜드',brandsOf('tour')) : kind==='pub' ? g('홀덤펍',brandsOf('pub'))+g('대회 브랜드',brandsOf('tour')) : g('대회 브랜드',brandsOf('tour'))+g('홀덤펍',brandsOf('pub'))+g('온라인 플랫폼',brandsOf('online'));
   $('#eBrandSel').innerHTML = `<option value="">선택 안 함</option>${groups}<option value="__new">+ 직접 입력</option>`;
-  $('#eBrandLbl').firstChild.textContent = curFmt()==='cash' ? '장소 / 펍 ' : kind==='pub' ? '자주 가는 펍 ' : '브랜드 ';
+  $('#eBrandLbl').firstChild.textContent = kind==='online' ? '온라인 플랫폼 ' : curFmt()==='cash' ? '장소 / 펍 ' : kind==='pub' ? '자주 가는 펍 ' : '브랜드 ';
   if (cur && !all.includes(cur)){ $('#eBrandSel').value='__new'; $('#eBrand').value=cur; $('#eBrandSave').checked=false; }
   else { $('#eBrandSel').value=cur||''; $('#eBrand').value=''; $('#eBrandSave').checked=true; }
   syncBrand();
 }
 function syncBrand(){
   const v=$('#eBrandSel').value; $('#eBrandWrap').hidden = v!=='__new';
-  const list = brandsOf(brandKind()==='pub'?'pub':'tour').slice(0,8);
-  $('#eQuick').innerHTML = list.map(n=>`<button type="button" data-qb="${esc(n)}" aria-pressed="${v===n}">${esc(n)}</button>`).join('') + `<button type="button" data-qnew style="border-style:dashed;color:var(--pri)">+ ${brandKind()==='pub'?'펍':'브랜드'} 추가</button>`;
+  const bk=brandKind(); const list = brandsOf(bk==='online'?'online':bk==='pub'?'pub':'tour').slice(0,8);
+  $('#eQuick').innerHTML = list.map(n=>`<button type="button" data-qb="${esc(n)}" aria-pressed="${v===n}">${esc(n)}</button>`).join('') + `<button type="button" data-qnew style="border-style:dashed;color:var(--pri)">+ ${bk==='online'?'플랫폼':bk==='pub'?'펍':'브랜드'} 추가</button>`;
 }
 const brandValue = () => $('#eBrandSel').value==='__new' ? $('#eBrand').value.trim() : $('#eBrandSel').value;
 function fillBrandList(){ $('#brandList').innerHTML = (S.cfg.brands||[]).map(b=>`<option value="${esc(b.name)}">`).join(''); }
-const KINDS = {tour:'대회', sat:'새틀라이트', pub:'홀덤펍', cash:'캐시'};
+const KINDS = {dom:'국내 페이아웃', intl:'국제 페이아웃', sat:'새틀라이트', pub:'홀덤펍', cash:'캐시', tour:'대회'};
+const isIntl = e => e.kind==='intl' || (!!e.cur && e.cur!=='KRW');
+const isPayout = e => e.kind==='dom' || e.kind==='intl' || e.kind==='tour';
 const isCash = e => e.kind==='cash';
 const curFmt = () => $('#entryDlg').dataset.fmt || 'tour';
-const brandKind = () => curFmt()==='cash' ? 'pub' : $('#eKind').value;
+const brandKind = () => $('#eCh').value==='online' ? 'online' : curFmt()==='cash' ? 'pub' : $('#eKind').value;
 const kindLabel = e => KINDS[e.kind] || '대회';
 const pct = v => v==null ? '–' : (v>0?'+':'') + (v*100).toFixed(1) + '%';
 
@@ -1439,7 +1623,7 @@ function budgetCard(ALL){
   }).join('')}${set.some(p=>playerMonthSpent(p.id,y,m,ALL)>=+p.budget)?`<p class="hint down" style="margin-top:8px">예산을 넘긴 플레이어가 있어요. 이번 달은 쉬어가는 것도 방법이에요.</p>`:''}</section>`;
 }
 function reentryCard(list){
-  const games = list.filter(e=>!e.trip && !e.backing && e.kind==='tour');
+  const games = list.filter(e=>!e.trip && !e.backing && isPayout(e));
   const single = games.filter(e=>(+e.entries||1)===1), multi = games.filter(e=>(+e.entries||1)>1);
   const cs=calc(single), cm=calc(multi);
   const avgE = multi.length? (multi.reduce((a,e)=>a+(+e.entries||1),0)/multi.length).toFixed(1) : '–';
@@ -1464,12 +1648,22 @@ function fieldCard(pList, players){
     <div class="tablewrap"><table class="num"><thead><tr><th></th><th>평균</th><th>최고</th><th>상위 15%</th></tr></thead><tbody>${rows}</tbody></table></div>
     <p class="hint" style="margin-top:10px">상금을 못 받은 대회도 얼마나 깊이 갔는지 보여줘요.</p></section>`;
 }
+function shortKRW(n){ n=+n||0; if (n>=1e8){ const v=n/1e8; return (Number.isInteger(v)?v:v.toFixed(1))+'억'; } if (n>=1e4) return Math.round(n/1e4).toLocaleString()+'만'; return n.toLocaleString(); }
+function dDay(d){ const t=todayISO(); const [y1,m1,d1]=t.split('-').map(Number), [y2,m2,d2]=d.split('-').map(Number); const n=Math.round((Date.UTC(y2,m2-1,d2)-Date.UTC(y1,m1-1,d1))/864e5); return n===0?'D-DAY':`D-${n}`; }
 function upcomingCard(span, onlyFor){
-  const todayStr = todayISO();
-  const up = S.tours.filter(t=>(t.end||t.start||'')>=todayStr && (!onlyFor || !(t.going||[]).length || (t.going||[]).includes(onlyFor))).sort((a,b)=>(a.start||'').localeCompare(b.start||'')).slice(0,5);
-  return `<section class="card ${span}"><h2>다가오는 대회 <button data-view="tours">대회 정보</button></h2>
-    ${up.length? `<div class="mini">${up.map(t=>`<button data-edittour="${esc(t.id)}"><span style="min-width:0;flex:1"><span class="t">${t.brand?`<span class="tag b">${esc(t.brand)}</span>`:''}${esc(t.name)} ${goingAvs(t)}</span><span class="m">${esc(t.start||'')}${t.end&&t.end!==t.start?' ~ '+esc(t.end):''}</span></span><span class="v n">${t.buyin?fmtCur(t.buyin,t.cur):''}<small>${t.gtd?'GTD '+fmtCur(t.gtd,t.cur):''}</small></span></button>`).join('')}</div>`
-      : `<p class="hint">등록된 예정 대회가 없어요.</p><div class="toolbar" style="margin:12px 0 0"><a class="btn" href="https://www.bluffcatch.com/tournaments" target="_blank" rel="noopener">블러프캐치 일정 ↗</a><button class="btn" data-act="addTour">+ 대회 등록</button></div>`}</section>`;
+  const t=todayISO(), me=onlyFor||myPlayerId();
+  // next occurrence per event (one row per tournament, not one per flight)
+  const seen=new Map();
+  schedItems().filter(it=>!it.trip && it.date>=t).forEach(it=>{
+    const gk = it.builtin ? `${it.se.id}|${it.ev.id}` : `t|${it.tour.id}`;
+    if (!seen.has(gk)) seen.set(gk, it);
+  });
+  const fav = it => isFav(itemGroupKey(it)) || itemGoing(it).includes(me);
+  const list=[...seen.values()].sort((a,b)=> (fav(b)-fav(a)) || (a.date+a.time).localeCompare(b.date+b.time)).slice(0,6);
+  const name = it => { let n = it.builtin ? it.ev.name : it.title; if (it.brand && n.toUpperCase().startsWith(it.brand.toUpperCase())) n=n.slice(it.brand.length).trim(); return n; };
+  return `<section class="card ${span}"><h2>다가오는 대회 <button data-view="tours">대회 일정</button></h2>
+    ${list.length? `<div class="mini">${list.map(it=>{ const dd=dDay(it.date); return `<button data-evt="${esc(it.key)}"><span class="dday ${dd==='D-DAY'||/^D-[1-3]$/.test(dd)?'soon':''}">${dd}</span><span style="min-width:0;flex:1"><span class="t">${it.brand?`<span class="tag b">${esc(it.brand)}</span>`:''}${esc(name(it))}${fav(it)?' <span class="favmark" title="즐겨찾기">★</span>':''}</span><span class="m">${it.sub?esc(it.sub)+' · ':''}${dShort(it.date)}${it.time?' '+esc(it.time):''}${(it.venue||(it.tour&&it.tour.venue))?' · '+esc(it.venue||it.tour.venue):''}${(()=>{ const g = it.day&&it.day.gtd ? it.day.gtd : it.ev&&it.ev.gtd ? it.ev.gtd : it.tour&&it.tour.gtd ? it.tour.gtd : 0; return g? ` · <b class="gtd">GTD ${shortKRW(g)}</b>` : ''; })()}</span></span></button>`; }).join('')}</div>`
+      : `<p class="hint">예정된 대회가 없어요. 대회 일정에서 확인하거나 직접 등록해 보세요.</p><div class="toolbar" style="margin:12px 0 0"><button class="btn" data-view="tours">대회 일정 보기</button><button class="btn" data-act="addTour">+ 대회 등록</button></div>`}</section>`;
 }
 function detailCard(ch, players, ALL, span){
   const unit = S.mode==='month'? `${S.y}년 월별` : S.mode==='quarter'? `${S.y}년 분기별` : '연도별';
@@ -1505,7 +1699,7 @@ function highlightCard(list){
   </div></section>`;
 }
 function matchupCard(A, B, pList){
-  const cats = [['대회',e=>e.kind==='tour'],['새틀라이트',e=>e.kind==='sat'],['펍 토너먼트',e=>e.kind==='pub'],['캐시 게임',e=>e.kind==='cash'],['오프라인',e=>e.ch==='offline'&&!e.trip],['온라인',e=>e.ch==='online'],['원화',e=>e.cur==='KRW'&&!e.trip],['외화',e=>e.cur!=='KRW']];
+  const cats = [['국내 페이아웃',e=>e.kind==='dom'],['국제 페이아웃',e=>e.kind==='intl'],['새틀라이트',e=>e.kind==='sat'],['홀덤펍',e=>e.kind==='pub'],['캐시 게임',e=>e.kind==='cash'],['오프라인',e=>e.ch==='offline'&&!e.trip],['온라인',e=>e.ch==='online'],['국내',e=>!isIntl(e)&&!e.trip],['해외',e=>isIntl(e)]];
   const brandSet = [...new Set(pList.filter(e=>e.brand&&!e.trip).map(e=>e.brand))];
   const rows = cats.concat(brandSet.map(b=>[b, e=>e.brand===b])).map(([l,fn])=>{
     const ca=calc(pList.filter(e=>e.player===A.id&&fn(e))), cb=calc(pList.filter(e=>e.player===B.id&&fn(e)));
@@ -1518,14 +1712,14 @@ function matchupCard(A, B, pList){
 }
 function satCard(list){
   const g=list.filter(e=>e.kind==='sat' && !e.trip && !e.backing); if (!g.length) return '';
-  const seats=g.reduce((a,e)=>a+(+e.seats||0),0), wins=g.filter(e=>+e.seats>0).length, c=calc(g);
-  const byT={}; g.filter(e=>+e.seats>0).forEach(e=>{ const k=e.seatFor||'대상 미입력'; byT[k]=(byT[k]||0)+(+e.seats); });
+  const seats=g.reduce((a,e)=>a+(+e.tickets||0),0), wins=g.filter(e=>+e.tickets>0).length, c=calc(g), tval=g.reduce((a,e)=>a+(+e.tickets||0)*(+e.ticketVal||0)*(+e.rate||1),0);
+  const byT={}; g.filter(e=>+e.tickets>0).forEach(e=>{ const k=e.ticketFor||'대상 미입력'; byT[k]=(byT[k]||0)+(+e.tickets); });
   return `<section class="card s12"><h2>새틀라이트 <span class="sub">${periodLabel()}</span></h2>
     <div class="statgrid n" style="grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:${Object.keys(byT).length?14:0}px">
       <div class="statbox"><span>참가</span><b>${g.length}회</b><small>쓴 ${won(c.spent)}</small></div>
-      <div class="statbox"><span>획득 시트권</span><b>${seats}장</b><small>성공 ${wins}회</small></div>
+      <div class="statbox"><span>획득 참가권</span><b>${seats}장</b><small>${tval? '참고 가치 '+won(tval) : '성공 '+wins+'회'}</small></div>
       <div class="statbox"><span>성공률</span><b>${Math.round(wins/g.length*100)}%</b><small>시트 1장 이상</small></div>
-      <div class="statbox"><span>시트 1장당 비용</span><b>${seats? won(c.spent/seats) : '–'}</b><small>쓴 금액 ÷ 시트권</small></div>
+      <div class="statbox"><span>참가권 1장당 비용</span><b>${seats? won(c.spent/seats) : '–'}</b><small>쓴 금액 ÷ 참가권</small></div>
     </div>
     ${Object.keys(byT).length? `<div class="chips">${Object.entries(byT).map(([k,v])=>`<span class="bchip" style="padding-right:12px">${esc(k)} · <b>${v}장</b></span>`).join('')}</div>`:''}
   </section>`;
@@ -1561,7 +1755,7 @@ function summaryStrip(p, ALL, pc, prev){
   const Y = today.getFullYear(), M = today.getMonth()+1;
   const cy = calc(mine.filter(e=>inPeriod(e,'year',Y)));
   const cm = calc(mine.filter(e=>inPeriod(e,'month',Y,M)));
-  const gNet = +p.goalNet||0, gRoi = (p.goalRoi===''||p.goalRoi==null) ? null : +p.goalRoi;
+  const gNet = 0, gRoi = (p.goalRoi===''||p.goalRoi==null) ? null : +p.goalRoi;
   const prog = gNet>0 ? Math.max(0, cy.net/gNet) : null;
   const bud = +p.budget||0, budR = bud ? cm.spent/bud : null;
   const hm = +p.hmTotal||0, usd = +S.cfg.rates.USD||0;
@@ -1579,7 +1773,7 @@ function summaryStrip(p, ALL, pc, prev){
     </div>
     <div class="sum-grid">
       <div class="sum"><span>누적 위닝 프라이즈</span><b class="n">${won(prizeAll)}</b><small>입상 ${itm.length}회 · 파이널 테이블 ${ft}회</small></div>
-      <div class="sum"><span>${Y}년 순수익</span><b class="n ${ud(cy.net)}">${sgn(cy.net)}</b>${prog!=null? bar(prog,'var(--gold)')+`<small>목표 ${won(gNet)} · ${Math.round(Math.max(0,cy.net)/gNet*100)}% 달성</small>` : `<small>연간 목표를 정하면 달성률이 보여요</small>`}</div>
+      <div class="sum"><span>${Y}년 순수익</span><b class="n ${ud(cy.net)}">${sgn(cy.net)}</b>${prog!=null? bar(prog,'var(--gold)')+`<small>목표 ${won(gNet)} · ${Math.round(Math.max(0,cy.net)/gNet*100)}% 달성</small>` : `<small>${cy.count}회 · 쓴 ${won(cy.spent)}</small>`}</div>
       <div class="sum"><span>${Y}년 ROI${gRoi!=null?` · 목표 ${gRoi}%`:''}</span><b class="n ${ud(cy.roi||0)}">${pct(cy.roi)}</b><small>${gRoi!=null? ((cy.roi||0)*100>=gRoi? '목표 달성 중' : `목표까지 ${(gRoi-(cy.roi||0)*100).toFixed(1)}%p`) : `${cy.count}회 참가`}</small></div>
       <div class="sum"><span>최고 위닝</span><b class="n">${bestPrize? won(wonOf(bestPrize)) : '–'}</b><small>${bestPrize? esc(bestPrize.name)+' · '+esc(bestPrize.date.slice(0,7).replace('-','.')) : '아직 입상 기록이 없어요'}</small></div>
       <div class="sum"><span>${M}월 순수익</span><b class="n ${ud(cm.net)}">${sgn(cm.net)}</b>${budR!=null? bar(budR, budR>=1?'var(--down)':budR>=.7?'#E0A93A':'var(--up)')+`<small>예산 ${won(bud)} 중 ${Math.round(budR*100)}%</small>` : `<small>${cm.count}회 · 쓴 ${won(cm.spent)}</small>`}</div>
@@ -1599,6 +1793,8 @@ function renderSoloDash(p, ALL){
   const brandRows = Object.entries(brands).map(([k,l])=>[k,calc(l)]).sort((a,b)=>b[1].net-a[1].net).map(([k,c])=>trOf(esc(k),c)).join('');
   return `<div class="dash">
   ${summaryStrip(p, ALL, c, prevCalc(e=>base(e)&&e.player===p.id))}
+  ${monthCard(p)}
+  ${insightCard(p)}
   <section class="card s8"><h2>누적 손익 추이 <span class="sub">${periodLabel()}</span></h2><div class="chartbox">${cumulativeSVG(pList, [p])}</div></section>
   ${highlightCard(list)}
   <dl class="kpis s12 n">
@@ -1618,11 +1814,13 @@ function renderSoloDash(p, ALL){
   <section class="card s4"><h2>최근 기록 <button data-view="records">전체 보기</button></h2>
     ${recent.length? `<div class="mini">${recent.map(miniEntry).join('')}</div>` : `<p class="hint">이 기간에는 기록이 없어요.</p>`}</section>
   ${splitCard('온라인 / 오프라인', [['오프라인',e=>e.ch==='offline'],['온라인',e=>e.ch==='online']], list)}
-  ${splitCard('토너먼트 / 캐시', [['대회',e=>e.kind==='tour'],['새틀라이트',e=>e.kind==='sat'],['펍 토너먼트',e=>e.kind==='pub'],['캐시 게임',e=>e.kind==='cash']], list)}
-  ${splitCard('원화 / 외화', [['원화',e=>e.cur==='KRW'],['외화',e=>e.cur!=='KRW']], list)}
+  ${splitCard('게임 유형별', [['국내 페이아웃',e=>e.kind==='dom'],['국제 페이아웃',e=>e.kind==='intl'],['새틀라이트',e=>e.kind==='sat'],['홀덤펍',e=>e.kind==='pub'],['캐시게임',e=>e.kind==='cash']].filter(([l,fn])=>list.some(fn)), list)}
+  ${splitCard('국내 / 해외', [['국내',e=>!isIntl(e)],['해외',e=>isIntl(e)]], list)}
   ${detailCard(ch, [p], ALL, 's7')}
   ${upcomingCard('s5', p.id)}
+  ${tripSummaryCard()}
   ${brandRows? `<section class="card s12"><h2>브랜드별 성적 <span class="sub">${periodLabel()} · ${esc(p.name)}</span></h2><div class="tablewrap"><table class="num tbl-money">${TH()}<tbody>${brandRows}</tbody></table></div></section>`:''}
+  ${S.cfg.players.length>1? `<section class="card s12 cmpcard"><div><h2 style="margin:0 0 4px">친구와 비교</h2><p class="hint" style="margin:0">함께 기록하는 친구와 이번 기간 성적을 맞대결로 비교해요.</p></div><button class="btn" data-dmode="vs">비교 보기 →</button></section>`:''}
   </div>`;
 }
 function renderVsDash(A, B, ALL){
@@ -1647,44 +1845,49 @@ function renderVsDash(A, B, ALL){
 function renderDash(){
   if (!S.entries.length){
     return `<div class="empty"><div style="font-family:Georgia,serif;font-size:26px;letter-spacing:18px;margin-bottom:14px;color:var(--gold)">♠♥♦♣</div><b>EV log에 오신 걸 환영해요</b>토너먼트와 캐시 게임 수익을 기록하고, 친구와 성적을 비교하는 포커 장부예요.
-      <ol style="text-align:left;max-width:380px;margin:18px auto;line-height:1.9;color:var(--ink)"><li><b style="display:inline;font-size:inherit">설정</b>에서 내 이름(지금은 "나")을 바꿔요</li><li>비교할 친구가 있으면 플레이어로 추가해요</li><li><b style="display:inline;font-size:inherit">+ 기록 추가</b>로 첫 게임을 기록해요</li></ol>
+      <ol style="text-align:left;max-width:380px;margin:18px auto;line-height:1.9;color:var(--ink)"><li><b style="display:inline;font-size:inherit">MY</b>에서 내 이름(지금은 "나")을 바꿔요</li><li>비교할 친구가 있으면 플레이어로 추가해요</li><li><b style="display:inline;font-size:inherit">+ 기록 추가</b>로 첫 게임을 기록해요</li></ol>
       <p class="hint" style="margin:0 0 18px">기록은 이 브라우저에만 저장돼요. 설정의 데이터 백업으로 가끔 백업해 주세요.</p>
-      <button class="btn primary" data-act="add">첫 기록 추가</button> <button class="btn" data-view="settings">이름 바꾸기</button></div>`;
+      <button class="btn primary" data-act="add">첫 기록 추가</button> <button class="btn" data-view="settings">이름 바꾸기</button></div>
+      <div class="dash" style="margin-top:16px">${upcomingCard('s12')}</div>`;
   }
   const ALL = rowsAll();
   if (S.dmode==='vs'){
     const pair = h2hPair();
-    if (pair) return renderVsDash(pair[0], pair[1], ALL);
+    if (pair) return `<div class="toolbar" style="margin-bottom:12px"><button class="btn" data-dmode="solo">← 내 성적으로</button></div>` + renderVsDash(pair[0], pair[1], ALL);
     return `<div class="empty"><b>대결하려면 플레이어가 두 명 이상 필요해요</b>설정에서 친구를 플레이어로 추가해 주세요.<br><br><button class="btn primary" data-view="settings">플레이어 추가</button> <button class="btn" data-dmode="solo">개인으로 보기</button></div>`;
   }
   const pid = S.f.player!=='all' ? S.f.player : myPlayerId();
   return renderSoloDash(P(pid), ALL);
 }
 function entryRow(e){
-  const s=spentOf(e), w=wonOf(e), n=w-s;
-  return `<button class="row" data-edit="${esc(e.id)}">
-    <span class="t">${esc(e.name)}</span>
-    <span class="m">${whoTag(e.player)} · <span class="tag">${kindLabel(e)}</span><span class="tag">${e.ch==='online'?'온라인':'오프라인'}</span>${e.cur!=='KRW'?`<span class="tag b">${esc(e.cur)}</span>`:''}${esc(e.date)}${e.place?' · '+esc(e.place)+'위':''}${e.kind==='sat'&&+e.seats?' · 시트 '+e.seats+'장':''}${isCash(e)&&e.blinds?' · '+esc(e.blinds):''}${isCash(e)&&e.hours?' · '+e.hours+'시간':''}${handsOf(e.id).length?` <span class="tag b">핸드 ${handsOf(e.id).length}</span>`:''}</span>
-    <span class="v n"><b class="${ud(n)}">${sgn(n)}</b><small>쓴 ${won(s)}</small></span>
+  const s=spentOf(e), w=wonOf(e), n=w-s, st=stakeOf(e);
+  const itm = !isCash(e) && ((+e.prize||0)>0 || (+e.tickets||0)>0);
+  const res = isCash(e) ? (e.hours? e.hours+'시간' : '') : e.place ? `${esc(e.place)}위${e.field? '/'+e.field : ''}` : '';
+  return `<button class="row rcard" data-edit="${esc(e.id)}">
+    <span class="rc-top"><span class="rc-name">${esc(e.name)}</span><b class="rc-net n ${ud(n)}">${sgn(n)}</b></span>
+    <span class="rc-meta">${esc(e.date.slice(2).replace(/-/g,'.'))} · ${kindLabel(e)}${e.ch==='online'?' · 온라인':''}${S.cfg.players.length>1&&S.f.player==='all'?' · '+esc(P(e.player).name):''}</span>
+    <span class="rc-bot n"><span>바이인 ${e.payType==='ticket'?'참가권':won(buyCash(e)*(+e.rate||1))}</span><span>상금 ${won((+e.prize||0)*(+e.rate||1))}</span>${res?`<span>${res}</span>`:''}${itm?'<span class="tag b">ITM</span>':''}${+e.tickets?`<span class="tag b">참가권 ${e.tickets}장</span>`:''}${st?`<span class="tag">투자 ${st.buyPct}/${st.prizePct}</span>`:''}${handsOf(e.id).length?`<span class="tag">핸드 ${handsOf(e.id).length}</span>`:''}</span>
   </button>`;
 }
 function renderRecords(){
-  const list = S.entries.filter(e=>inPeriod(e)&&passF(e,true)&&(S.f.player==='all'||e.player===S.f.player||validStakes(e).some(x=>x.p===S.f.player))).sort((a,b)=>b.date.localeCompare(a.date));
+  const list = S.entries.filter(e=>inPeriod(e)&&passF(e,true)&&(S.f.player==='all'||e.player===S.f.player)).sort((a,b)=>b.date.localeCompare(a.date));
   const rows = rowsAll().filter(e=>inPeriod(e)&&passF(e));
   const c = calc(rows);
-  const tool = `<div class="toolbar"><button class="btn" data-act="csv">CSV 내보내기</button><span style="margin-left:auto" class="hint n">${list.length}건 · 쓴 ${won(c.spent)} · 번 ${won(c.won)} · <b class="${ud(c.net)}">${sgn(c.net)}</b> <span style="color:var(--faint)">(지분·원정비 반영)</span></span></div>`;
-  if (!list.length) return tool + `<div class="empty"><b>${periodLabel()}에는 기록이 없어요</b>기간이나 플레이어를 바꾸거나 새 기록을 추가해 보세요.</div>`;
-  const stakeTag = e => { const st=validStakes(e); return st.length? st.map(x=>`<span class="tag b">${esc(P(x.p).name)} ${+x.pct}%</span>`).join('') : ''; };
+  const tool = `<div class="toolbar"><button class="btn" data-act="csv">CSV 내보내기</button><span style="margin-left:auto" class="hint n">${list.length}건 · 쓴 ${won(c.spent)} · 번 ${won(c.won)} · <b class="${ud(c.net)}">${sgn(c.net)}</b> <span style="color:var(--faint)">(스테이킹 반영 · 원정비 제외)</span></span></div>`;
+  const pool=ticketPool(S.f.player==='all'? null : S.f.player).filter(t=>t.left>0);
+  const tk = pool.length ? `<section class="card" style="margin-bottom:14px"><h2>미사용 참가권 <span class="sub">${pool.reduce((a,t)=>a+t.left,0)}장</span></h2><div class="mini">${pool.map(t=>`<button data-edit="${esc(t.src)}"><span style="min-width:0;flex:1"><span class="t">🎟 ${esc(t.name)}</span><span class="m">${esc(t.e.date)} · ${esc(t.e.name)}${S.cfg.players.length>1?' · '+esc(P(t.player).name):''}</span></span><span class="v n">${t.left}장<small>${t.val?'1장 '+won(t.val*(+t.e.rate||1)):''}</small></span></button>`).join('')}</div><p class="hint" style="margin:8px 0 0">기록 추가에서 바이인 결제를 "참가권 사용"으로 고르면 여기서 차감돼요.</p></section>` : '';
+  if (!list.length) return tool + tk + `<div class="empty"><b>${periodLabel()}에는 기록이 없어요</b>기간이나 플레이어를 바꾸거나 새 기록을 추가해 보세요.</div>`;
+  const stakeTag = e => { const st=stakeOf(e); return st? `<span class="tag b">${esc(invName(st))} ${st.buyPct}/${st.prizePct}</span>` : ''; };
   const table = `<section class="card only-wide" style="padding:6px 22px"><div class="tablewrap"><table class="num data"><thead><tr>
     <th class="l">날짜</th><th class="l">플레이어</th><th class="l">이름</th><th class="l">구분</th><th>바이인</th><th>엔트리</th><th>상금</th><th>순위</th><th>상위</th><th>핸드</th><th>쓴 금액</th><th>번 금액</th><th>순손익</th></tr></thead><tbody>
     ${list.map(e=>{const s=spentOf(e),w=wonOf(e),n=w-s,tp=topPct(e);return `<tr data-edit="${esc(e.id)}" tabindex="0">
       <td class="l">${esc(e.date)}</td><td class="l">${whoTag(e.player)}</td><td class="l"><b>${esc(e.name)}</b>${e.src?` <span class="tag">공유</span>`:''}${e.brand?` <span class="tag b">${esc(e.brand)}</span>`:''}${isCash(e)? `${e.blinds?` <span class="tag">${esc(e.blinds)}</span>`:''}${e.hours?` <span class="tag">${e.hours}h</span>`:''}`:''}${e.tripId&&S.trips.find(t=>t.id===e.tripId)?` <span class="tag">원정</span>`:''}</td>
       <td class="l"><span class="tag">${kindLabel(e)}</span><span class="tag">${e.ch==='online'?'온라인':'오프라인'}</span>${stakeTag(e)}</td>
-      <td>${fmtCur(e.buyin,e.cur)}</td><td>${isCash(e)?'–':e.entries}</td><td>${e.kind==='sat' ? (+e.seats? `<b>시트 ${e.seats}장</b>` : '–') : e.prize?fmtCur(e.prize,e.cur):'–'}${isCash(e)?'<small style="color:var(--faint)"> 아웃</small>':''}</td><td>${esc(e.place||'–')}${e.field?`<small style="color:var(--faint)">/${esc(e.field)}</small>`:''}</td><td>${tp!=null?(tp*100).toFixed(0)+'%':'–'}</td>
+      <td>${fmtCur(e.buyin,e.cur)}</td><td>${isCash(e)?'–':e.entries}</td><td>${e.prize?fmtCur(e.prize,e.cur):''}${+e.tickets? `${e.prize?'<br>':''}<b>참가권 ${e.tickets}장</b>` : ''}${!e.prize&&!+e.tickets?'–':''}${isCash(e)?'<small style="color:var(--faint)"> 아웃</small>':''}</td><td>${esc(e.place||'–')}${e.field?`<small style="color:var(--faint)">/${esc(e.field)}</small>`:''}</td><td>${tp!=null?(tp*100).toFixed(0)+'%':'–'}</td>
       <td>${handsOf(e.id).length? `<button class="hcount" data-handsfor="${esc(e.id)}">${handsOf(e.id).length}</button>` : `<button class="hcount add" data-handadd="${esc(e.id)}" title="이 게임 핸드 기록">+</button>`}</td><td>${won(s)}</td><td>${won(w)}</td><td class="${ud(n)}"><b>${sgn(n)}</b></td></tr>`;}).join('')}
     </tbody></table></div></section>
-    <p class="hint">표의 금액은 기록 전체 기준이에요. 지분을 판 기록은 대시보드에서 각자 지분만큼 나눠서 집계돼요.</p>`;
-  return tool + table + `<div class="list only-narrow">${list.map(entryRow).join('')}</div>`;
+    <p class="hint only-wide">쓴 금액·번 금액은 스테이킹을 반영한 내 몫이에요. 참가권 가치와 원정 경비는 들어가지 않아요.</p>`;
+  return tool + tk + table + `<div class="list only-narrow">${list.map(entryRow).join('')}</div>`;
 }
 function goingAvs(t){ const g=(t.going||[]).filter(id=>S.cfg.players.some(p=>p.id===id)); return g.length? `<span class="avs">${g.map(id=>avatar(P(id))).join('')}</span>` : ''; }
 /* ---------- tournament schedule (built in, shared through the deployed file) ----------
@@ -1863,13 +2066,14 @@ function calLabel(it){
 }
 function evtRows(rows){ return `<dl class="evt-dl">${rows.filter(r=>r[1]!==''&&r[1]!=null&&r[1]!==0).map(([k,v])=>`<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>`; }
 function openEvt(key){
-  const it=schedItems().find(x=>x.key===key); if (!it) return;
+  const it=schedItems().find(x=>x.key===key); if (!it) return; S.evtOpenKey=key;
+  const gk=itemGroupKey(it), star = gk? `<button type="button" class="favbtn ${isFav(gk)?'on':''}" data-fav="${esc(gk)}" aria-label="즐겨찾기">${isFav(gk)?'★':'☆'}</button>` : '';
   if (it.trip){ openTrip(it.trip); return; }
   let html='';
   if (it.builtin){
     const {se,ev}=it, cur=ev.cur||'KRW', gk=`${se.id}|${ev.id}`, going=((S.cfg.schedGoing||{})[gk])||[];
     const poster = ev.poster||se.poster;
-    html = `<header><div><div class="evt-eyebrow">${se.brand?`<span class="tag b">${esc(se.brand)}</span>`:''}${esc(se.series||'')}<span class="tag">공식 일정</span></div><h3>${esc(ev.name)}</h3></div><button type="button" class="btn ghost" data-close>닫기</button></header>
+    html = `<header><div><div class="evt-eyebrow">${se.brand?`<span class="tag b">${esc(se.brand)}</span>`:''}${esc(se.series||'')}<span class="tag">공식 일정</span></div><h3>${esc(ev.name)}</h3></div><div style="display:flex;gap:6px;align-items:center">${star}<button type="button" class="btn ghost" data-close>닫기</button></div></header>
       <div class="body">
         ${poster? `<a href="${esc(poster)}" target="_blank" rel="noopener" class="evt-poster"><img src="${esc(poster)}" alt="${esc(se.series||'')} 포스터" loading="lazy"></a>`:''}
         ${it.day.label && !/^day/i.test(it.day.label) ? `<p class="evt-today">${esc(it.day.label)} · ${dShort(it.date)} ${esc(it.day.time||'')}</p>`:''}
@@ -1882,7 +2086,7 @@ function openEvt(key){
       <footer><span style="flex:1"></span><button type="button" class="btn primary" data-evtentry="${esc(key)}">이 대회 기록 추가</button></footer>`;
   } else {
     const t=it.tour, days=parseDays(t.days, (t.start||todayISO()).slice(0,4));
-    html = `<header><div><div class="evt-eyebrow">${t.brand?`<span class="tag b">${esc(t.brand)}</span>`:''}${t.start? esc(t.start.slice(5).replace('-','/'))+(t.end&&t.end!==t.start?' ~ '+esc(t.end.slice(5).replace('-','/')):''):''}</div><h3>${esc(t.name)}</h3></div><button type="button" class="btn ghost" data-close>닫기</button></header>
+    html = `<header><div><div class="evt-eyebrow">${t.brand?`<span class="tag b">${esc(t.brand)}</span>`:''}${t.start? esc(t.start.slice(5).replace('-','/'))+(t.end&&t.end!==t.start?' ~ '+esc(t.end.slice(5).replace('-','/')):''):''}</div><h3>${esc(t.name)}</h3></div><div style="display:flex;gap:6px;align-items:center">${star}<button type="button" class="btn ghost" data-close>닫기</button></div></header>
       <div class="body">
         ${evtRows([['바이인', t.buyin? `<b class="n">${fmtCur(t.buyin,t.cur)}</b>`:''],['GTD', t.gtd? `<span class="n">${fmtCur(t.gtd,t.cur)}</span>`:''],['시작 스택', t.stack? `<span class="n">${Number(t.stack).toLocaleString()}</span>`:''],['블라인드 레벨', esc(t.level||'')],['레이트 레지', esc(t.latereg||'')],['장소', t.venue? `${esc(t.venue)} <a href="https://map.naver.com/p/search/${encodeURIComponent(t.venue)}" target="_blank" rel="noopener" class="maplink">지도 ↗</a>`:''],['참가 예정', goingAvs(t)]])}
         ${days.length? `<h4 class="evt-h">일정</h4><div class="evt-days">${days.map(d=>`<div class="${d.date===it.date?'cur':''}"><b>${esc(d.label)}</b><span class="n">${d.date? dShort(d.date):''} ${esc(d.time||'')}</span></div>`).join('')}</div>`:''}
@@ -1925,9 +2129,9 @@ function schedEntryName(it){
 function fillEntryFromSched(key){
   const it=schedItems().find(x=>x.key===key); if (!it) return;
   S.formEvKey = key;
-  if (it.tour){ const t=it.tour; $('#eName').value=t.name; $('#eVenue').value=t.venue||''; fillBrandSel(t.brand||''); $('#eCh').value=t.ch||'offline'; $('#eCur').value=t.cur||'KRW'; if (t.buyin) $('#eBuy').value=t.buyin; }
-  else { const {se,ev,day}=it; $('#eName').value=schedEntryName(it); fillBrandSel(se.brand||''); $('#eVenue').value=day.venue||se.venue||''; $('#eCh').value='offline'; $('#eCur').value=ev.cur||'KRW'; if (ev.buyin) $('#eBuy').value=ev.buyin; }
-  $('#eKind').value = /새틀|satellite/i.test(schedEntryName(it)) ? 'sat' : 'tour';
+  if (it.tour){ const t=it.tour; $('#eName').value=t.name; $('#eVenue').value=t.venue||''; fillBrandSel(t.brand||''); $('#eCh').value=t.ch||'offline'; $('#eCur').value=t.cur||'KRW'; if (t.buyin) $('#eBuy').value=fmtIn(t.buyin); }
+  else { const {se,ev,day}=it; $('#eName').value=schedEntryName(it); fillBrandSel(se.brand||''); $('#eVenue').value=day.venue||se.venue||''; $('#eCh').value='offline'; $('#eCur').value=ev.cur||'KRW'; if (ev.buyin) $('#eBuy').value=fmtIn(ev.buyin); }
+  $('#eKind').value = /새틀|satellite/i.test(schedEntryName(it)) ? 'sat' : ($('#eCur').value!=='KRW' ? 'intl' : 'dom'); if (!S.editing && typeof setPT==='function') setPT($('#eKind').value==='sat'?'ticket':'cash');
   $('#eRate').value = $('#eCur').value==='KRW'?1:(S.cfg.rates[$('#eCur').value]||''); $('#eRate').disabled = $('#eCur').value==='KRW';
   $('#eDate').value=it.date; autoTrip(); syncKind(); updCalc(); if (typeof renderEntryPick==='function') renderEntryPick();
 }
@@ -1940,12 +2144,13 @@ function entryFromEvt(key){
 function renderTours(){
   const tours = [...S.tours].sort((a,b)=>(b.start||'').localeCompare(a.start||''));
   const tool = `<div class="toolbar">
-    <div class="seg"><button data-tv="cal" aria-pressed="${S.tourView!=='list'}">달력</button><button data-tv="list" aria-pressed="${S.tourView==='list'}">목록</button></div>
+    <div class="seg"><button data-tv="cal" aria-pressed="${S.tourView!=='list'&&S.tourView!=='fav'}">달력</button><button data-tv="list" aria-pressed="${S.tourView==='list'}">목록</button><button data-tv="fav" aria-pressed="${S.tourView==='fav'}">★ 즐겨찾기${favs().length?' '+favs().length:''}</button></div>
     <span style="flex:1"></span>
     <a class="btn" href="https://www.bluffcatch.com/tournaments" target="_blank" rel="noopener">블러프캐치 ↗</a>
     <button class="btn primary" data-act="addTour">+ 대회 등록</button></div>`;
+  if (S.tourView==='fav') return tool + favListView();
   if (S.tourView!=='list') return tool + renderCalendar();
-  const series = SCHEDULE.length ? `<section class="card"><h2>공식 일정 <span class="sub">모든 사용자에게 같이 보여요</span></h2><div class="mini">${SCHEDULE.map(se=>{ const ds=(se.events||[]).flatMap(e=>(e.days||[]).map(d=>d.date)).filter(Boolean).sort(); return (se.events||[]).map(ev=>{ const up=(ev.days||[]).filter(d=>d.date&&d.date>=todayISO()); const d0=up[0]||(ev.days||[]).find(d=>d.date); const key=d0? `s|${se.id}|${ev.id}|${ev.days.indexOf(d0)}`:''; return `<button ${key?`data-evt="${esc(key)}"`:''}><span style="min-width:0;flex:1"><span class="t">${se.brand?`<span class="tag b">${esc(se.brand)}</span>`:''}${esc(ev.name)}</span><span class="m">${esc(se.series||'')}${(()=>{ const ds=(ev.days||[]).map(d=>d.date).filter(Boolean).sort(); if (!ds.length) return ''; const f=ds[0], l=ds[ds.length-1], t=todayISO(); if (f===l) return ' · '+dShort(f); let out=' · '+dShort(f)+' ~ '+dShort(l); if (t>f && t<=l && d0) out+=` <b class="more-days">다음 ${dShort(d0.date)}</b>`; else if (t>l) out+=' <b class="more-days ended">종료</b>'; return out; })()}${se.venue?' · '+esc(se.venue):''}</span></span><span class="v n">${ev.gtd?'GTD '+fmtCur(ev.gtd,ev.cur||'KRW'):''}<small>${ev.buyin?fmtCur(ev.buyin,ev.cur||'KRW'):esc(ev.buyinText||'')}</small></span></button>`; }).join(''); }).join('')}</div></section>` : '';
+  const series = SCHEDULE.length ? `<section class="card"><h2>공식 일정 <span class="sub">모든 사용자에게 같이 보여요</span></h2><div class="mini">${SCHEDULE.map(se=>{ const ds=(se.events||[]).flatMap(e=>(e.days||[]).map(d=>d.date)).filter(Boolean).sort(); return (se.events||[]).map(ev=>{ const up=(ev.days||[]).filter(d=>d.date&&d.date>=todayISO()); const d0=up[0]||(ev.days||[]).find(d=>d.date); const key=d0? `s|${se.id}|${ev.id}|${ev.days.indexOf(d0)}`:''; return `<button ${key?`data-evt="${esc(key)}"`:''}><span class="favbtn ${isFav(se.id+'|'+ev.id)?'on':''}" data-fav="${esc(se.id+'|'+ev.id)}" role="button" aria-label="즐겨찾기">${isFav(se.id+'|'+ev.id)?'★':'☆'}</span><span style="min-width:0;flex:1"><span class="t">${se.brand?`<span class="tag b">${esc(se.brand)}</span>`:''}${esc(ev.name)}</span><span class="m">${esc(se.series||'')}${(()=>{ const ds=(ev.days||[]).map(d=>d.date).filter(Boolean).sort(); if (!ds.length) return ''; const f=ds[0], l=ds[ds.length-1], t=todayISO(); if (f===l) return ' · '+dShort(f); let out=' · '+dShort(f)+' ~ '+dShort(l); if (t>f && t<=l && d0) out+=` <b class="more-days">다음 ${dShort(d0.date)}</b>`; else if (t>l) out+=' <b class="more-days ended">종료</b>'; return out; })()}${se.venue?' · '+esc(se.venue):''}</span></span><span class="v n">${ev.gtd?'GTD '+fmtCur(ev.gtd,ev.cur||'KRW'):''}<small>${ev.buyin?fmtCur(ev.buyin,ev.cur||'KRW'):esc(ev.buyinText||'')}</small></span></button>`; }).join(''); }).join('')}</div></section>` : '';
   if (!tours.length) return tool + series + `<div class="empty"><b>직접 등록한 대회가 없어요</b>자주 나가는 대회를 등록하면 달력과 기록 입력에 바로 쓸 수 있어요.</div>`;
   const cols = S.cfg.players;
   const table = `<section class="card only-wide" style="padding:6px 22px"><div class="tablewrap"><table class="num data"><thead><tr>
@@ -1976,44 +2181,24 @@ document.addEventListener('change', async ev=>{
   try{ await store.putCfg(); }catch{} render();
 });
 
-function tripStats(t){
-  const rows = rowsAll().filter(e=>e.tripId===t.id);
-  return S.cfg.players.map(p=>{ const mine=rows.filter(e=>e.player===p.id); if(!mine.length) return null;
-    const games=calc(mine.filter(e=>!e.trip)), cost=calc(mine.filter(e=>e.trip)).spent;
-    return {p, games, cost, net:games.net-cost, n:mine.filter(e=>!e.trip&&!e.backing).length}; }).filter(Boolean);
-}
-function renderTrips(){
-  const trips=[...S.trips].sort((a,b)=>(b.start||'').localeCompare(a.start||''));
-  const tool = `<div class="toolbar"><span class="hint" style="margin:0">여러 대회와 항공·숙박비를 하나로 묶어서 원정 전체 손익을 봐요.</span><span style="flex:1"></span><button class="btn primary" data-act="addTrip">+ 원정 만들기</button></div>`;
-  if (!trips.length) return tool + `<div class="empty"><b>아직 원정이 없어요</b>마닐라, 제주처럼 묶어서 다녀온 일정을 만들고, 기록 추가할 때 원정을 선택하세요.</div>`;
-  return tool + `<div class="trips">${trips.map(t=>{
-    const st=tripStats(t), tot=st.reduce((a,x)=>a+x.net,0);
-    return `<button class="trip" data-edittrip="${esc(t.id)}">
-      <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start"><div><h3>${esc(t.name)}</h3><div class="when">${esc(t.start||'')}${t.end&&t.end!==t.start?' ~ '+esc(t.end):''}${t.place?' · '+esc(t.place):''}</div></div>
-      <div style="text-align:right"><div class="n ${ud(tot)}" style="font-size:22px;font-weight:700;white-space:nowrap">${sgn(tot)}</div><div class="hint" style="margin:0">원정 전체</div></div></div>
-      ${st.length? `<div class="tablewrap"><table class="num"><thead><tr><th></th><th>대회</th><th>대회 손익</th><th>원정비</th><th>최종</th></tr></thead><tbody>${st.map(x=>`<tr><td>${whoTag(x.p.id)}</td><td>${x.n}</td><td class="${ud(x.games.net)}">${sgn(x.games.net)}</td><td>${x.cost?'-'+won(x.cost):'–'}</td><td class="${ud(x.net)}"><b>${sgn(x.net)}</b></td></tr>`).join('')}</tbody></table></div>`
-        : `<p class="hint">기록 추가할 때 이 원정을 선택하면 여기에 모여요.</p>`}
-    </button>`; }).join('')}</div>`;
-}
 function stakeItems(){
-  const out=[];
-  for (const e of S.entries) validStakes(e).forEach((x,i)=>{
-    const f=+x.pct/100, buy=e.stakePrepaid?0:buyOf(e)*f, prize=wonOf({...e,share:1})*f;
-    out.push({e, i, backer:x.p, horse:e.player, pct:+x.pct, buy, prize, owe:prize-buy, settled:!!x.settled});
-  });
-  return out.sort((a,b)=>b.e.date.localeCompare(a.e.date));
+  return S.entries.filter(e=>stakeOf(e)).map(e=>{
+    const st=e.stake, r=+e.rate||1, a=(+st.buyPct||0)/100, b=(+st.prizePct||0)/100;
+    const invBuy=buyCash(e)*a*r, invPrize=(+e.prize||0)*b*r;
+    const owe=(st.prizeDone?0:invPrize) - (st.buyDone?0:invBuy);   // + : player pays the investor
+    return {e, st, name:invName(st), key:e.player+'|'+(st.inv?'p:'+st.inv:'n:'+invName(st)), invBuy, invPrize, owe, open: !st.buyDone || !st.prizeDone};
+  }).sort((x,y)=>y.e.date.localeCompare(x.e.date));
 }
 function renderSettle(){
-  const items=stakeItems(), open=items.filter(x=>!x.settled);
-  const pair={};
-  open.forEach(x=>{ const [a,b]=[x.horse,x.backer].sort(); const k=a+'|'+b; pair[k]=pair[k]||{a,b,amt:0,n:0}; pair[k].amt += (x.horse===a? x.owe : -x.owe); pair[k].n++; });
-  const owes = Object.values(pair).map(p=>{ const from = p.amt>=0? p.a : p.b, to = p.amt>=0? p.b : p.a; return {from,to,amt:Math.abs(p.amt),n:p.n,key:p.a+'|'+p.b}; });
-  const head = `<p class="hint" style="margin:-6px 0 18px">기록에 지분을 넣으면, 상금에서 지분만큼 돌려줄 돈과 아직 안 받은 지분 바이인을 합쳐 서로 주고받을 금액을 계산해요.</p>`;
-  if (!items.length) return head + `<div class="empty"><b>정산할 지분이 없어요</b>기록 추가 화면 아래쪽 '지분'에서 친구가 산 비율을 넣어보세요.</div>`;
+  const items=stakeItems(), groups={};
+  items.filter(x=>x.open).forEach(x=>{ const g=groups[x.key]=groups[x.key]||{key:x.key, player:x.e.player, name:x.name, amt:0, n:0}; g.amt+=x.owe; g.n++; });
+  const head = `<p class="hint" style="margin:-6px 0 18px">스테이킹이 있는 기록마다, 투자자가 아직 안 낸 바이인 몫과 내가 아직 안 준 상금 몫을 합쳐 주고받을 금액을 계산해요.</p>`;
+  if (!items.length) return head + `<div class="empty"><b>정산할 스테이킹이 없어요</b>기록 추가 화면 아래쪽 '스테이킹'에서 투자자와 비율을 넣어보세요.</div>`;
+  const gl=Object.values(groups);
   return head + `<div class="dash">
-    <section class="card s5"><h2>지금 정산할 금액</h2>${owes.length? owes.map(o=>`<div class="owe">${whoTag(o.from)}<span class="arrow">→</span>${whoTag(o.to)}<span class="amt n">${won(o.amt)}</span><button class="btn" data-settle="${esc(o.key)}">정산 완료</button><span class="hint" style="width:100%;margin:0">미정산 지분 ${o.n}건</span></div>`).join('') : '<p class="hint">모두 정산됐어요.</p>'}</section>
-    <section class="card s7"><h2>지분 내역</h2><div class="tablewrap"><table class="num data tbl-settle"><thead><tr><th class="l">날짜</th><th class="l">대회</th><th class="l">플레이어</th><th class="l">지분 산 사람</th><th>지분</th><th>바이인 몫</th><th>상금 몫</th><th>상태</th></tr></thead><tbody>
-      ${items.map(x=>`<tr data-edit="${esc(x.e.id)}" tabindex="0"><td class="l">${esc(x.e.date)}</td><td class="l">${esc(x.e.name)}</td><td class="l">${whoTag(x.horse)}</td><td class="l">${whoTag(x.backer)}</td><td>${x.pct}%</td><td>${x.buy?won(x.buy):'<span style="color:var(--faint)">받음</span>'}</td><td>${x.prize?won(x.prize):'–'}</td><td>${x.settled?'<span class="tag">정산됨</span>':'<span class="tag b">미정산</span>'}</td></tr>`).join('')}
+    <section class="card s5"><h2>지금 정산할 금액</h2>${gl.length? gl.map(g=>{ const pay=g.amt>=0; return `<div class="owe">${pay? whoTag(g.player) : `<span class="who-tag">${esc(g.name)}</span>`}<span class="arrow">→</span>${pay? `<span class="who-tag">${esc(g.name)}</span>` : whoTag(g.player)}<span class="amt n">${won(Math.abs(g.amt))}</span><button class="btn" data-settle="${esc(g.key)}">정산 완료</button><span class="hint" style="width:100%;margin:0">${pay?'내가 줄 돈':'내가 받을 돈'} · 미정산 ${g.n}건</span></div>`; }).join('') : '<p class="hint">모두 정산됐어요.</p>'}</section>
+    <section class="card s7"><h2>스테이킹 내역</h2><div class="tablewrap"><table class="num data tbl-settle"><thead><tr><th class="l">날짜</th><th class="l">대회</th><th class="l">플레이어</th><th class="l">투자자</th><th>바이인 · 상금</th><th>투자자 바이인 몫</th><th>투자자 상금 몫</th><th>상태</th></tr></thead><tbody>
+      ${items.map(x=>`<tr data-edit="${esc(x.e.id)}" tabindex="0"><td class="l">${esc(x.e.date)}</td><td class="l">${esc(x.e.name)}</td><td class="l">${whoTag(x.e.player)}</td><td class="l">${esc(x.name)}</td><td>${x.st.buyPct}% · ${x.st.prizePct}%</td><td>${x.invBuy?won(x.invBuy):'–'}${x.invBuy&&x.st.buyDone?' <span class="tag">받음</span>':''}</td><td>${x.invPrize?won(x.invPrize):'–'}${x.invPrize&&x.st.prizeDone?' <span class="tag">줌</span>':''}</td><td>${x.open?'<span class="tag b">미정산</span>':'<span class="tag">정산됨</span>'}</td></tr>`).join('')}
     </tbody></table></div></section></div>`;
 }
 function renderSettings(){
@@ -2025,7 +2210,7 @@ function renderSettings(){
   </section>
   <section class="card s5"><h2>플레이어</h2>
     <p class="hint" style="margin:-6px 0 14px">장부를 같이 쓰는 사람과 각자의 한 달 바이인 예산이에요. 예산의 70%, 100%에 닿으면 대시보드에 경고가 떠요.</p>
-    <div class="players">${S.cfg.players.map(p=>`<div class="p">${avatar(p)}<input type="text" value="${esc(p.name)}" data-pname="${esc(p.id)}" aria-label="플레이어 이름"><input type="number" min="0" step="10000" value="${+p.budget||''}" data-pbudget="${esc(p.id)}" placeholder="월 예산 (원)" aria-label="월 예산" style="width:130px;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:8px 10px" class="num"><input type="color" value="${esc(p.color)}" data-pcolor="${esc(p.id)}" aria-label="색"><button class="btn ghost" data-pdel="${esc(p.id)}">삭제</button></div>`).join('')}</div>
+    <div class="players">${S.cfg.players.map(p=>`<div class="p">${avatar(p)}<input type="text" value="${esc(p.name)}" data-pname="${esc(p.id)}" aria-label="플레이어 이름"><input type="text" inputmode="numeric" data-money autocomplete="off" value="${fmtIn(+p.budget||'')}" data-pbudget="${esc(p.id)}" placeholder="월 예산 (원)" aria-label="월 예산" style="width:130px;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:8px 10px" class="num"><input type="color" value="${esc(p.color)}" data-pcolor="${esc(p.id)}" aria-label="색"><button class="btn ghost" data-pdel="${esc(p.id)}">삭제</button></div>`).join('')}</div>
     <div class="toolbar" style="margin:0"><button class="btn" data-act="addPlayer">+ 플레이어 추가</button><button class="btn" data-act="gotoShare">+ 친구 코드로 추가</button><button class="btn primary" data-act="savePlayers">저장</button></div>
     <label class="f" style="margin-top:18px">이 기기에서 나는<select id="mePick">${S.cfg.players.map(p=>`<option value="${esc(p.id)}" ${p.id===mine?'selected':''}>${esc(p.name)}</option>`).join('')}</select></label>
     <p class="hint">기록 추가할 때 이 플레이어가 기본으로 선택돼요.</p>
@@ -2041,12 +2226,12 @@ function renderSettings(){
   ${shareCard()}
   <section class="card s12"><h2>목표 · 핸던몹</h2>
     <p class="hint" style="margin:-6px 0 14px">개인 대시보드 맨 위 요약에 표시돼요. 핸던몹은 공개 연동 기능이 없어서, 프로필 주소와 누적 상금을 직접 넣어두면 요약에서 바로 비교하고 열어볼 수 있어요.</p>
-    <div class="tablewrap"><table class="goals"><thead><tr><th class="l">플레이어</th><th class="l">${today.getFullYear()}년 순수익 목표 (원)</th><th class="l">목표 ROI (%)</th><th class="l">핸던몹 프로필 주소</th><th class="l">핸던몹 누적 상금 ($)</th></tr></thead><tbody>
+    <div class="tablewrap"><table class="goals"><thead><tr><th class="l">플레이어</th><th class="l">월 목표 수익 (원)</th><th class="l">목표 ROI (%)</th><th class="l">핸던몹 프로필 주소</th><th class="l">핸던몹 누적 상금 ($)</th></tr></thead><tbody>
     ${S.cfg.players.map(p=>`<tr><td class="l">${whoTag(p.id)}</td>
-      <td class="l" data-lbl="연간 순수익 목표 (원)"><input class="gin num" type="number" min="0" step="100000" data-gnet="${esc(p.id)}" value="${+p.goalNet||''}" placeholder="예: 5000000"></td>
+      <td class="l" data-lbl="월 목표 수익 (원)"><input class="gin num" type="text" inputmode="numeric" data-money autocomplete="off" data-gnet="${esc(p.id)}" value="${fmtIn(+p.goalMonth||'')}" placeholder="예: 5000000"></td>
       <td class="l" data-lbl="목표 ROI (%)"><input class="gin num" type="number" step="1" data-groi="${esc(p.id)}" value="${p.goalRoi??''}" placeholder="예: 20"></td>
       <td class="l" data-lbl="핸던몹 프로필 주소"><input class="gin" type="url" data-hmurl="${esc(p.id)}" value="${esc(p.hmUrl||'')}" placeholder="https://pokerdb.thehendonmob.com/player.php?n=…" style="min-width:260px"></td>
-      <td class="l" data-lbl="핸던몹 누적 상금 ($)"><input class="gin num" type="number" min="0" step="1" data-hmtot="${esc(p.id)}" value="${+p.hmTotal||''}" placeholder="예: 12500"></td></tr>`).join('')}
+      <td class="l" data-lbl="핸던몹 누적 상금 ($)"><input class="gin num" type="text" inputmode="numeric" data-money autocomplete="off" data-hmtot="${esc(p.id)}" value="${fmtIn(+p.hmTotal||'')}" placeholder="예: 12500"></td></tr>`).join('')}
     </tbody></table></div>
     <div class="toolbar" style="margin:14px 0 0"><button class="btn primary" data-act="saveGoals">목표 저장</button><a class="btn" href="https://www.thehendonmob.com/" target="_blank" rel="noopener">핸던몹에서 내 프로필 찾기 ↗</a></div>
   </section>
@@ -2062,7 +2247,8 @@ function renderSettings(){
     <div class="toolbar" style="margin:16px 0 0"><button class="btn primary" data-act="saveRates">환율 저장</button><a class="btn" href="https://www.google.com/search?q=%ED%99%98%EC%9C%A8" target="_blank" rel="noopener">오늘 환율 확인 ↗</a></div>
   </section></div>`;
 }
-const TITLES = {dash:'대시보드', records:'기록', hands:'핸드 리뷰', tours:'대회 정보', trips:'원정', settle:'지분 정산', settings:'설정'};
+const TITLES = {dash:'홈', records:'수익 기록', hands:'핸드 리뷰', tours:'대회 일정', trips:'원정 관리', settle:'스테이킹·정산', settings:'MY'};
+const NAV_GROUP = {dash:'dash', records:'rec', hands:'rec', settle:'rec', trips:'rec', tours:'sched', settings:'my'};
 function renderPills(){
   if (S.view==='dash' && S.dmode==='vs'){ $('#playerPills').innerHTML=''; return; }
   const solo = S.view==='dash';
@@ -2071,17 +2257,21 @@ function renderPills(){
     S.cfg.players.map(p=>`<button class="pill" data-player="${esc(p.id)}" aria-pressed="${cur===p.id}">${avatar(p)}${esc(p.name)}</button>`).join('');
 }
 function render(){
-  if (!S.dmode && S.cfg.players.length) S.dmode = lsGet('evlog.dmode') || (S.cfg.players.length>1 ? 'vs' : 'solo');
+  if (!S.dmode && S.cfg.players.length) S.dmode = lsGet('evlog.dmode') || 'solo';
   if (S.f.player!=='all' && !S.cfg.players.some(p=>p.id===S.f.player)) S.f.player='all';
   document.querySelectorAll('nav.tabs button').forEach(b=>b.setAttribute('aria-selected', b.dataset.view===S.view));
+  document.querySelectorAll('#bNav button').forEach(b=>b.setAttribute('aria-current', b.dataset.g===NAV_GROUP[S.view] ? 'page' : 'false'));
+  $('#subNav').classList.toggle('on', NAV_GROUP[S.view]==='rec');
+  document.querySelectorAll('#subNav button').forEach(b=>b.setAttribute('aria-current', b.dataset.view===S.view ? 'page' : 'false'));
+  { const nf=['ch','kind','cur'].filter(k=>S.f[k]!=='all').length; $('#fToggle').textContent = nf? `필터 ${nf}` : '필터'; $('#fToggle').classList.toggle('on', nf>0); }
   document.querySelectorAll('#modeSeg button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.mode===S.mode));
   $('#pLabel').textContent = periodLabel();
   const per = S.view==='dash'||S.view==='records';
   $('#pageTitle').textContent = per ? periodLabel() : TITLES[S.view];
-  $('#pageEyebrow').textContent = per ? (S.view==='dash' ? (S.dmode==='vs'?'대결 대시보드':'개인 대시보드') : TITLES[S.view])+' · '+({month:'월간',quarter:'분기',year:'연간'})[S.mode] : 'EV log';
+  $('#pageEyebrow').textContent = per ? (S.view==='dash' ? (S.dmode==='vs'?'친구와 비교':'내 성적') : TITLES[S.view])+' · '+({month:'월간',quarter:'분기',year:'연간'})[S.mode] : (NAV_GROUP[S.view]==='rec' ? '기록' : 'EV log');
   $('#periodArea').style.display = per ? 'flex' : 'none';
   $('#filterGrp').style.display = per ? '' : 'none';
-  $('#dmodeSeg').style.display = S.view==='dash' ? '' : 'none';
+  $('#dmodeSeg').style.display = 'none';
   document.querySelectorAll('#dmodeSeg button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.dmode===S.dmode));
   $('.filters .sep').style.display = (S.view==='dash' && S.dmode==='vs') ? 'none' : '';
   renderPills(); fillBrandList();
@@ -2100,79 +2290,112 @@ function fillSelects(){
   $('#ePlayer').innerHTML = playerOpts();
   $('#eTrip').innerHTML = '<option value="">없음</option>' + [...S.trips].sort((a,b)=>(b.start||'').localeCompare(a.start||'')).map(t=>`<option value="${esc(t.id)}">${esc(t.name)}</option>`).join('');
 }
-function stakeRowHTML(x={}){
-  return `<div class="stake-row"><label class="f">지분 산 사람<select data-sp>${playerOpts(x.p)}</select></label><label class="f">지분 %<input type="number" min="1" max="100" step="any" data-spct value="${x.pct??''}" placeholder="예: 30"></label><button type="button" class="btn ghost" data-srm>삭제</button>${x.settled?'<input type="hidden" data-sset value="1">':''}</div>`;
+const fPT = () => $('#entryDlg').dataset.pt || 'cash';
+const fPay = () => $('#entryDlg').dataset.pay || 'cash';
+function setPT(v){ $('#entryDlg').dataset.pt=v; document.querySelectorAll('#ePT button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.pt===v)); updCalc(); }
+function setPay(v){ $('#entryDlg').dataset.pay=v; document.querySelectorAll('#ePay button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.pay===v)); fillTicketUse(); $('#eUseTicket').hidden = v!=='ticket'; $('#buyLbl').textContent = v==='ticket' ? '참가권 액면가 (참고)' : (curFmt()==='cash' ? '총 바이인 (탑업 포함)' : '바이인 (1회)'); updCalc(); }
+function fillTicketUse(){
+  const me=$('#ePlayer').value, cur=S.editing && S.editing.usedFrom;
+  const pool=ticketPool(me).filter(t=>t.left>0 || t.src===cur);
+  $('#eUseTicket').innerHTML = pool.length ? '<option value="">사용할 참가권 선택</option>' + pool.map(t=>`<option value="${esc(t.src)}" ${t.src===cur?'selected':''}>${esc(t.name)} · ${esc((t.e.date||'').slice(5).replace('-','/'))} ${esc(t.e.name)} 획득 · 남은 ${t.src===cur? t.left+1 : t.left}장</option>`).join('') : '<option value="">사용할 수 있는 참가권이 없어요</option>';
 }
-function readStakes(){
-  return [...document.querySelectorAll('#stakeRows .stake-row')].map(r=>({p:r.querySelector('[data-sp]').value, pct:+r.querySelector('[data-spct]').value||0, settled:!!r.querySelector('[data-sset]')})).filter(x=>x.p && x.pct>0);
+/* stake block */
+function stakeInvOptions(sel){
+  const me=$('#ePlayer').value, others=S.cfg.players.filter(p=>p.id!==me);
+  const names=[...new Set((S.cfg.investors||[]))];
+  return `<option value="">투자자 선택</option>${others.length?`<optgroup label="친구 플레이어">${others.map(p=>`<option value="p:${esc(p.id)}" ${sel==='p:'+p.id?'selected':''}>${esc(p.name)}</option>`).join('')}</optgroup>`:''}${names.length?`<optgroup label="저장된 투자자">${names.map(n=>`<option value="n:${esc(n)}" ${sel==='n:'+n?'selected':''}>${esc(n)}</option>`).join('')}</optgroup>`:''}<option value="__new" ${sel==='__new'?'selected':''}>+ 직접 입력 (이름·업체)</option>`;
+}
+function showStake(st){
+  const on=!!st; $('#stakeBox').hidden=!on; $('#sAddWrap').hidden=on;
+  if (!on) return;
+  const sel = st.inv ? 'p:'+st.inv : st.invName ? ((S.cfg.investors||[]).includes(st.invName) ? 'n:'+st.invName : '__new') : ((S.cfg.investors||[]).length||S.cfg.players.length>1 ? '' : '__new');
+  $('#sInv').innerHTML=stakeInvOptions(sel); $('#sInvName').hidden = sel!=='__new'; $('#sInvName').value = sel==='__new' ? (st.invName||'') : '';
+  $('#sBuyPct').value = st.buyPct ?? ''; $('#sPrizePct').value = st.prizePct ?? ''; $('#sMemo').value=st.memo||''; $('#sBuyDone').checked=!!st.buyDone; $('#sPrizeDone').checked=!!st.prizeDone;
+}
+function readStake(){
+  if ($('#stakeBox').hidden) return null;
+  const v=$('#sInv').value; let inv='', name='';
+  if (v.startsWith('p:')) inv=v.slice(2); else if (v.startsWith('n:')) name=v.slice(2); else if (v==='__new') name=$('#sInvName').value.trim();
+  const st={inv, invName:name, buyPct:Math.min(100,Math.max(0,num($('#sBuyPct').value))), prizePct:Math.min(100,Math.max(0,num($('#sPrizePct').value))), memo:$('#sMemo').value.trim(), buyDone:$('#sBuyDone').checked, prizeDone:$('#sPrizeDone').checked};
+  return st;
 }
 function readEntry(){
+  const cash = curFmt()==='cash', kind = cash ? 'cash' : $('#eKind').value, pt = cash ? 'cash' : fPT(), pay = cash ? 'cash' : fPay();
   return {
-    id: S.editing?.id || uid(), tourId: $('#eTour').value || '', player: $('#ePlayer').value, by: S.editing?.by || S.myId || '',
-    date: $('#eDate').value, kind: curFmt()==='cash' ? 'cash' : $('#eKind').value, ch: $('#eCh').value, cur: $('#eCur').value,
+    id: S.editing?.id || uid(), player: $('#ePlayer').value, by: S.editing?.by || S.myId || '', v:2,
+    date: $('#eDate').value, kind, ch: $('#eCh').value, cur: $('#eCur').value,
     name: $('#eName').value.trim(), brand: brandValue(), venue: $('#eVenue').value.trim(),
-    buyin: +$('#eBuy').value||0, entries: curFmt()==='cash' ? 1 : Math.max(1, +$('#eEntries').value||1), extra: +$('#eExtra').value||0,
-    prize: (curFmt()!=='cash' && $('#eKind').value==='sat') ? (Math.max(0,+$('#eSeats').value||0) * (+$('#eSeatVal').value||0)) : (+$('#ePrize').value||0),
-    seats: (curFmt()!=='cash' && $('#eKind').value==='sat') ? Math.max(0,+$('#eSeats').value||0) : 0, seatVal: (curFmt()!=='cash' && $('#eKind').value==='sat') ? (+$('#eSeatVal').value||0) : 0, seatFor: (curFmt()!=='cash' && $('#eKind').value==='sat') ? $('#eSeatFor').value.trim() : '', place: curFmt()==='cash' ? '' : $('#ePlace').value.trim(), field: curFmt()==='cash' ? 0 : +$('#eField').value||0, tripId: $('#eTrip').value||'',
-    blinds: curFmt()==='cash' ? $('#eBlinds').value.trim() : '', hours: curFmt()==='cash' ? (+$('#eHours').value||0) : 0, tourId: curFmt()==='cash' ? '' : (()=>{ const k=S.formEvKey||''; return k.startsWith('t|') ? k.split('|')[1] : (!k && S.editing ? (S.editing.tourId||'') : ''); })(), evKey: curFmt()==='cash' ? '' : (S.formEvKey||''),
+    buyin: num($('#eBuy').value)||0, entries: cash ? 1 : Math.max(1, +$('#eEntries').value||1), extra: num($('#eExtra').value)||0,
+    prizeType: pt, prize: (cash || pt==='cash') ? (num($('#ePrize').value)||0) : 0,
+    tickets: (!cash && pt==='ticket') ? Math.max(0, +$('#eTickets').value||0) : 0, ticketVal: (!cash && pt==='ticket') ? num($('#eTicketVal').value) : 0, ticketFor: (!cash && pt==='ticket') ? $('#eTicketFor').value.trim() : '',
+    payType: pay, usedFrom: pay==='ticket' ? ($('#eUseTicket').value||'') : '',
+    place: cash ? '' : $('#ePlace').value.trim(), field: cash ? 0 : +$('#eField').value||0, tripId: $('#eTrip').value||'',
+    blinds: cash ? $('#eBlinds').value.trim() : '', hours: cash ? (+$('#eHours').value||0) : 0,
+    tourId: cash ? '' : (()=>{ const k=S.formEvKey||''; return k.startsWith('t|') ? k.split('|')[1] : (!k && S.editing ? (S.editing.tourId||'') : ''); })(), evKey: cash ? '' : (S.formEvKey||''),
     rate: $('#eCur').value==='KRW'?1:(+$('#eRate').value||0), note: $('#eNote').value.trim(),
-    stakes: readStakes(), stakePrepaid: $('#ePrepaid').checked
+    stake: readStake()
   };
 }
 function updCalc(){
-  if (curFmt()!=='cash' && $('#eKind').value==='sat'){ const e=readEntry(), sp=spentOf(e); $('#eCalc').innerHTML = `<span>쓴 ${won(sp)}</span><b>시트권 ${e.seats}장${e.seatFor?' · '+esc(e.seatFor):''}</b>` + (e.seatVal? `<span style="width:100%;color:var(--muted)">시트 가치 ${won(e.seats*e.seatVal)} 기준 손익 ${sgn(e.seats*e.seatVal - sp)}</span>` : `<span style="width:100%;color:var(--muted)">시트권 가치를 넣으면 ROI에도 반영돼요</span>`); return; }
-  const e=readEntry(), st=validStakes(e), sold=Math.min(1,st.reduce((a,x)=>a+x.pct,0)/100);
-  const s=spentOf(e), w=wonOf(e);
-  $('#eCalc').innerHTML = `<span>쓴 ${won(s)}</span><span>번 ${won(w)}</span><b class="${ud(w-s)}">${sgn(w-s)}</b>` + (isCash(e)&&e.hours>0? `<span style="width:100%;color:var(--muted)">시간당 ${sgn((w-s)/e.hours)}</span>`:'') + (sold? `<span style="width:100%;color:var(--muted)">지분 ${Math.round(sold*100)}% 판매 → ${esc(P(e.player).name)} 몫 ${sgn((w-s)*(1-sold))}</span>`:'');
+  const e=readEntry(), s=spentOf(e), w=wonOf(e), st=stakeOf(e);
+  let html = `<span>내 지출 ${won(s)}</span><span>내 수령 ${won(w)}</span><b class="${ud(w-s)}">${sgn(w-s)}</b>`;
+  if (isCash(e)&&e.hours>0) html += `<span style="width:100%;color:var(--muted)">시간당 ${sgn((w-s)/e.hours)}</span>`;
+  if (e.tickets>0) html += `<span style="width:100%;color:var(--muted)">참가권 ${e.tickets}장${e.ticketFor?' · '+esc(e.ticketFor):''}${e.ticketVal?` · 참고 가치 ${won(e.tickets*e.ticketVal*(+e.rate||1))}`:''} (수익에는 미포함)</span>`;
+  if (e.payType==='ticket') html += `<span style="width:100%;color:var(--muted)">참가권으로 참가 · 바이인 현금 지출 없음${e.entries>1?` (리엔트리 ${e.entries-1}회는 현금)`:''}</span>`;
+  $('#eCalc').innerHTML = html;
+  if (st){
+    const r=+e.rate||1, B=buyCash(e)*r, P0=(+e.prize||0)*r, a=st.buyPct/100, bb=st.prizePct/100, myCost=B*(1-a)+(+e.extra||0)*r;
+    $('#sCalc').innerHTML = `<span>총 바이인 ${won(B)}</span><span>투자자 부담 ${won(B*a)}</span><span>내 부담 ${won(B*(1-a))}</span>
+      <span style="width:100%"></span><span>총 상금 ${won(P0)}</span><span>투자자 몫 ${won(P0*bb)}</span><span>내 몫 ${won(P0*(1-bb))}</span>
+      <b style="width:100%" class="${ud(w-s)}">내 최종 순손익 ${sgn(w-s)} · ROI ${myCost>0? pct((w-s)/myCost) : '–(본인 부담 없음)'}</b>
+      <span style="width:100%;color:var(--muted)">대회 전체 기준 손익 ${sgn(grossNet(e))}</span>`;
+  } else if (!$('#stakeBox').hidden) $('#sCalc').innerHTML = '<span style="color:var(--muted)">비율을 넣으면 정산액이 계산돼요.</span>';
 }
-function autoTrip(){ if (S.editing) return; const d=$('#eDate').value; const t=S.trips.find(r=>r.start && d>=r.start && d<=(r.end||r.start)); if (t) $('#eTrip').value=t.id; }
+function autoTrip(){ if (S.editing) return; const d=$('#eDate').value; const t=S.trips.find(r=>r.start && d>=r.start && d<=(r.end||r.start)); if (t){ $('#eTrip').value=t.id; $('#eMore').open=true; } }
 function openEntry(e){
   S.editing = e || null; fillSelects();
-  const d = e || {date:todayISO(), kind:'tour', ch:'offline', cur:'KRW', entries:1, extra:0, prize:0, rate:1,
+  const d = e || {date:todayISO(), kind:'dom', ch:'offline', cur:'KRW', entries:1, extra:0, prize:0, rate:1, prizeType:'cash', payType:'cash',
     player: S.f.player!=='all' ? S.f.player : myPlayerId()};
   $('#entryTitle').textContent = e? '기록 수정' : '기록 추가';
-  $('#ePlayer').value=d.player||myPlayerId(); S.formEvKey = d.evKey || ''; $('#eTour').value = d.evKey ? 'k:'+d.evKey : ''; $('#eDate').value=d.date; $('#eKind').value=d.kind; $('#eCh').value=d.ch; $('#eCur').value=d.cur;
+  const kind = d.kind==='tour' ? (isIntl(d)?'intl':'dom') : d.kind;
+  $('#ePlayer').value=d.player||myPlayerId(); S.formEvKey = d.evKey || ''; $('#eTour').value = d.evKey ? 'k:'+d.evKey : ''; $('#eDate').value=d.date; $('#eKind').value= kind==='cash' ? 'dom' : kind; $('#eCh').value=d.ch; $('#eCur').value=d.cur;
   $('#eName').value=d.name||''; $('#eVenue').value=d.venue||'';
-  $('#eBuy').value=d.buyin??''; $('#eEntries').value=d.entries??1; $('#eExtra').value=d.extra??0; $('#ePrize').value=d.prize??0;
-  $('#ePlace').value=d.place||''; $('#eSeats').value=d.seats||0; $('#eSeatVal').value=d.seatVal||''; $('#eSeatFor').value=d.seatFor||''; $('#eField').value=d.field||''; $('#eTrip').value=d.tripId||'';
+  $('#eBuy').value=fmtIn(d.buyin); $('#eEntries').value=d.entries??1; $('#eExtra').value=fmtIn(d.extra??0); $('#ePrize').value=fmtIn(d.prize??0);
+  $('#eTickets').value=d.tickets||0; $('#eTicketVal').value=fmtIn(d.ticketVal||''); $('#eTicketFor').value=d.ticketFor||'';
+  $('#ePlace').value=d.place||''; $('#eField').value=d.field||''; $('#eTrip').value=d.tripId||'';
   $('#eRate').value=d.cur==='KRW'?1:(d.rate||S.cfg.rates[d.cur]||''); $('#eNote').value=d.note||'';
-  $('#stakeRows').innerHTML = (d.stakes||[]).map(stakeRowHTML).join(''); $('#ePrepaid').checked=!!d.stakePrepaid;
-  $('#eBlinds').value=d.blinds||''; $('#eHours').value=d.hours||''; if (d.kind==='cash') $('#eKind').value='tour';
+  $('#eBlinds').value=d.blinds||''; $('#eHours').value=d.hours||'';
   $('#entryDlg').dataset.fmt = d.kind==='cash' ? 'cash' : (e ? 'tour' : (lsGet('evlog.lastFmt')||'tour'));
   document.querySelectorAll('#eFmt button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.fmt===$('#entryDlg').dataset.fmt));
-  { const hs = e ? handsOf(e.id) : []; $('#eHands').innerHTML = hs.length? hs.map(x=>`<div class="ehand"><span class="hcards">${cardsHTML(parseCards(x.cards).slice(0,2))}</span><span style="flex:1;min-width:0">${esc(x.title||x.hero)}</span><button type="button" class="btn" data-ehopen="${esc(x.id)}">열기</button></div>`).join('') : (e? '<p class="hint" style="margin:0">아직 이 게임에 연결된 핸드가 없어요.</p>' : '');
-    const free = S.hands.filter(x=>!x.entryId || !S.entries.some(r=>r.id===x.entryId)).sort((a,b)=>(b.date||'').localeCompare(a.date||''));
-    $('#eLinkHand').innerHTML = '<option value="">연결 안 함</option>' + free.map(x=>`<option value="${esc(x.id)}">${esc((x.date||'').slice(5).replace('-','.'))} · ${esc(x.title || (x.hero+' '+(x.cards||'')))}</option>`).join('');
-    $('#eLinkWrap').hidden = !free.length;
-    $('#eAddHand').textContent = e ? '+ 이 게임 핸드 리뷰 쓰기' : '저장하고 핸드 리뷰 쓰기'; }
-  fillBrandSel(d.brand||''); $('#eRate').disabled = d.cur==='KRW'; $('#eDelete').hidden = !e; if (!e) autoTrip(); syncKind(); updCalc(); S.pick.entry.ev=''; S.pick.entry.mode = S.formEvKey ? 'event' : 'date'; renderEntryPick(); $('#entryDlg').showModal();
+  $('#entryDlg').dataset.pt = d.prizeType || (kind==='sat'?'ticket':'cash'); document.querySelectorAll('#ePT button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.pt===$('#entryDlg').dataset.pt));
+  showStake(e ? stakeOf(d) : null);
+  fillBrandSel(d.brand||''); $('#eRate').disabled = d.cur==='KRW'; $('#eDelete').hidden = !e; if (!e) autoTrip();
+  setPay(d.payType||'cash');
+  { const has = !!(d.tripId || d.field || +d.extra || d.note); $('#eMore').open = has; $('#entryDlg').dataset.fx = d.cur==='KRW' ? '0' : '1'; }
+  syncKind(); updCalc(); S.pick.entry.ev=''; S.pick.entry.mode = S.formEvKey ? 'event' : 'date'; renderEntryPick(); $('#entryDlg').showModal();
 }
-$('#eAddHand').addEventListener('click', ()=>{ S.saveThenHand=true; const f=$('#entryForm'); if (f.requestSubmit) f.requestSubmit(); else f.dispatchEvent(new Event('submit',{cancelable:true})); });
-$('#eHands').addEventListener('click', ev=>{ const b=ev.target.closest('[data-ehopen]'); if (!b) return; const y=S.hands.find(z=>z.id===b.dataset.ehopen); if (!y) return; $('#entryDlg').close(); S.hand=JSON.parse(JSON.stringify(y)); saveDraft(); S.view='hands'; render(); window.scrollTo(0,0); });
-$('#entryDlg').addEventListener('close', ()=>{ setTimeout(()=>{ if (!$('#entryDlg').open){ S.pendingHandLink=false; S.saveThenHand=false; } }, 0); });
-$('#addStake').addEventListener('click', ()=>{
-  const me=$('#ePlayer').value, other=S.cfg.players.find(p=>p.id!==me);
-  if (!other){ toast('지분을 나누려면 플레이어가 두 명 이상 있어야 해요'); return; }
-  $('#stakeRows').insertAdjacentHTML('beforeend', stakeRowHTML({p:other.id})); updCalc();
-});
-$('#stakeRows').addEventListener('click', ev=>{ const b=ev.target.closest('[data-srm]'); if (b){ b.closest('.stake-row').remove(); updCalc(); } });
+$('#ePT').addEventListener('click', ev=>{ const b=ev.target.closest('[data-pt]'); if (b) setPT(b.dataset.pt); });
+$('#ePay').addEventListener('click', ev=>{ const b=ev.target.closest('[data-pay]'); if (b) setPay(b.dataset.pay); });
+$('#eUseTicket').addEventListener('change', ()=>{ const t=ticketPool().find(x=>x.src===$('#eUseTicket').value); if (t && t.val && !num($('#eBuy').value)) $('#eBuy').value=fmtIn(t.val); updCalc(); });
+$('#addStake').addEventListener('click', ()=>{ showStake({buyPct:'', prizePct:''}); const v=$('#sInv').value; (v==='__new' ? $('#sInvName') : $('#sInv')).focus(); updCalc(); });
+$('#sRemove').addEventListener('click', ()=>{ showStake(null); updCalc(); });
+$('#sInv').addEventListener('change', ()=>{ const n=$('#sInv').value==='__new'; $('#sInvName').hidden=!n; if (n) $('#sInvName').focus(); updCalc(); });
+$('#sPresets').addEventListener('click', ev=>{ const b=ev.target.closest('[data-sp]'); if (!b) return; const [x,y]=b.dataset.sp.split(','); $('#sBuyPct').value=x; $('#sPrizePct').value=y; updCalc(); });
+$('#ePlayer').addEventListener('change', ()=>{ if (!$('#stakeBox').hidden){ const st=readStake(); showStake(st||{}); } fillTicketUse(); updCalc(); });
 $('#eDate').addEventListener('change', ()=>{ autoTrip(); if (S.pick && S.pick.entry.mode==='date') renderEntryPick(); });
-$('#eCur').addEventListener('change', ()=>{ const c=$('#eCur').value; $('#eRate').value = c==='KRW'?1:(S.cfg.rates[c]||''); $('#eRate').disabled = c==='KRW'; updCalc(); });
+$('#eCur').addEventListener('change', ()=>{ const c=$('#eCur').value; $('#entryDlg').dataset.fx = c==='KRW'?'0':'1'; $('#eRate').value = c==='KRW'?1:(S.cfg.rates[c]||''); $('#eRate').disabled = c==='KRW'; if (c!=='KRW' && $('#eKind').value==='dom') $('#eKind').value='intl'; updCalc(); });
+$('#eCh').addEventListener('change', ()=>{ fillBrandSel(brandValue()); });
 $('#eTour').addEventListener('change', ()=>{
   const v=$('#eTour').value; if (!v){ S.formEvKey=''; return; }
   if (v.startsWith('k:')){ fillEntryFromSched(v.slice(2)); return; }
-  const t = S.tours.find(x=>x.id===v); if (!t) return;
-  $('#eName').value=t.name; $('#eVenue').value=t.venue||''; $('#eKind').value=/새틀|satellite|sat\b/i.test(t.name)?'sat':'tour'; fillBrandSel(t.brand||''); $('#eCh').value=t.ch||'offline';
-  $('#eCur').value=t.cur||'KRW'; $('#eRate').value = t.cur==='KRW'?1:(S.cfg.rates[t.cur]||''); $('#eRate').disabled = t.cur==='KRW';
-  if (t.buyin) $('#eBuy').value=t.buyin; if (t.start && !S.editing){ $('#eDate').value=t.start; autoTrip(); } updCalc();
 });
 $('#entryForm').addEventListener('input', updCalc);
 const syncKind = () => {
   const cash = curFmt()==='cash';
   $('#entryDlg').dataset.kind = cash ? 'cash' : $('#eKind').value;
   $('#seatForList').innerHTML = [...new Set([...SCHEDULE.flatMap(se=>(se.events||[]).map(ev=>`${se.brand} ${ev.name}`)), ...S.tours.map(t=>(t.brand?t.brand+' ':'')+t.name)])].map(n=>`<option value="${esc(n)}">`).join('');
-  $('#prizeLbl').textContent = cash ? '아웃 금액 (캐시아웃)' : '위닝 금액 (상금)';
-  $('#buyLbl').textContent = cash ? '총 바이인 (탑업 포함)' : '바이인 (1회)';
+  $('#prizeLbl').textContent = cash ? '아웃 금액 (캐시아웃)' : '상금 (현금)';
+  $('#buyLbl').textContent = fPay()==='ticket' && !cash ? '참가권 액면가 (참고)' : cash ? '총 바이인 (탑업 포함)' : '바이인 (1회)';
   $('#nameLbl').textContent = cash ? '게임 이름 (선택)' : '이벤트명';
   $('#eName').placeholder = cash ? '예: 금요일 캐시, 링게임' : '예: HPT 메인이벤트, PFGT 새틀라이트, 금요일 GTD';
   const bl = [...new Set(S.entries.filter(isCash).map(e=>e.blinds).filter(Boolean))].slice(-6).reverse();
@@ -2185,14 +2408,14 @@ function setFmt(f){
 }
 $('#eFmt').addEventListener('click', ev=>{ const b=ev.target.closest('[data-fmt]'); if (b) setFmt(b.dataset.fmt); });
 $('#eBlindQ').addEventListener('click', ev=>{ const b=ev.target.closest('[data-bl]'); if (b) $('#eBlinds').value=b.dataset.bl; });
-$('#eKind').addEventListener('change', ()=>{ syncKind(); fillBrandSel(brandValue()); });
+$('#eKind').addEventListener('change', ()=>{ const k=$('#eKind').value; if (!S.editing) setPT(k==='sat' ? 'ticket' : 'cash'); syncKind(); fillBrandSel(brandValue()); });
 $('#eBrandSel').addEventListener('change', ()=>{ syncBrand(); if ($('#eBrandSel').value==='__new') $('#eBrand').focus(); });
 $('#eQuick').addEventListener('click', ev=>{
   if (ev.target.closest('[data-qnew]')){ $('#eBrandSel').value='__new'; syncBrand(); $('#eBrand').focus(); return; }
   const b=ev.target.closest('[data-qb]'); if (!b) return; $('#eBrandSel').value=b.dataset.qb; syncBrand(); });
 async function addBrandFromForm(){
   const n=$('#eBrand').value.trim(); if (!n){ $('#eBrand').focus(); return; }
-  if (!(S.cfg.brands||[]).some(b=>b.name===n)){ S.cfg.brands=[...(S.cfg.brands||[]), {name:n, type:brandKind()==='pub'?'pub':'tour'}]; fillBrandList(); try{ await store.putCfg(); }catch{} }
+  if (!(S.cfg.brands||[]).some(b=>b.name===n)){ S.cfg.brands=[...(S.cfg.brands||[]), {name:n, type:(b=>b==='online'?'online':b==='pub'?'pub':'tour')(brandKind())}]; fillBrandList(); try{ await store.putCfg(); }catch{} }
   fillBrandSel(n); toast(`${n}을(를) 목록에 추가했어요`);
 }
 $('#eBrandAdd').addEventListener('click', addBrandFromForm);
@@ -2208,9 +2431,14 @@ $('#entryForm').addEventListener('submit', async ev=>{
   if (!e.date || !e.name){ toast('날짜와 이벤트명을 입력하세요'); return; }
   lsSet('evlog.lastFmt', isCash(e)?'cash':'tour');
   if (e.cur!=='KRW' && !e.rate){ toast('환율을 입력하세요'); return; }
-  if (validStakes(e).reduce((a,x)=>a+x.pct,0)>100){ toast('지분 합계가 100%를 넘어요'); return; }
+  if (e.payType==='ticket' && !e.usedFrom){ toast('사용할 참가권을 고르거나 결제를 현금으로 바꿔주세요'); return; }
+  if (e.stake){
+    if (!e.stake.inv && !e.stake.invName){ toast('투자자를 고르거나 이름을 입력하세요'); return; }
+    if (!(e.stake.buyPct>0 || e.stake.prizePct>0)){ toast('투자자 부담 % 또는 상금 배분 %를 입력하세요'); return; }
+    if (e.stake.invName && !(S.cfg.investors||[]).includes(e.stake.invName)){ S.cfg.investors=[...(S.cfg.investors||[]), e.stake.invName]; store.putCfg().catch(()=>{}); }
+  }
   if ($('#eBrandSel').value==='__new' && e.brand && $('#eBrandSave').checked && !(S.cfg.brands||[]).some(b=>b.name===e.brand)){
-    S.cfg.brands=[...(S.cfg.brands||[]), {name:e.brand, type:(e.kind==='pub'||e.kind==='cash')?'pub':'tour'}]; store.putCfg().catch(()=>{}); fillBrandList();
+    S.cfg.brands=[...(S.cfg.brands||[]), {name:e.brand, type:e.ch==='online'?'online':(e.kind==='pub'||e.kind==='cash')?'pub':'tour'}]; store.putCfg().catch(()=>{}); fillBrandList();
   }
   const i=S.entries.findIndex(x=>x.id===e.id); if (i>=0) S.entries[i]=e; else S.entries.push(e);
   $('#entryDlg').close(); render();
@@ -2220,7 +2448,9 @@ $('#entryForm').addEventListener('submit', async ev=>{
   try{ await store.put('entries', e); toast(`${P(e.player).name}님 기록을 저장했어요${budgetWarn(e.player,e.date)}`); }catch{ toast('저장하지 못했어요. 편집 권한이 있는지 확인하세요'); }
 });
 $('#eDelete').addEventListener('click', async ()=>{
-  if (!S.editing || !(await ask('이 기록을 삭제할까요?', '삭제'))) return;
+  if (!S.editing) return;
+  const usedBy=S.entries.filter(x=>x.usedFrom===S.editing.id).length;
+  if (!(await ask(usedBy? `이 기록에서 딴 참가권이 다른 기록 ${usedBy}건에 사용됐어요. 그래도 삭제할까요?` : '이 기록을 삭제할까요?', '삭제'))) return;
   const id=S.editing.id; S.entries=S.entries.filter(x=>x.id!==id); $('#entryDlg').close(); render();
   try{ await store.del('entries', id); toast('삭제했어요'); }catch{ toast('삭제하지 못했어요'); }
 });
@@ -2231,14 +2461,14 @@ function openTour(t){
   $('#tourTitle').textContent = t?'대회 수정':'대회 등록';
   $('#tBrand').value=d.brand||''; $('#tCh').value=d.ch||'offline'; $('#tName').value=d.name||''; $('#tVenue').value=d.venue||'';
   $('#tCountry').value=d.country||''; $('#tStart').value=d.start||''; $('#tEnd').value=d.end||''; $('#tCur').value=d.cur||'KRW';
-  $('#tBuy').value=d.buyin??''; $('#tGtd').value=d.gtd??''; $('#tLink').value=d.link||''; $('#tStack').value=d.stack||''; $('#tLevel').value=d.level||''; $('#tLate').value=d.latereg||''; $('#tDays').value=d.days||''; $('#tMemo').value=d.memo||''; if ($('#evtDlg').open) $('#evtDlg').close();
+  $('#tBuy').value=fmtIn(d.buyin); $('#tGtd').value=fmtIn(d.gtd); $('#tLink').value=d.link||''; $('#tStack').value=d.stack||''; $('#tLevel').value=d.level||''; $('#tLate').value=d.latereg||''; $('#tDays').value=d.days||''; $('#tMemo').value=d.memo||''; if ($('#evtDlg').open) $('#evtDlg').close();
   $('#tGoing').innerHTML = S.cfg.players.map(p=>`<label><input type="checkbox" value="${esc(p.id)}" ${(d.going||[]).includes(p.id)?'checked':''}>${avatar(p)}${esc(p.name)}</label>`).join('');
   $('#tDelete').hidden=!t; $('#tourDlg').showModal();
 }
 $('#tourForm').addEventListener('submit', async ev=>{
   ev.preventDefault();
   const t={id:S.editingTour?.id||uid(), brand:$('#tBrand').value.trim(), ch:$('#tCh').value, name:$('#tName').value.trim(), venue:$('#tVenue').value.trim(),
-    country:$('#tCountry').value.trim(), start:$('#tStart').value, end:$('#tEnd').value, cur:$('#tCur').value, buyin:+$('#tBuy').value||0, gtd:+$('#tGtd').value||0, link:$('#tLink').value.trim(), stack:+$('#tStack').value||0, level:$('#tLevel').value.trim(), latereg:$('#tLate').value.trim(), days:$('#tDays').value.trim(), memo:$('#tMemo').value.trim(),
+    country:$('#tCountry').value.trim(), start:$('#tStart').value, end:$('#tEnd').value, cur:$('#tCur').value, buyin:num($('#tBuy').value)||0, gtd:num($('#tGtd').value)||0, link:$('#tLink').value.trim(), stack:+$('#tStack').value||0, level:$('#tLevel').value.trim(), latereg:$('#tLate').value.trim(), days:$('#tDays').value.trim(), memo:$('#tMemo').value.trim(),
     going:[...document.querySelectorAll('#tGoing input:checked')].map(i=>i.value)};
   if (!t.name){ toast('대회명을 입력하세요'); return; }
   const i=S.tours.findIndex(x=>x.id===t.id); if (i>=0) S.tours[i]=t; else S.tours.push(t);
@@ -2251,35 +2481,275 @@ $('#tDelete').addEventListener('click', async ()=>{
   try{ await store.del('tours', id); }catch{}
 });
 
-/* ---------- trip form ---------- */
-function costRowHTML(c={}){
-  return `<div class="cost-row"><label class="f">누가<select data-cp>${playerOpts(c.p||myPlayerId())}</select></label><label class="f">항목<input data-cl value="${esc(c.label||'')}" placeholder="항공, 숙박…"></label><label class="f">금액 (원)<input type="number" min="0" step="any" data-ca value="${c.amount??''}"></label><button type="button" class="btn ghost" data-crm>삭제</button></div>`;
+/* ---------- trips: members, expenses, shared-cost settlement ---------- */
+const COST_CATS=['항공','숙박','교통','식비','기타'];
+const CAT_ICON={항공:'✈︎',숙박:'🏨',교통:'🚕',식비:'🍽',기타:'•'};
+const meName = () => P(myPlayerId()).name || '나';
+/* bring a trip to the member/expense model (old trips only had per-player costs) */
+function tripMigrate(t){
+  if (!t) return t;
+  if (!Array.isArray(t.members)) t.members=[{id:'me', name:'', me:true}];
+  if (!t.members.some(m=>m.me)) t.members.unshift({id:'me', name:'', me:true});
+  if (!Array.isArray(t.expenses)) t.expenses=[];
+  if (!Array.isArray(t.transfers)) t.transfers=[];
+  if (Array.isArray(t.costs) && t.costs.length){
+    t.costs.forEach(c=>{
+      let mid='me';
+      if (c.p && c.p!==myPlayerId()){ const nm=P(c.p).name; let m=t.members.find(x=>!x.me && x.name===nm); if (!m){ m={id:uid(), name:nm}; t.members.push(m); } mid=m.id; }
+      t.expenses.push({id:uid(), cat:c.cat||'기타', title:c.label||'', date:t.start||'', amount:+c.amount||0, cur:c.cur||'KRW', rate:c.cur&&c.cur!=='KRW' ? (+c.rate||+S.cfg.rates[c.cur]||0) : 1, krw:null, payer:mid, type:'personal', owner:mid, mode:'equal', parts:[], memo:''});
+    });
+  }
+  delete t.costs;
+  return t;
+}
+const mName = (t,id) => { const m=(t.members||[]).find(x=>x.id===id); return m ? (m.me ? meName() : m.name) : '(삭제된 동행자)'; };
+const expKRW = x => (+x.krw>0) ? Math.round(+x.krw) : Math.round((+x.amount||0) * (x.cur && x.cur!=='KRW' ? (+x.rate||0) : 1));
+/* who finally bears how much of one expense (KRW). Rounding leftovers go to the payer. */
+function expShares(x){
+  const total=expKRW(x), out={};
+  if (x.type!=='shared'){ out[x.owner||x.payer]=total; return out; }
+  const parts=(x.parts||[]).filter(p=>p.m);
+  if (!parts.length){ out[x.payer]=total; return out; }
+  let raw;
+  if (x.mode==='amount'){ const sum=parts.reduce((a,p)=>a+(+p.v||0),0)||1; raw=parts.map(p=>total*(+p.v||0)/sum); }
+  else if (x.mode==='ratio'){ const sum=parts.reduce((a,p)=>a+(+p.v||0),0)||1; raw=parts.map(p=>total*(+p.v||0)/sum); }
+  else raw=parts.map(()=>total/parts.length);
+  let given=0; parts.forEach((p,i)=>{ const v=Math.floor(raw[i]); out[p.m]=(out[p.m]||0)+v; given+=v; });
+  const rest=total-given; if (rest){ const k = parts.some(p=>p.m===x.payer) ? x.payer : parts[0].m; out[k]=(out[k]||0)+rest; }
+  return out;
+}
+/* balances between members, after netting both directions and recorded transfers */
+function tripLedger(t){
+  const ms=t.members||[], per={};
+  ms.forEach(m=>per[m.id]={burden:0, paid:0, recv:0, owe:0, sent:0, got:0});
+  const pair={}; // key "a|b" (a<b): positive = a owes b
+  const addDebt=(from,to,amt)=>{ if (!amt||from===to) return; const [a,b]=[from,to].sort(); const k=a+'|'+b; pair[k]=(pair[k]||0)+(from===a?amt:-amt); };
+  let groupTotal=0, personal=0, shared=0;
+  (t.expenses||[]).forEach(x=>{
+    const tot=expKRW(x), sh=expShares(x); groupTotal+=tot; if (x.type==='shared') shared+=tot; else personal+=tot;
+    if (per[x.payer]) per[x.payer].paid+=tot;
+    Object.entries(sh).forEach(([m,v])=>{ if (per[m]) per[m].burden+=v; if (m!==x.payer){ addDebt(m, x.payer, v); if (per[m]) per[m].owe+=v; if (per[x.payer]) per[x.payer].recv+=v; } });
+  });
+  const gross={...pair};
+  (t.transfers||[]).forEach(r=>{ const amt=+r.amount||0; if (per[r.from]) per[r.from].sent+=amt; if (per[r.to]) per[r.to].got+=amt; addDebt(r.from, r.to, -amt); });
+  const pairs=Object.entries(pair).map(([k,v])=>{ const [a,b]=k.split('|'); const g=gross[k]||0; return {a,b, from: v>=0?a:b, to: v>=0?b:a, left:Math.abs(Math.round(v)), net:Math.abs(Math.round(g)), netFrom: g>=0?a:b, netTo: g>=0?b:a}; }).filter(p=>p.net>0 || p.left>0);
+  ms.forEach(m=>{ const p=per[m.id]; p.balance = (p.paid - p.burden) - (p.got - p.sent); }); // + : still to receive
+  return {per, pairs, groupTotal, personal, shared};
+}
+function tripSummary(t){
+  tripMigrate(t);
+  const L=tripLedger(t), me=L.per.me||{burden:0};
+  const games=S.entries.filter(e=>e.tripId===t.id && e.player===myPlayerId()), c=calc(games);
+  const toRecv=L.pairs.filter(p=>p.to==='me').reduce((a,p)=>a+p.left,0), toPay=L.pairs.filter(p=>p.from==='me').reduce((a,p)=>a+p.left,0);
+  return {L, games, c, myCost:me.burden, final:c.net-me.burden, toRecv, toPay};
+}
+function renderTrips(){
+  S.trips.forEach(tripMigrate);
+  const open = S.tripView && S.trips.find(t=>t.id===S.tripView);
+  if (open) return renderTripDetail(open);
+  S.tripView=null;
+  const trips=[...S.trips].sort((a,b)=>(b.start||'').localeCompare(a.start||''));
+  const tool = `<div class="toolbar"><span class="hint" style="margin:0">해외 대회 기록과 원정 경비를 묶어 원정 손익과 동행자 정산을 관리해요. 원정 경비는 대시보드 ROI에 들어가지 않아요.</span><span style="flex:1"></span><button class="btn primary" data-act="addTrip">+ 원정 만들기</button></div>`;
+  if (!trips.length) return tool + `<div class="empty"><b>아직 원정이 없어요</b>마닐라, 대만처럼 다녀온 원정을 만들고, 기록 추가할 때 원정을 선택하세요.</div>`;
+  return tool + `<div class="trips">${trips.map(t=>{ const sm=tripSummary(t), loc=[t.country,t.city||t.place].filter(Boolean).join(' · ');
+    return `<button class="trip" data-tripopen="${esc(t.id)}">
+      <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start"><div style="min-width:0"><h3>${esc(t.name)}</h3><div class="when">${esc(t.start||'')}${t.end&&t.end!==t.start?' ~ '+esc(t.end):''}${loc?' · '+esc(loc):''}</div></div>
+      <div style="text-align:right"><div class="n ${ud(sm.final)}" style="font-size:22px;font-weight:700;white-space:nowrap">${sgn(sm.final)}</div><div class="hint" style="margin:0">최종 원정 손익</div></div></div>
+      <div class="statgrid n" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+        <div class="statbox"><span>토너먼트</span><b class="${ud(sm.c.net)}">${sgn(sm.c.net)}</b><small>${sm.games.length}건</small></div>
+        <div class="statbox"><span>내 부담 경비</span><b>${sm.myCost?'-'+won(sm.myCost):'–'}</b><small>동행 ${Math.max(0,(t.members||[]).length-1)}명</small></div>
+        <div class="statbox"><span>미정산</span><b>${sm.toRecv||sm.toPay? (sm.toRecv>=sm.toPay? '+'+won(sm.toRecv-sm.toPay) : '-'+won(sm.toPay-sm.toRecv)) : '–'}</b><small>${sm.toRecv?'받을 '+won(sm.toRecv):''}${sm.toRecv&&sm.toPay?' · ':''}${sm.toPay?'줄 '+won(sm.toPay):''}</small></div>
+      </div></button>`; }).join('')}</div>`;
+}
+function renderTripDetail(t){
+  const sm=tripSummary(t), L=sm.L, tab=S.tripTab||'sum', loc=[t.country,t.city||t.place].filter(Boolean).join(' · ');
+  const head = `<div class="toolbar"><button class="btn" data-tripback>← 원정 목록</button><span style="flex:1"></span><button class="btn" data-tripedit="${esc(t.id)}">원정 정보·동행자</button></div>
+    <section class="card trip-head"><div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap"><div style="min-width:0"><h2 style="margin:0 0 4px">${esc(t.name)}</h2><div class="hint" style="margin:0">${esc(t.start||'')}${t.end&&t.end!==t.start?' ~ '+esc(t.end):''}${loc?' · '+esc(loc):''}${t.series?' · '+esc(t.series):''}</div>
+      <div class="chips" style="margin-top:8px">${(t.members||[]).map(m=>`<span class="bchip" style="padding-right:12px">${esc(m.me?meName()+' (나)':m.name)}</span>`).join('')}</div></div>
+      <div style="text-align:right"><div class="n ${ud(sm.final)}" style="font-size:26px;font-weight:600">${sgn(sm.final)}</div><div class="hint" style="margin:0">최종 원정 손익</div></div></div></section>
+    <div class="pk-tabs trip-tabs">${[['sum','요약'],['games','참가 대회'],['exp','경비 내역'],['settle','공동 정산']].map(([k,l])=>`<button type="button" data-triptab="${k}" aria-pressed="${tab===k}">${l}</button>`).join('')}</div>`;
+  let body='';
+  if (tab==='sum'){
+    body = `<div class="dash" style="margin-top:14px">
+      <section class="card s6x"><h2>원정 경비</h2><div class="statgrid n">
+        <div class="statbox"><span>그룹 전체 지출</span><b>${won(L.groupTotal)}</b></div>
+        <div class="statbox"><span>본인 최종 부담</span><b>${won(sm.myCost)}</b></div>
+        <div class="statbox"><span>개인 경비 합계</span><b>${won(L.personal)}</b></div>
+        <div class="statbox"><span>공동 경비 합계</span><b>${won(L.shared)}</b></div>
+        <div class="statbox"><span>받을 정산 금액</span><b class="up">${won(sm.toRecv)}</b></div>
+        <div class="statbox"><span>지급할 정산 금액</span><b class="down">${won(sm.toPay)}</b></div>
+      </div><p class="hint">미정산 잔액 ${sm.toRecv-sm.toPay>=0?'받을 돈 ':'줄 돈 '}${won(Math.abs(sm.toRecv-sm.toPay))} · 정산금은 수익에 들어가지 않아요.</p></section>
+      <section class="card s6x"><h2>원정 수익 (본인 기록 기준)</h2><div class="statgrid n">
+        <div class="statbox"><span>연결된 토너먼트</span><b>${sm.games.length}건</b></div>
+        <div class="statbox"><span>총 바이인</span><b>${won(sm.c.spent)}</b></div>
+        <div class="statbox"><span>총 상금</span><b>${won(sm.c.won)}</b></div>
+        <div class="statbox"><span>토너먼트 순손익</span><b class="${ud(sm.c.net)}">${sgn(sm.c.net)}</b></div>
+        <div class="statbox"><span>본인 부담 원정 경비</span><b>${sm.myCost?'-'+won(sm.myCost):'₩0'}</b></div>
+        <div class="statbox"><span>최종 원정 순손익</span><b class="${ud(sm.final)}">${sgn(sm.final)}</b></div>
+      </div></section></div>`;
+  } else if (tab==='games'){
+    const groups=pickEventGroups(), evs=(t.evLinks||[]).map(k=>groups.find(g=>g.key===k)).filter(Boolean);
+    body = `<section class="card" style="margin-top:14px"><h2>연결한 대회 일정 <button data-tripedit="${esc(t.id)}">수정</button></h2>${evs.length? `<div class="chips">${evs.map(g=>`<span class="bchip" style="padding-right:12px">🗓 ${esc(g.label)}</span>`).join('')}</div>` : '<p class="hint" style="margin:0">원정 정보에서 기간 안의 대회 일정을 체크할 수 있어요.</p>'}</section>
+      <section class="card" style="margin-top:14px"><h2>내 참가 기록 <button data-tripentry="${esc(t.id)}">+ 기록 추가</button></h2>${sm.games.length? `<div class="mini">${[...sm.games].sort((a,b)=>a.date.localeCompare(b.date)).map(miniEntry).join('')}</div>` : '<p class="hint" style="margin:0">기록 추가할 때 원정을 이 원정으로 고르면 여기에 모여요.</p>'}</section>`;
+  } else if (tab==='exp'){
+    const xs=[...(t.expenses||[])].sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+    body = `<section class="card" style="margin-top:14px"><h2>경비 내역 <span class="sub">${xs.length}건 · ${won(L.groupTotal)}</span></h2>
+      <div class="toolbar"><button class="btn primary" data-expadd="${esc(t.id)}">+ 경비 추가</button></div>
+      ${xs.length? `<div class="mini">${xs.map(x=>{ const sh=expShares(x), mine=sh.me||0; return `<button data-expedit="${esc(x.id)}"><span class="cat-ic">${CAT_ICON[x.cat]||'•'}</span><span style="min-width:0;flex:1"><span class="t">${esc(x.title||x.cat)} <span class="tag">${x.type==='shared'?`공동 ${Object.keys(sh).length}명`:'개인'}</span></span><span class="m">${esc((x.date||'').slice(5).replace('-','/'))} · 결제 ${esc(mName(t,x.payer))}${x.cur!=='KRW'?` · ${fmtCur(x.amount,x.cur)}`:''}</span></span><span class="v n">${won(expKRW(x))}<small>내 부담 ${won(mine)}</small></span></button>`; }).join('')}</div>` : '<p class="hint" style="margin:0">항공권, 숙박, 식비 같은 원정 경비를 추가해 보세요.</p>'}</section>`;
+  } else {
+    const ms=t.members||[];
+    body = `<section class="card" style="margin-top:14px"><h2>남은 정산 <span class="sub">받을 돈과 줄 돈을 서로 상계한 금액</span></h2>
+      ${L.pairs.length? `<div class="mini">${L.pairs.map(p=>`<div class="pairrow"><span class="t"><b>${esc(mName(t,p.netFrom))}</b> → <b>${esc(mName(t,p.netTo))}</b>${p.left && p.from!==p.netFrom?' <span class="tag">초과 송금</span>':''}</span><span class="m n">상계 금액 ${won(p.net)}${p.net!==p.left?` · 송금 ${won(p.net-p.left)}`:''}</span><span class="v n">${p.left? won(p.left) : '<span class="tag">정산 완료</span>'}</span>${p.left?`<button class="btn" data-xferadd="${esc(t.id)}" data-from="${esc(p.from)}" data-to="${esc(p.to)}" data-amt="${p.left}">송금 기록</button>`:''}</div>`).join('')}</div>` : '<p class="hint" style="margin:0">공동 경비가 없거나 모두 정산됐어요.</p>'}</section>
+      <section class="card" style="margin-top:14px"><h2>동행자별 현황</h2><div class="tablewrap"><table class="num tbl-mem"><thead><tr><th></th><th>총 부담</th><th>실제 결제</th><th>받을 돈</th><th>줄 돈</th><th>송금 완료</th><th>남은 금액</th></tr></thead><tbody>
+        ${ms.map(m=>{ const p=L.per[m.id]||{}; return `<tr><td>${esc(m.me?meName()+' (나)':m.name)}</td><td>${won(p.burden||0)}</td><td>${won(p.paid||0)}</td><td>${won(p.recv||0)}</td><td>${won(p.owe||0)}</td><td>${won((p.sent||0)+(p.got||0))}</td><td class="${ud(p.balance||0)}">${(p.balance||0)>0?'받을 '+won(p.balance):(p.balance||0)<0?'줄 '+won(-p.balance):'–'}</td></tr>`; }).join('')}
+      </tbody></table></div></section>
+      <section class="card" style="margin-top:14px"><h2>송금 기록 <button data-xferadd="${esc(t.id)}">+ 송금 기록</button></h2>${(t.transfers||[]).length? `<div class="mini">${[...t.transfers].sort((a,b)=>(b.date||'').localeCompare(a.date||'')).map(r=>`<button data-xferedit="${esc(r.id)}"><span style="min-width:0;flex:1"><span class="t">${esc(mName(t,r.from))} → ${esc(mName(t,r.to))}</span><span class="m">${esc(r.date||'')}${r.memo?' · '+esc(r.memo):''}</span></span><span class="v n">${won(r.amount)}</span></button>`).join('')}</div>` : '<p class="hint" style="margin:0">실제로 돈을 주고받으면 송금 기록을 남겨주세요. 기록된 만큼만 정산된 것으로 계산해요.</p>'}</section>`;
+  }
+  return head + body;
+}
+/* ---- trip form: info + members ---- */
+function renderTripEvLinks(sel){
+  const st=$('#rStart').value, en=$('#rEnd').value||st, el=$('#rEvLinks');
+  if (!st){ el.innerHTML='<p class="hint" style="margin:6px 0 0">출발일을 넣으면 그 기간의 대회가 나와요.</p>'; return; }
+  const cur=new Set(sel || [...el.querySelectorAll('input:checked')].map(i=>i.value));
+  const groups=pickEventGroups().filter(g=>g.items.some(it=>it.date>=st && it.date<=en) || cur.has(g.key));
+  el.innerHTML = groups.length? groups.map(g=>{ const ds=g.items.filter(it=>it.date>=st&&it.date<=en); return `<label class="chk"><input type="checkbox" value="${esc(g.key)}" ${cur.has(g.key)?'checked':''}> ${esc(g.label)} <span class="hint" style="margin:0">${ds.length? dShort(ds[0].date)+(ds.length>1?' 외 '+(ds.length-1)+'일':'') : '기간 밖'}</span></label>`; }).join('') : '<p class="hint" style="margin:6px 0 0">이 기간에 등록된 대회 일정이 없어요.</p>';
+}
+function drawMembers(){
+  const ms=S.tripMembers||[];
+  $('#rMembers').innerHTML = ms.map(m=>`<span class="bchip">${esc(m.me?meName()+' (나)':m.name)}${m.me?'':`<button type="button" data-mdel="${esc(m.id)}" aria-label="삭제">×</button>`}</span>`).join('');
 }
 function openTrip(t){
-  S.editingTrip=t||null; const d=t||{costs:[]};
-  $('#tripTitle').textContent = t?'원정 수정':'원정 만들기';
-  $('#rName').value=d.name||''; $('#rPlace').value=d.place||''; $('#rMemo').value=d.memo||''; $('#rStart').value=d.start||''; $('#rEnd').value=d.end||'';
-  $('#costRows').innerHTML=(d.costs||[]).map(costRowHTML).join(''); $('#rDelete').hidden=!t; $('#tripDlg').showModal();
+  S.editingTrip=t||null; const d=t? tripMigrate(t) : {members:[{id:'me',name:'',me:true}]};
+  S.tripMembers=JSON.parse(JSON.stringify(d.members||[{id:'me',name:'',me:true}]));
+  $('#tripTitle').textContent = t?'원정 정보·동행자':'원정 만들기';
+  $('#rName').value=d.name||''; $('#rPlace').value=d.city||d.place||''; $('#rCountry').value=d.country||''; $('#rSeries').value=d.series||''; $('#rMemo').value=d.memo||''; $('#rStart').value=d.start||''; $('#rEnd').value=d.end||''; renderTripEvLinks(d.evLinks||[]);
+  $('#rMemberName').value=''; drawMembers(); $('#rDelete').hidden=!t; $('#tripDlg').showModal();
 }
-$('#addCost').addEventListener('click', ()=>$('#costRows').insertAdjacentHTML('beforeend', costRowHTML()));
-$('#costRows').addEventListener('click', ev=>{ const b=ev.target.closest('[data-crm]'); if (b) b.closest('.cost-row').remove(); });
+function addMember(){ const n=$('#rMemberName').value.trim(); if (!n) return; if ((S.tripMembers||[]).some(m=>!m.me && m.name===n)){ toast('이미 있는 이름이에요'); return; } S.tripMembers.push({id:uid(), name:n}); $('#rMemberName').value=''; drawMembers(); $('#rMemberName').focus(); }
+$('#rMemberAdd').addEventListener('click', addMember);
+$('#rMemberName').addEventListener('keydown', ev=>{ if (ev.key==='Enter'){ ev.preventDefault(); addMember(); } });
+$('#rMembers').addEventListener('click', ev=>{ const b=ev.target.closest('[data-mdel]'); if (!b) return; const id=b.dataset.mdel, t=S.editingTrip;
+  const used = t && ((t.expenses||[]).some(x=>x.payer===id||x.owner===id||(x.parts||[]).some(p=>p.m===id)) || (t.transfers||[]).some(r=>r.from===id||r.to===id));
+  if (used){ toast('경비나 송금 기록에 쓰인 동행자는 지울 수 없어요'); return; }
+  S.tripMembers=S.tripMembers.filter(m=>m.id!==id); drawMembers(); });
+$('#rStart').addEventListener('change', ()=>renderTripEvLinks()); $('#rEnd').addEventListener('change', ()=>renderTripEvLinks());
 $('#tripForm').addEventListener('submit', async ev=>{
   ev.preventDefault();
-  const t={id:S.editingTrip?.id||uid(), name:$('#rName').value.trim(), place:$('#rPlace').value.trim(), memo:$('#rMemo').value.trim(), start:$('#rStart').value, end:$('#rEnd').value,
-    costs:[...document.querySelectorAll('#costRows .cost-row')].map(r=>({p:r.querySelector('[data-cp]').value, label:r.querySelector('[data-cl]').value.trim(), amount:+r.querySelector('[data-ca]').value||0})).filter(c=>c.amount>0)};
+  const prev=S.editingTrip||{};
+  const t={...prev, id:prev.id||uid(), name:$('#rName').value.trim(), place:$('#rPlace').value.trim(), city:$('#rPlace').value.trim(), country:$('#rCountry').value.trim(), series:$('#rSeries').value.trim(), memo:$('#rMemo').value.trim(), start:$('#rStart').value, end:$('#rEnd').value,
+    evLinks:[...document.querySelectorAll('#rEvLinks input:checked')].map(i=>i.value), members:S.tripMembers||[{id:'me',name:'',me:true}], expenses:prev.expenses||[], transfers:prev.transfers||[]};
+  delete t.costs;
   if (!t.name || !t.start){ toast('원정 이름과 출발일을 입력하세요'); return; }
   const i=S.trips.findIndex(x=>x.id===t.id); if (i>=0) S.trips[i]=t; else S.trips.push(t);
-  $('#tripDlg').close(); render();
+  $('#tripDlg').close(); S.view='trips'; S.tripView=t.id; render();
   try{ await store.put('trips', t); toast('원정을 저장했어요'); }catch{ toast('저장하지 못했어요'); }
 });
 $('#rDelete').addEventListener('click', async ()=>{
-  if (!S.editingTrip || !(await ask('이 원정을 삭제할까요? 대회 기록은 남아요.', '삭제'))) return;
-  const id=S.editingTrip.id; S.trips=S.trips.filter(x=>x.id!==id); $('#tripDlg').close(); render();
+  if (!S.editingTrip || !(await ask('이 원정을 삭제할까요? 대회 기록은 남고, 원정 경비와 송금 기록은 함께 지워져요.', '삭제'))) return;
+  const id=S.editingTrip.id; S.trips=S.trips.filter(x=>x.id!==id); S.tripView=null; $('#tripDlg').close(); render();
   try{ await store.del('trips', id); }catch{}
 });
+/* ---- expense dialog ---- */
+const curTrip = () => S.trips.find(x=>x.id===S.expTrip);
+function memberOpts(t, sel){ return (t.members||[]).map(m=>`<option value="${esc(m.id)}" ${m.id===sel?'selected':''}>${esc(m.me?meName()+' (나)':m.name)}</option>`).join(''); }
+function openExp(tid, x){
+  const t=S.trips.find(y=>y.id===tid); if (!t) return; tripMigrate(t);
+  S.expTrip=tid; S.editingExp=x||null;
+  const d=x||{cat:'숙박', title:'', date: (t.start && todayISO()>=t.start && todayISO()<=(t.end||t.start)) ? todayISO() : (t.start||todayISO()), amount:'', cur:'KRW', rate:1, krw:null, payer:'me', type:'personal', owner:'me', mode:'equal', parts:(t.members||[]).map(m=>({m:m.id, v:''})), memo:''};
+  $('#expTitle').textContent = x? '경비 수정' : '경비 추가';
+  $('#xCat').innerHTML = COST_CATS.map(k=>`<option ${k===d.cat?'selected':''}>${k}</option>`).join('');
+  $('#xTitle').value=d.title||''; $('#xDate').value=d.date||''; $('#xAmount').value=fmtIn(d.amount);
+  $('#xCur').innerHTML = Object.keys(CURS).map(k=>`<option value="${k}" ${k===d.cur?'selected':''}>${k}</option>`).join('');
+  $('#xRate').value = d.cur!=='KRW' ? (d.rate||S.cfg.rates[d.cur]||'') : ''; $('#xKrw').value = d.krw? fmtIn(d.krw) : '';
+  $('#xPayer').innerHTML = memberOpts(t, d.payer); $('#xOwner').innerHTML = memberOpts(t, d.owner||d.payer);
+  $('#expDlg').dataset.type = d.type; $('#expDlg').dataset.mode = d.mode||'equal';
+  S.expParts = (t.members||[]).map(m=>{ const p=(d.parts||[]).find(z=>z.m===m.id); return {m:m.id, on: d.type==='shared' ? !!p : true, v: p? p.v : ''}; });
+  $('#xMemo').value=d.memo||''; $('#xDelete').hidden=!x;
+  syncExp(); $('#expDlg').showModal();
+}
+function readExp(){
+  const cur=$('#xCur').value, mode=$('#expDlg').dataset.mode, type=$('#expDlg').dataset.type;
+  document.querySelectorAll('#xParts [data-pm]').forEach(r=>{ const p=S.expParts.find(z=>z.m===r.dataset.pm); if (!p) return; p.on=r.querySelector('input[type=checkbox]').checked; const v=r.querySelector('[data-pv]'); if (v) p.v=v.value; });
+  return {id:S.editingExp?.id||uid(), cat:$('#xCat').value, title:$('#xTitle').value.trim(), date:$('#xDate').value, amount:num($('#xAmount').value), cur, rate: cur==='KRW'?1:(+$('#xRate').value||0), krw: cur==='KRW'? null : (num($('#xKrw').value)||null),
+    payer:$('#xPayer').value, type, owner: type==='personal' ? $('#xOwner').value : '', mode, parts: type==='shared' ? S.expParts.filter(p=>p.on).map(p=>({m:p.m, v: mode==='equal' ? '' : num(p.v)})) : [], memo:$('#xMemo').value.trim()};
+}
+function syncExp(){
+  const t=curTrip(); if (!t) return;
+  const type=$('#expDlg').dataset.type, mode=$('#expDlg').dataset.mode, cur=$('#xCur').value;
+  document.querySelectorAll('#xType button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.xt===type));
+  document.querySelectorAll('#xMode button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.xm===mode));
+  $('#xFx').hidden = cur==='KRW';
+  // participants with inputs (amount in the expense currency, ratio in %)
+  const list=S.expParts||[];
+  $('#xParts').innerHTML = list.map(p=>`<div class="prow" data-pm="${esc(p.m)}"><label class="chk" style="margin:0;flex:1"><input type="checkbox" ${p.on?'checked':''}> ${esc(mName(t,p.m))}</label>${mode==='equal'?'':`<input data-pv inputmode="decimal" ${mode==='amount'?'data-money':''} value="${esc(mode==='amount'?fmtIn(p.v):(p.v??''))}" placeholder="${mode==='amount'?'금액 ('+cur+')':'비율'}" ${p.on?'':'disabled'}>`}<span class="pshare n" data-ps="${esc(p.m)}"></span></div>`).join('');
+  updExp();
+}
+function updExp(){
+  const t=curTrip(); if (!t) return; const x=readExp(), tot=expKRW(x), sh=expShares(x);
+  document.querySelectorAll('#xParts [data-ps]').forEach(el=>{ const v=sh[el.dataset.ps]; el.textContent = x.type==='shared' && v!=null ? won(v) : ''; });
+  let msg = `<span>원화 환산 ${won(tot)}</span>`;
+  if (x.type==='shared'){
+    const n=x.parts.length;
+    if (x.mode==='amount'){ const sum=x.parts.reduce((a,p)=>a+(+p.v||0),0); msg += `<span class="${Math.abs(sum-x.amount)<0.005?'up':'down'}">입력 합계 ${fmtCur(sum,x.cur)} / ${fmtCur(x.amount,x.cur)}</span>`; }
+    if (x.mode==='ratio'){ const sum=x.parts.reduce((a,p)=>a+(+p.v||0),0); msg += `<span>비율 합계 ${sum}</span>`; }
+    msg += `<b style="width:100%">${n}명 분할 · 내 부담 ${won(sh.me||0)}${x.payer==='me'&&n? ` · 받을 돈 ${won(tot-(sh.me||0))}` : (sh.me? ` · ${esc(mName(t,x.payer))}에게 줄 돈 ${won(sh.me||0)}`:'')}</b>`;
+  } else msg += `<b>${esc(mName(t,x.owner))} 부담 ${won(tot)}${x.owner!==x.payer?` · ${esc(mName(t,x.owner))} → ${esc(mName(t,x.payer))} ${won(tot)} 정산 필요`:''}</b>`;
+  $('#xCalc').innerHTML=msg;
+}
+$('#xType').addEventListener('click', ev=>{ const b=ev.target.closest('[data-xt]'); if (!b) return; readExp(); $('#expDlg').dataset.type=b.dataset.xt; if (b.dataset.xt==='shared') (S.expParts||[]).forEach(p=>p.on=true); syncExp(); });
+$('#xMode').addEventListener('click', ev=>{ const b=ev.target.closest('[data-xm]'); if (!b) return; readExp(); $('#expDlg').dataset.mode=b.dataset.xm; syncExp(); });
+$('#xCur').addEventListener('change', ()=>{ const c=$('#xCur').value; $('#xRate').value = c==='KRW' ? '' : (S.cfg.rates[c]||''); $('#xKrw').value=''; syncExp(); });
+$('#xParts').addEventListener('change', ev=>{ if (ev.target.type==='checkbox'){ readExp(); syncExp(); } });
+$('#expForm').addEventListener('input', ev=>{ if (ev.target.closest('#xParts') && ev.target.type==='checkbox') return; updExp(); });
+$('#expForm').addEventListener('change', ev=>{ if (ev.target.id==='xPayer' || ev.target.id==='xOwner') updExp(); });
+$('#expForm').addEventListener('submit', async ev=>{
+  ev.preventDefault(); const t=curTrip(); if (!t) return; const x=readExp();
+  if (!(x.amount>0)){ toast('금액을 입력하세요'); return; }
+  if (x.cur!=='KRW' && !(x.rate>0) && !(x.krw>0)){ toast('적용 환율이나 원화 환산액을 입력하세요'); return; }
+  if (x.type==='shared'){
+    if (!x.parts.length){ toast('나눌 사람을 1명 이상 고르세요'); return; }
+    if (x.mode==='amount'){ const sum=x.parts.reduce((a,p)=>a+(+p.v||0),0); if (Math.abs(sum-x.amount)>=0.005){ toast(`사람별 금액 합계(${fmtCur(sum,x.cur)})가 전체 금액과 달라요`); return; } }
+    if (x.mode==='ratio' && !(x.parts.reduce((a,p)=>a+(+p.v||0),0)>0)){ toast('비율을 입력하세요'); return; }
+  }
+  const i=(t.expenses||[]).findIndex(y=>y.id===x.id); if (i>=0) t.expenses[i]=x; else t.expenses.push(x);
+  $('#expDlg').close(); render();
+  try{ await store.put('trips', t); toast('경비를 저장했어요'); }catch{ toast('저장하지 못했어요'); }
+});
+$('#xDelete').addEventListener('click', async ()=>{ const t=curTrip(); if (!t||!S.editingExp) return; if (!(await ask('이 경비를 삭제할까요?','삭제'))) return; t.expenses=t.expenses.filter(y=>y.id!==S.editingExp.id); $('#expDlg').close(); render(); try{ await store.put('trips', t); }catch{} });
+/* ---- transfer dialog ---- */
+function openXfer(tid, r, pre){
+  const t=S.trips.find(y=>y.id===tid); if (!t) return; tripMigrate(t); S.expTrip=tid; S.editingXfer=r||null;
+  const d=r||{from:pre?.from||'me', to:pre?.to||((t.members||[]).find(m=>!m.me)||{}).id, amount:pre?.amt||'', date:todayISO(), memo:''};
+  $('#xfTitle').textContent = r? '송금 기록 수정' : '송금 기록';
+  $('#xfFrom').innerHTML=memberOpts(t,d.from); $('#xfTo').innerHTML=memberOpts(t,d.to); $('#xfAmount').value=fmtIn(d.amount); $('#xfDate').value=d.date||todayISO(); $('#xfMemo').value=d.memo||''; $('#xfDelete').hidden=!r;
+  $('#xferDlg').showModal();
+}
+$('#xferForm').addEventListener('submit', async ev=>{
+  ev.preventDefault(); const t=curTrip(); if (!t) return;
+  const r={id:S.editingXfer?.id||uid(), from:$('#xfFrom').value, to:$('#xfTo').value, amount:Math.round(num($('#xfAmount').value)), date:$('#xfDate').value, memo:$('#xfMemo').value.trim()};
+  if (r.from===r.to){ toast('보낸 사람과 받은 사람이 같아요'); return; } if (!(r.amount>0)){ toast('금액을 입력하세요'); return; }
+  const i=(t.transfers||[]).findIndex(y=>y.id===r.id); if (i>=0) t.transfers[i]=r; else t.transfers.push(r);
+  $('#xferDlg').close(); render(); try{ await store.put('trips', t); toast('송금 기록을 저장했어요'); }catch{ toast('저장하지 못했어요'); }
+});
+$('#xfDelete').addEventListener('click', async ()=>{ const t=curTrip(); if (!t||!S.editingXfer) return; if (!(await ask('이 송금 기록을 취소할까요? 남은 정산 금액이 다시 늘어나요.','취소하기'))) return; t.transfers=t.transfers.filter(y=>y.id!==S.editingXfer.id); $('#xferDlg').close(); render(); try{ await store.put('trips', t); }catch{} });
+/* ---- trip detail clicks ---- */
+document.addEventListener('click', ev=>{
+  const b=ev.target.closest('[data-tripopen],[data-tripback],[data-tripedit],[data-triptab],[data-expadd],[data-expedit],[data-xferadd],[data-xferedit],[data-tripentry]'); if (!b) return;
+  if (b.dataset.tripopen){ S.tripView=b.dataset.tripopen; S.tripTab='sum'; render(); window.scrollTo(0,0); return; }
+  if (b.hasAttribute('data-tripback')){ S.tripView=null; render(); return; }
+  if (b.dataset.tripedit){ openTrip(S.trips.find(x=>x.id===b.dataset.tripedit)); return; }
+  if (b.dataset.triptab){ S.tripTab=b.dataset.triptab; render(); return; }
+  if (b.dataset.expadd){ openExp(b.dataset.expadd); return; }
+  if (b.dataset.expedit){ const t=S.trips.find(x=>x.id===S.tripView); const x=t&&t.expenses.find(y=>y.id===b.dataset.expedit); if (x) openExp(t.id, x); return; }
+  if (b.dataset.xferadd){ openXfer(b.dataset.xferadd, null, b.dataset.from? {from:b.dataset.from, to:b.dataset.to, amt:+b.dataset.amt} : null); return; }
+  if (b.dataset.xferedit){ const t=S.trips.find(x=>x.id===S.tripView); const r=t&&t.transfers.find(y=>y.id===b.dataset.xferedit); if (r) openXfer(t.id, r); return; }
+  if (b.dataset.tripentry){ const tid=b.dataset.tripentry; openEntry(); $('#eTrip').value=tid; return; }
+});
+
 async function settlePair(key){
-  const [a,b]=key.split('|'); const changed=[];
-  S.entries.forEach(e=>{ let hit=false; (e.stakes||[]).forEach(x=>{ if (!x.settled && ((e.player===a&&x.p===b)||(e.player===b&&x.p===a))){ x.settled=true; hit=true; } }); if (hit) changed.push(e); });
+  const changed=[];
+  stakeItems().filter(x=>x.open && x.key===key).forEach(x=>{ x.e.stake.buyDone=true; x.e.stake.prizeDone=true; changed.push(x.e); });
   render();
   try{ for (const e of changed) await store.put('entries', e); toast(`${changed.length}건을 정산 완료로 바꿨어요`); }catch{ toast('저장하지 못했어요'); }
 }
@@ -2314,9 +2784,9 @@ $('#parseSave').addEventListener('click', async ()=>{
 /* ---------- CSV ---------- */
 async function exportCSV(){
   const list = S.entries.filter(e=>inPeriod(e)&&passF(e)).sort((a,b)=>a.date.localeCompare(b.date));
-  const head=['날짜','플레이어','지분','블라인드','시간','시트권','대상 대회','구분','온오프','브랜드','이름','장소','통화','바이인','엔트리','부대비용','상금','순위','환율','쓴금액(원)','번금액(원)','순손익(원)','메모'];
+  const head=['날짜','플레이어','스테이킹','블라인드','시간','참가권','대상 대회','구분','온오프','브랜드','이름','장소','통화','바이인','엔트리','부대비용','상금','순위','환율','쓴금액(원)','번금액(원)','순손익(원)','메모'];
   const q=v=>`"${String(v??'').replace(/"/g,'""')}"`;
-  const rows=list.map(e=>[e.date,P(e.player).name,validStakes(e).map(x=>P(x.p).name+' '+x.pct+'%').join(' / '),e.blinds||'',e.hours||'',e.seats||'',e.seatFor||'',kindLabel(e),e.ch==='online'?'온라인':'오프라인',e.brand,e.name,e.venue,e.cur,e.buyin,e.entries,e.extra,e.prize,e.place,e.rate,Math.round(spentOf(e)),Math.round(wonOf(e)),Math.round(wonOf(e)-spentOf(e)),e.note].map(q).join(','));
+  const rows=list.map(e=>[e.date,P(e.player).name,stakeOf(e)? `${invName(e.stake)} 바이인 ${e.stake.buyPct}% / 상금 ${e.stake.prizePct}%` : '',e.blinds||'',e.hours||'',e.tickets||'',e.ticketFor||'',kindLabel(e),e.ch==='online'?'온라인':'오프라인',e.brand,e.name,e.venue,e.cur,e.buyin,e.entries,e.extra,e.prize,e.place,e.rate,Math.round(spentOf(e)),Math.round(wonOf(e)),Math.round(wonOf(e)-spentOf(e)),e.note].map(q).join(','));
   const data='\ufeff'+[head.map(q).join(','),...rows].join('\n');
   if (!dl){ try{ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([data],{type:'text/csv'})); a.download=`poker-ledger-${periodLabel().replace(/\s/g,'')}.csv`; document.body.appendChild(a); a.click(); a.remove(); }catch{ toast('내보내기를 쓸 수 없어요'); } return; }
   try{ await dl.save({filename:`poker-ledger-${periodLabel().replace(/\s/g,'')}.csv`, data}); }catch{}
@@ -2336,12 +2806,12 @@ document.addEventListener('click', async ev=>{
   if (t.dataset.edit){ openEntry(S.entries.find(x=>x.id===t.dataset.edit)); return; }
   if (t.dataset.edittour){ openTour(S.tours.find(x=>x.id===t.dataset.edittour)); return; }
   if (t.dataset.skinpick){ setSkin(t.dataset.skinpick); render(); return; }
-  if (t.dataset.edittrip){ openTrip(S.trips.find(x=>x.id===t.dataset.edittrip)); return; }
+  if (t.dataset.edittrip){ S.view='trips'; S.tripView=t.dataset.edittrip; S.tripTab='sum'; render(); window.scrollTo(0,0); return; }
   if (t.dataset.tv){ S.tourView=t.dataset.tv; render(); return; }
   if (t.dataset.cal){ S.calM+=+t.dataset.cal; if(S.calM<1){S.calM=12;S.calY--;} if(S.calM>12){S.calM=1;S.calY++;} render(); return; }
   if (t.dataset.settle){ settlePair(t.dataset.settle); return; }
   if (t.dataset.pdel){
-    const id=t.dataset.pdel, n=S.entries.filter(e=>e.player===id||validStakes(e).some(x=>x.p===id)).length;
+    const id=t.dataset.pdel, n=S.entries.filter(e=>e.player===id||(e.stake&&e.stake.inv===id)).length;
     if (S.cfg.players.length<=1){ toast('플레이어는 한 명 이상 있어야 해요'); return; }
     if (n){ toast(`이 플레이어의 기록 ${n}건이 있어 삭제할 수 없어요`); return; }
     S.cfg.players=S.cfg.players.filter(p=>p.id!==id); render();
@@ -2361,8 +2831,8 @@ document.addEventListener('click', async ev=>{
   if (a==='saveGoals'){
     S.cfg.players.forEach(p=>{
       const g=q=>document.querySelector(`[${q}="${CSS.escape(p.id)}"]`);
-      p.goalNet=+g('data-gnet').value||0; const r=g('data-groi').value; p.goalRoi = r===''? null : +r;
-      const u=g('data-hmurl').value.trim(); p.hmUrl = /^https?:\/\//.test(u) ? u : ''; p.hmTotal=+g('data-hmtot').value||0;
+      p.goalMonth=num(g('data-gnet').value); const r=g('data-groi').value; p.goalRoi = r===''? null : +r;
+      const u=g('data-hmurl').value.trim(); p.hmUrl = /^https?:\/\//.test(u) ? u : ''; p.hmTotal=num(g('data-hmtot').value);
     });
     try{ await store.putCfg(); toast('목표를 저장했어요'); }catch{ toast('저장하지 못했어요'); } render(); return;
   }
@@ -2385,7 +2855,7 @@ document.addEventListener('click', async ev=>{
 function collectPlayers(){
   document.querySelectorAll('[data-pname]').forEach(i=>{ const p=S.cfg.players.find(x=>x.id===i.dataset.pname); if (p) p.name=i.value.trim()||p.name; });
   document.querySelectorAll('[data-pcolor]').forEach(i=>{ const p=S.cfg.players.find(x=>x.id===i.dataset.pcolor); if (p) p.color=i.value; });
-  document.querySelectorAll('[data-pbudget]').forEach(i=>{ const p=S.cfg.players.find(x=>x.id===i.dataset.pbudget); if (p) p.budget=+i.value||0; });
+  document.querySelectorAll('[data-pbudget]').forEach(i=>{ const p=S.cfg.players.find(x=>x.id===i.dataset.pbudget); if (p) p.budget=num(i.value); });
 }
 document.addEventListener('change', ev=>{ if (ev.target.dataset && ev.target.dataset.h2h!=null){ const i=+ev.target.dataset.h2h; h2hPair(); S.h2h[i]=ev.target.value; if (S.h2h[0]===S.h2h[1]) S.h2h[1-i]=S.cfg.players.find(p=>p.id!==ev.target.value).id; render(); return; } if (ev.target.id==='mePick'){ lsSet(LS_ME, ev.target.value); toast('이 기기의 기본 플레이어를 바꿨어요'); } });
 document.addEventListener('keydown', ev=>{ if (ev.key==='Enter' && ev.target.id==='bNew'){ document.querySelector('[data-act=addBrand]').click(); return; } if (ev.key==='Enter' && ev.target.matches('tr[data-edit],tr[data-edittour]')) ev.target.click(); });
@@ -2395,7 +2865,7 @@ $('#restoreFile').addEventListener('change', async ev=>{
     const d=JSON.parse(await f.text());
     if (!d || !Array.isArray(d.entries)) throw new Error('bad');
     if (!(await ask(`백업의 기록 ${d.entries.length}건으로 바꿀까요? 지금 데이터는 덮어써져요.`, '불러오기'))) return;
-    S.entries=d.entries; S.tours=d.tours||[]; S.trips=d.trips||[]; S.hands=d.hands||[]; S.cfg={...S.cfg, ...(d.cfg||{}), rates:{...DEFAULT_RATES, ...((d.cfg||{}).rates||{})}};
+    S.entries=d.entries; S.tours=d.tours||[]; S.trips=d.trips||[]; S.hands=d.hands||[]; migrateAll(); S.cfg={...S.cfg, ...(d.cfg||{}), rates:{...DEFAULT_RATES, ...((d.cfg||{}).rates||{})}};
     ensureMe(); store.saveLocal(); S.dmode=null; render(); toast('백업을 불러왔어요');
   }catch{ toast('EV log 백업 파일이 아니에요'); }
 });
@@ -2869,7 +3339,7 @@ document.addEventListener('click', async ev=>{
 });
 
 /* ---------- friend share codes (no server: the code carries the records) ---------- */
-const SHARE_F = ['date','kind','ch','cur','name','brand','buyin','entries','extra','prize','place','field','rate','blinds','hours','seats','seatVal','seatFor'];
+const SHARE_F = ['date','kind','ch','cur','name','brand','buyin','entries','extra','prize','place','field','rate','blinds','hours','seats','seatVal','seatFor','prizeType','tickets','ticketVal','ticketFor','payType','v'];
 function b64u(bytes){ let s=''; for (let i=0;i<bytes.length;i+=0x8000) s+=String.fromCharCode.apply(null, bytes.subarray(i,i+0x8000)); return btoa(s).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''); }
 function unb64u(t){ t=t.replace(/-/g,'+').replace(/_/g,'/'); while (t.length%4) t+='='; const s=atob(t), b=new Uint8Array(s.length); for (let i=0;i<s.length;i++) b[i]=s.charCodeAt(i); return b; }
 async function encodeShare(obj){
@@ -2936,7 +3406,8 @@ async function importShare(){
   p.remoteAt=d.at; p.remoteName=d.name;
   const old=S.entries.filter(e=>e.src===d.id);
   S.entries=S.entries.filter(e=>e.src!==d.id);
-  const fresh=d.e.map(row=>{ const o={id:uid(), player:p.id, src:d.id, by:'', stakes:[]}; SHARE_F.forEach((f,i)=>{ const v=row[i]; o[f] = (v===0 && ['name','brand','place','blinds','date','kind','ch','cur','seatFor'].includes(f)) ? '' : v; }); if (!o.cur) o.cur='KRW'; if (!o.kind) o.kind='tour'; if (!o.ch) o.ch='offline'; if (!o.rate) o.rate=1; if (!o.entries) o.entries=1; return o; });
+  const fresh=d.e.map(row=>{ const o={id:uid(), player:p.id, src:d.id, by:'', stakes:[]}; SHARE_F.forEach((f,i)=>{ const v=row[i]; o[f] = (v===0 && ['name','brand','place','blinds','date','kind','ch','cur','seatFor','ticketFor','prizeType','payType'].includes(f)) ? '' : v; }); if (!o.cur) o.cur='KRW'; if (!o.kind) o.kind='dom'; if (!o.ch) o.ch='offline'; if (!o.rate) o.rate=1; if (!o.entries) o.entries=1; return o; });
+  fresh.forEach(migrateEntry);
   S.entries.push(...fresh);
   if (store.mode==='db'){ for (const e of old){ try{ await store.del('entries', e.id); }catch{} } }
   await persistAll(fresh);
@@ -3032,6 +3503,91 @@ document.addEventListener('change', ev=>{
   window.addEventListener('scroll', ()=>{ const y=window.scrollY, fab=$('#fab'); if (!fab) return;
     if (y>lastY+6 && y>80) fab.classList.add('hide'); else if (y<lastY-6) fab.classList.remove('hide');
     lastY=y; clearTimeout(t); t=setTimeout(()=>fab.classList.remove('hide'), 900); }, {passive:true}); })();
+/* money inputs: live thousands separators, stored as plain numbers */
+document.addEventListener('input', ev=>{
+  const el=ev.target; if (!el.matches || !el.matches('input[data-money]')) return;
+  const raw=el.value, pos=el.selectionStart ?? raw.length;
+  const before=raw.slice(0,pos).replace(/[^0-9.]/g,'').length;
+  let clean=raw.replace(/[^0-9.]/g,''); const dot=clean.indexOf('.'); if (dot>=0) clean=clean.slice(0,dot+1)+clean.slice(dot+1).replace(/\./g,'');
+  let [ip,dp]=clean.split('.'); ip=ip.replace(/^0+(?=\d)/,'');
+  const out=(ip? Number(ip).toLocaleString('en-US') : (dp!==undefined?'0':'')) + (dp!==undefined? '.'+dp.slice(0,2) : '');
+  if (out===raw) return;
+  el.value=out;
+  let c=0, k=0; while (k<out.length && c<before){ if (/[0-9.]/.test(out[k])) c++; k++; }
+  try{ el.setSelectionRange(k,k); }catch{}
+}, true);
+{ const goHome=()=>{ S.view='dash'; render(); window.scrollTo({top:0,behavior:'smooth'}); };
+  const br=document.querySelector('.brand'); if (br){ br.addEventListener('click', goHome); br.addEventListener('keydown', e=>{ if (e.key==='Enter'||e.key===' '){ e.preventDefault(); goHome(); } }); } }
+$('#fToggle').addEventListener('click', ()=>{ const g=$('#filterGrp'); const o=!g.classList.contains('open'); g.classList.toggle('open', o); $('#fToggle').setAttribute('aria-expanded', o); });
+/* ---------- stage 4: monthly summary, insights, favorites ---------- */
+const favs = () => (S.cfg.favs||[]);
+const isFav = gk => favs().includes(gk);
+const itemGroupKey = it => it.builtin ? `${it.se.id}|${it.ev.id}` : it.tour ? `t|${it.tour.id}` : '';
+async function toggleFav(gk){
+  const f=new Set(favs()); if (f.has(gk)) f.delete(gk); else f.add(gk); S.cfg.favs=[...f];
+  try{ await store.putCfg(); }catch{}
+  toast(f.has(gk) ? '즐겨찾기에 추가했어요' : '즐겨찾기에서 뺐어요');
+}
+function favEvents(){
+  const t=todayISO();
+  return pickEventGroups().filter(g=>isFav(g.key)).map(g=>{ const next=g.items.find(it=>it.date>=t); return {...g, next}; })
+    .sort((a,b)=> (a.next?0:1)-(b.next?0:1) || ((a.next&&b.next)? (a.next.date+a.next.time).localeCompare(b.next.date+b.next.time) : 0));
+}
+function monthCard(p){
+  const Y=today.getFullYear(), M=today.getMonth()+1;
+  const mine=rowsAll().filter(e=>e.player===p.id);
+  const c=calc(mine.filter(e=>inPeriod(e,'month',Y,M)));
+  const goal=+p.goalMonth||0, prog=goal? c.net/goal : null, left=goal? Math.max(0, goal-c.net) : 0;
+  const itmR = c.count? Math.round(c.itm/c.count*1000)/10 : null;
+  return `<section class="card s8 mcard"><h2>${M}월 성과 <button data-view="settings">목표 설정</button></h2>
+    <p class="m-line">${M}월 현재 순수익 <b class="n ${ud(c.net)}">${sgn(c.net)}</b>${c.count?` · ${c.count}경기`:''}</p>
+    <div class="statgrid n m-grid">
+      <div class="statbox"><span>ROI</span><b class="${ud(c.roi||0)}">${c.spent? pct(c.roi) : '–'}</b></div>
+      <div class="statbox"><span>ITM률</span><b>${itmR!=null? itmR+'%' : '–'}</b><small>${c.itm} / ${c.count}</small></div>
+      <div class="statbox"><span>총 바이인</span><b>${won(c.spent)}</b></div>
+      <div class="statbox"><span>총 상금</span><b>${won(c.won)}</b></div>
+    </div>
+    ${goal? `<div class="goalbar"><div class="gb-top"><span>이번 달 목표 ${won(goal)} 중 <b class="n">${Math.max(0,Math.round(prog*1000)/10)}%</b> 달성</span><span class="n">${c.net>=goal? '<b class="up">목표 달성!</b>' : `목표까지 ${won(left)}`}</span></div><div class="sbar" style="height:6px"><i style="width:${Math.min(100,Math.max(0,prog*100))}%;background:${c.net>=goal?'var(--up)':'var(--gold)'}"></i></div></div>`
+      : `<p class="hint" style="margin:10px 0 0">MY에서 월 목표 수익을 정하면 달성률이 보여요.</p>`}
+  </section>`;
+}
+function insights(p){
+  const out=[], Y=today.getFullYear(), M=today.getMonth()+1, pm = M===1? {y:Y-1,m:12} : {y:Y,m:M-1};
+  const mine=rowsAll().filter(e=>e.player===p.id);
+  const cm=calc(mine.filter(e=>inPeriod(e,'month',Y,M))), cp=calc(mine.filter(e=>inPeriod(e,'month',pm.y,pm.m)));
+  if (cm.count && cp.count){ const d=cm.net-cp.net; out.push({i:d>=0?'📈':'📉', t:`지난달보다 순수익이 <b class="n ${ud(d)}">${sgn(d)}</b> ${d>=0?'늘었어요':'줄었어요'}.`}); }
+  const goal=+p.goalMonth||0; if (goal && cm.net>=goal) out.push({i:'🎯', t:`이번 달 목표 ${won(goal)}를 달성했어요.`});
+  const tours=[...mine].filter(e=>!isCash(e)).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5);
+  if (tours.length>=3){ const itm=tours.filter(e=>(+e.prize||0)>0||(+e.tickets||0)>0).length; let streak=0; for (const e of tours){ if ((+e.prize||0)>0||(+e.tickets||0)>0) break; streak++; }
+    out.push(streak>=3 ? {i:'🧊', t:`최근 토너먼트 ${streak}경기 연속 입상이 없어요.`} : {i:'🃏', t:`최근 토너먼트 ${tours.length}경기 중 ${itm}경기 입상했어요.`}); }
+  const t=todayISO(), weekEnd=addDays(t, 6-new Date().getDay());
+  favEvents().filter(g=>g.next).slice(0,3).forEach(g=>{ const dd=dDay(g.next.date); const n=dd==='D-DAY'?0:+dd.slice(2);
+    if (n<=14) out.push({i:'⭐', t:`<b>${esc(g.label)}</b> ${esc(g.next.sub||'')} ${dd}${g.next.date<=weekEnd && n>0?' · 이번 주 시작해요':''}`, key:g.next.key}); });
+  return out;
+}
+function insightCard(p){
+  const list=insights(p);
+  return `<section class="card s4"><h2>알림 · 인사이트</h2>${list.length? `<div class="ins">${list.map(x=>`<${x.key?'button data-evt="'+esc(x.key)+'"':'div'} class="ins-row"><span class="ins-i">${x.i}</span><span>${x.t}</span></${x.key?'button':'div'}>`).join('')}</div>` : `<p class="hint" style="margin:0">기록이 쌓이고 관심 대회를 즐겨찾기하면 여기에 안내가 떠요.</p>`}</section>`;
+}
+function tripSummaryCard(){
+  const Y=today.getFullYear();
+  const trips=S.trips.filter(t=>(t.start||'').startsWith(String(Y))||(t.end||'').startsWith(String(Y))).sort((a,b)=>(b.start||'').localeCompare(a.start||'')).slice(0,4);
+  if (!trips.length) return '';
+  return `<section class="card s6x"><h2>원정 요약 <button data-view="trips">원정 관리</button></h2><div class="mini">${trips.map(t=>{ const sm=tripSummary(t), un=sm.toRecv-sm.toPay; return `<button data-tripopen="${esc(t.id)}" data-view="trips"><span style="min-width:0;flex:1"><span class="t">${esc(t.name)}</span><span class="m">${esc(t.start||'')}${t.country||t.city?' · '+esc([t.country,t.city].filter(Boolean).join(' ')):''} · 경비 ${won(sm.myCost)}${un?` · 미정산 ${un>0?'받을':'줄'} ${won(Math.abs(un))}`:''}</span></span><span class="v n"><b class="${ud(sm.final)}">${sgn(sm.final)}</b><small>최종 손익</small></span></button>`; }).join('')}</div></section>`;
+}
+function favListView(){
+  const list=favEvents();
+  if (!list.length) return `<div class="empty"><b>즐겨찾기한 대회가 없어요</b>대회를 눌러 상세 화면의 ☆를 누르면 여기에 모이고, 홈에서 D-Day를 알려줘요.</div>`;
+  return `<section class="card"><h2>즐겨찾기 <span class="sub">${list.length}개</span></h2><div class="mini">${list.map(g=>{ const it=g.next || g.items[g.items.length-1]; return `<button data-evt="${esc(it.key)}"><span class="dday ${g.next&&/^D-(DAY|[1-3])$/.test(dDay(g.next.date))?'soon':''}">${g.next? dDay(g.next.date) : '종료'}</span><span style="min-width:0;flex:1"><span class="t">${esc(g.label)}</span><span class="m">${g.next? `다음 ${esc(g.next.sub||'')} ${dShort(g.next.date)}${g.next.time?' '+esc(g.next.time):''}` : '모든 일정이 끝났어요'}${it.venue?' · '+esc(it.venue):''}</span></span><span class="favbtn on" data-fav="${esc(g.key)}" role="button" aria-label="즐겨찾기 해제">★</span></button>`; }).join('')}</div></section>`;
+}
+document.addEventListener('click', async ev=>{
+  const b=ev.target.closest('[data-fav]'); if (!b) return;
+  ev.preventDefault(); ev.stopPropagation();
+  await toggleFav(b.dataset.fav);
+  if ($('#evtDlg').open && S.evtOpenKey) openEvt(S.evtOpenKey); 
+  render();
+}, true);
+
 /* ---------- boot ---------- */
 render();
 (async ()=>{
@@ -3041,7 +3597,10 @@ render();
     Promise.resolve().then(()=>claude.use('downloads')).then(d=>{ dl=d; }).catch(()=>{});
   } else store.loadLocal();
   const hadPlayers = S.cfg.players.length, hadBrands = Array.isArray(S.cfg.brands);
+  if (migrateAll()){ store.saveLocal(); if (store.mode==='db') S.entries.forEach(e=>store.put('entries',e).catch(()=>{})); }
+  const hadOnline=(S.cfg.brands||[]).some(b=>b.type==='online');
   ensureMe(); fillBrandList(); setTimeout(checkShareHash, 0);
+  if (Array.isArray(S.cfg.brands) && !hadOnline && S.cfg.brands.some(b=>b.type==='online')) store.putCfg().catch(()=>{});
   if (!hadPlayers || !hadBrands){ try{ await store.putCfg(); }catch{} }
   $('#storeNote').textContent = store.mode==='db' ? '이 브라우저에 저장 중' : '이 브라우저에 저장 중';
   render();
