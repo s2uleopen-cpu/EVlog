@@ -944,6 +944,90 @@ button.ins-row{cursor:pointer}
 .favbtn{border:0;background:none;color:var(--faint);font-size:18px;line-height:1;padding:4px 6px;cursor:pointer;flex:none}
 .favbtn.on{color:var(--gold)}
 
+
+/* sync */
+.syncchip{font-family:"Pretendard Variable",Pretendard,"Noto Sans KR",sans-serif;font-size:10.5px;font-weight:600;letter-spacing:0;padding:2px 7px;border-radius:999px;margin-left:8px;background:rgba(var(--ov),.07);color:var(--muted);align-self:center}
+.syncchip[data-st="saved"]{color:var(--up);background:rgba(127,209,168,.12)}
+.syncchip[data-st="error"]{color:var(--down);background:rgba(232,131,138,.14)}
+.syncchip[data-st="saving"],.syncchip[data-st="loading"]{color:var(--gold-hi);background:rgba(var(--acc),.12)}
+.me[data-st="error"]{color:var(--down)!important}
+.acct{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.acct-ph{width:40px;height:40px;border-radius:50%}
+.acct-st{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted);margin-top:4px}
+.acct-st .dot{width:8px;height:8px;border-radius:50%;background:var(--faint)}
+.acct-st .dot[data-st="saved"]{background:var(--up)}.acct-st .dot[data-st="error"]{background:var(--down)}.acct-st .dot[data-st="saving"],.acct-st .dot[data-st="loading"]{background:var(--gold)}
+.gbtn{display:inline-flex;align-items:center;gap:8px}
+@media (min-width:861px){.syncchip{display:none}}
+/* account entry (header) */
+.syncchip{display:none!important}
+.acct-entry{margin-left:auto;display:flex;align-items:center;gap:10px;position:relative;flex:none}
+.top .right{flex:none}
+.acct-entry + .right{margin-left:0}
+.sync-pill{display:inline-flex;align-items:center;gap:6px;border:0;background:rgba(var(--ov),.05);color:var(--muted);border-radius:999px;padding:5px 11px;font-size:12px;white-space:nowrap;line-height:1.2;font-family:inherit}
+button.sync-pill:hover{color:var(--ink)}
+.sync-pill .dot,.acct-st .dot{width:7px;height:7px;border-radius:50%;background:var(--faint);flex:none}
+[data-st="synced"] > .dot,.dot[data-st="synced"]{background:var(--up)}
+[data-st="syncing"] > .dot,.dot[data-st="syncing"],[data-st="loading"] > .dot,.dot[data-st="loading"]{background:var(--gold);animation:evpulse 1.2s ease-in-out infinite}
+[data-st="offline"] > .dot,.dot[data-st="offline"]{background:#F0B840}
+[data-st="error"] > .dot,.dot[data-st="error"],[data-st="expired"] > .dot,.dot[data-st="expired"]{background:var(--down)}
+.sync-pill[data-st="error"],.sync-pill[data-st="expired"]{color:var(--down);background:rgba(232,131,138,.12)}
+.sync-pill[data-st="offline"]{color:#F0B840}
+@keyframes evpulse{50%{opacity:.35}}
+@media (prefers-reduced-motion:reduce){.dot{animation:none!important}}
+.gsign{padding:6px 13px!important;font-size:12.5px!important;gap:7px!important;background:var(--surface)!important;border-color:rgba(var(--ov),.14)!important;color:var(--ink)!important}
+.gsign[disabled]{opacity:.65;cursor:progress}
+.gsign .gs-s{display:none}
+.acct-btn{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(var(--ov),.1);background:transparent;border-radius:999px;padding:3px 12px 3px 3px;color:var(--ink);font-size:13px;max-width:200px;position:relative}
+.acct-btn:hover,.acct-btn[aria-expanded="true"]{border-color:rgba(var(--acc),.5)}
+.acct-btn .an{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acct-av{width:28px;height:28px;border-radius:50%;flex:none;object-fit:cover}
+.acct-ic{display:inline-grid;place-items:center;background:rgba(var(--ov),.07);color:var(--muted)}
+.acct-btn .badge{position:absolute;left:24px;bottom:2px;width:9px;height:9px;border-radius:50%;box-shadow:0 0 0 2px var(--bg);background:var(--faint)}
+.acct-btn[data-st="synced"] .badge{background:var(--up)}.acct-btn[data-st="syncing"] .badge,.acct-btn[data-st="loading"] .badge{background:var(--gold)}.acct-btn[data-st="offline"] .badge{background:#F0B840}.acct-btn[data-st="error"] .badge,.acct-btn[data-st="expired"] .badge{background:var(--down)}
+.acct-menu{position:fixed;right:16px;top:64px;width:290px;background:var(--surface);border-radius:14px;box-shadow:0 0 0 1px rgba(var(--acc),.25),0 30px 60px -20px rgba(0,0,0,.85);padding:8px;z-index:70;display:flex;flex-direction:column}
+.acct-menu .am-head{display:flex;gap:10px;align-items:center;padding:8px 8px 12px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.acct-menu .am-head b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acct-menu .am-head .hint{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acct-menu [role=menuitem]{border:0;background:none;text-align:left;padding:11px 10px;border-radius:9px;color:var(--ink);font-size:14px}
+.acct-menu [role=menuitem]:hover,.acct-menu [role=menuitem]:focus-visible{background:rgba(var(--ov),.05);outline:none;box-shadow:inset 0 0 0 1px rgba(var(--acc),.4)}
+.acct-menu [data-act="cloudOut"]{color:var(--down)}
+.am-scrim{display:none}
+.acct-card .acct{align-items:center}
+.acct-ph{width:44px;height:44px;border-radius:50%;flex:none;object-fit:cover}
+.acct-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:16px}
+.acct-grid > div{background:rgba(var(--ov),.025);box-shadow:inset 0 0 0 1px rgba(var(--ov),.04);border-radius:12px;padding:10px 14px;min-width:0}
+.acct-grid span{display:block;font-size:11.5px;color:var(--muted)}
+.acct-grid b{display:block;font-weight:500;font-size:15px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.acct-err{color:var(--down)!important}
+.spin{display:block;width:26px;height:26px;margin:0 auto 14px;border-radius:50%;border:2px solid rgba(var(--acc),.2);border-top-color:var(--gold);animation:evspin .9s linear infinite}
+@keyframes evspin{to{transform:rotate(360deg)}}
+body.cloud-mask .ctrl,body.cloud-mask .filters,body.cloud-mask #fab,body.cloud-mask .subnav{visibility:hidden}
+#choiceDlg{width:min(520px,94vw)}
+#choiceDlg footer{flex-wrap:wrap}
+@media (max-width:860px){
+  .acct-entry{gap:6px}
+  .sync-pill{padding:5px 9px;font-size:11px}
+  .acct-btn{padding:2px;border-color:transparent}
+  .acct-btn .an{display:none}
+  .acct-btn .badge{left:22px}
+  .gsign .gs-l{display:none}.gsign .gs-s{display:inline}
+  .gsign{padding:5px 11px!important}
+  .acct-menu{position:fixed;left:0;right:0!important;top:auto!important;bottom:0;width:auto;border-radius:18px 18px 0 0;padding:10px 12px calc(14px + env(safe-area-inset-bottom,0px));z-index:90}
+  .acct-menu [role=menuitem]{padding:14px 12px;font-size:15px}
+  .am-scrim{display:block;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:85}
+  .am-scrim[hidden]{display:none}
+  .acct-grid{grid-template-columns:1fr 1fr}
+  .acct-grid > div:last-child{grid-column:1 / -1}
+  #choiceDlg footer .btn{flex:1 1 auto;justify-content:center}
+}
+@media (max-width:400px){ .sync-pill .sp-l{display:none} .sync-pill{padding:8px} .acct-entry .sync-pill[data-st="local"] .sp-l{display:inline} }
+@media (max-width:350px){ .acct-entry .sync-pill[data-st="local"] .sp-l{display:none} }
+@media (max-width:1520px) and (min-width:861px){.acct-entry .sync-pill:not([data-st="local"]) .sp-l{display:none}.acct-entry .sync-pill:not([data-st="local"]){padding:8px}.acct-btn .an{max-width:72px}.brand small{display:none}.gsign .gs-l{display:none}.gsign .gs-s{display:inline}.top-in{gap:20px}}
+@media (max-width:960px) and (min-width:861px){nav.tabs button{padding:8px 6px!important;font-size:12.5px!important}.top-in{gap:12px!important}.acct-entry{gap:6px}}
+@media (max-width:1180px) and (min-width:861px){.acct-entry .sync-pill .sp-l{display:none!important}.acct-entry .sync-pill{padding:8px!important}}
+@media (max-width:1060px) and (min-width:861px){nav.tabs button{padding:8px 9px;font-size:13px}.acct-btn .an{display:none}.acct-btn{padding:3px}}
+
+
 /* logo wordmark */
 .brand b{font-family:"Bodoni Moda",Didot,"Bodoni 72","Times New Roman",serif;font-weight:600;font-size:23px;letter-spacing:.005em;text-transform:none;line-height:1;font-optical-sizing:auto}
 .brand b i{font-style:italic;font-weight:500;color:var(--gold);margin-left:2px;letter-spacing:0}
@@ -961,8 +1045,8 @@ button.ins-row{cursor:pointer}
     <button role="tab" data-view="settle" aria-selected="false">스테이킹·정산</button>
     <button role="tab" data-view="settings" aria-selected="false">MY</button>
   </nav>
+  <div class="acct-entry" id="acctEntry" aria-label="계정"></div>
   <div class="right">
-    <span class="me" id="storeNote">불러오는 중…</span>
     <button class="btn primary addbtn" data-act="add">+ 기록 추가</button>
   </div>
 </div></header>
@@ -1008,6 +1092,11 @@ button.ins-row{cursor:pointer}
 <button class="fab" id="fab" aria-label="기록 추가" title="기록 추가">+ 기록 추가</button>
 <div class="toast" id="toast"></div>
 <dialog id="evtDlg"><div class="dlg" id="evtBox"></div></dialog>
+<dialog id="choiceDlg" aria-labelledby="chTitle"><div class="dlg">
+  <header><h3 id="chTitle"></h3><button type="button" class="btn ghost" id="chX" aria-label="닫기">닫기</button></header>
+  <div class="body" id="chBody"></div>
+  <footer id="chFoot"></footer>
+</div></dialog>
 <dialog id="askDlg"><div class="dlg" style="padding:22px 24px 18px"><p id="askMsg" style="margin:0 0 18px;font-size:15px;line-height:1.6"></p><div style="display:flex;gap:8px;justify-content:flex-end"><button type="button" class="btn" id="askNo">취소</button><button type="button" class="btn primary" id="askYes">확인</button></div></div></dialog>
 <input type="file" id="restoreFile" accept="application/json,.json" hidden>
 
@@ -1252,7 +1341,7 @@ const whoTag = id => { const p=P(id); return `<span class="who-tag">${avatar(p)}
 /* ---------- storage (shared) ---------- */
 const store = {
   mode:'local', db:null,
-  saveLocal(){ lsSet(LS_KEY, JSON.stringify({entries:S.entries,tours:S.tours,trips:S.trips,hands:S.hands,cfg:S.cfg})); },
+  saveLocal(){ if (this.mode==='cloud'){ cloud.changed(); return; } lsSet(LS_KEY, JSON.stringify({entries:S.entries,tours:S.tours,trips:S.trips,hands:S.hands,cfg:S.cfg})); },
   loadLocal(){
     try{ const l=JSON.parse(lsGet(LS_KEY)); if (l){ S.entries=l.entries||[]; S.tours=l.tours||[]; S.trips=l.trips||[]; S.hands=l.hands||[]; S.cfg={...S.cfg,...(l.cfg||{}), rates:{...DEFAULT_RATES, ...((l.cfg||{}).rates||{})}}; return; } }catch{}
     try{ const o=JSON.parse(lsGet(LS_OLD)); if (o){ S.entries=o.entries||[]; S.tours=o.tours||[]; if (o.settings) S.cfg={...S.cfg, rates:{...DEFAULT_RATES,...(o.settings.rates||{})}, rateDate:o.settings.rateDate||''}; } }catch{}
@@ -1302,9 +1391,9 @@ const store = {
     this.db.collection('tours').onSnapshot(s=>{ if(first[1]){first[1]=false;return;} S.tours=s.docs.map(d=>({...d.data(),id:d.id})); render(); }, ()=>{});
     this.db.doc('config/settings').onSnapshot(d=>{ if(first[2]){first[2]=false;return;} if(d.exists){const c=d.data(); S.cfg={...S.cfg,...c,rates:{...DEFAULT_RATES,...(c.rates||{})},players:(c.players||[]).map(p=>({...p,color:fixColor(p.color)}))}; render();} }, ()=>{});
   },
-  async put(kind, obj){ if (this.mode==='db'){ const {id,...body}=obj; await this.db.collection(kind).doc(id).set(body); } else this.saveLocal(); },
-  async del(kind, id){ if (this.mode==='db') await this.db.collection(kind).doc(id).delete(); else this.saveLocal(); },
-  async putCfg(){ if (this.mode==='db') await this.db.doc('config/settings').set(S.cfg); else this.saveLocal(); }
+  async put(kind, obj){ if (this.mode==='db'){ const {id,...body}=obj; await this.db.collection(kind).doc(id).set(body); } else if (this.mode==='cloud') cloud.changed(); else this.saveLocal(); },
+  async del(kind, id){ if (this.mode==='db') await this.db.collection(kind).doc(id).delete(); else if (this.mode==='cloud') cloud.changed(); else this.saveLocal(); },
+  async putCfg(){ if (this.mode==='db') await this.db.doc('config/settings').set(S.cfg); else if (this.mode==='cloud') cloud.changed(); else this.saveLocal(); }
 };
 function ensureMe(){
   if (Array.isArray(S.cfg.brands) && !S.cfg.brands.some(b=>b.type==='online')) S.cfg.brands.push({name:'Prime',type:'online'},{name:'포커브로스',type:'online'});
@@ -1846,7 +1935,7 @@ function renderDash(){
   if (!S.entries.length){
     return `<div class="empty"><div style="font-family:Georgia,serif;font-size:26px;letter-spacing:18px;margin-bottom:14px;color:var(--gold)">♠♥♦♣</div><b>EV log에 오신 걸 환영해요</b>토너먼트와 캐시 게임 수익을 기록하고, 친구와 성적을 비교하는 포커 장부예요.
       <ol style="text-align:left;max-width:380px;margin:18px auto;line-height:1.9;color:var(--ink)"><li><b style="display:inline;font-size:inherit">MY</b>에서 내 이름(지금은 "나")을 바꿔요</li><li>비교할 친구가 있으면 플레이어로 추가해요</li><li><b style="display:inline;font-size:inherit">+ 기록 추가</b>로 첫 게임을 기록해요</li></ol>
-      <p class="hint" style="margin:0 0 18px">기록은 이 브라우저에만 저장돼요. 설정의 데이터 백업으로 가끔 백업해 주세요.</p>
+      <p class="hint" style="margin:0 0 18px">${store.mode==='cloud' ? '기록은 Google 계정에 동기화돼요. MY에서 백업 파일도 받을 수 있어요.' : '기록은 지금 이 기기에만 저장돼요. MY에서 Google로 로그인하면 휴대폰·아이패드와 이어서 쓸 수 있어요.'}</p>
       <button class="btn primary" data-act="add">첫 기록 추가</button> <button class="btn" data-view="settings">이름 바꾸기</button></div>
       <div class="dash" style="margin-top:16px">${upcomingCard('s12')}</div>`;
   }
@@ -2204,6 +2293,7 @@ function renderSettle(){
 function renderSettings(){
   const r = S.cfg.rates, mine = myPlayerId();
   return `<div class="dash">
+  ${accountCard()}
   <section class="card s12"><h2>테마</h2>
     <div class="skins">${SKINS.map(([id,name,desc,c])=>`<button class="skin" data-skinpick="${id}" aria-pressed="${(document.documentElement.dataset.skin||'noir')===id}">
       <div class="sw" style="background:${c[0]}"><i style="background:${c[1]}"></i><i style="background:${c[2]}"></i><i style="background:${c[3]}"></i></div><b>${name}</b><small>${desc}</small></button>`).join('')}</div>
@@ -2236,7 +2326,7 @@ function renderSettings(){
     <div class="toolbar" style="margin:14px 0 0"><button class="btn primary" data-act="saveGoals">목표 저장</button><a class="btn" href="https://www.thehendonmob.com/" target="_blank" rel="noopener">핸던몹에서 내 프로필 찾기 ↗</a></div>
   </section>
   <section class="card s12"><h2>데이터 백업</h2>
-    <p class="hint" style="margin:-6px 0 14px">기록은 이 브라우저에만 저장돼요. 브라우저 기록을 지우거나 다른 기기로 옮길 때를 대비해 가끔 백업 파일을 받아두세요. 불러오기를 하면 지금 데이터가 백업 내용으로 바뀌어요.</p>
+    <p class="hint" id="backupHint" style="margin:-6px 0 14px">${backupHint()}</p>
     <div class="toolbar" style="margin:0"><button class="btn primary" data-act="backup">백업 파일 받기</button><button class="btn" data-act="restore">백업 불러오기</button>
     <span class="hint n" style="margin:0 0 0 6px">기록 ${S.entries.length}건 · 대회 ${S.tours.length}개 · 원정 ${S.trips.length}개</span></div>
   </section>
@@ -2276,8 +2366,10 @@ function render(){
   $('.filters .sep').style.display = (S.view==='dash' && S.dmode==='vs') ? 'none' : '';
   renderPills(); fillBrandList();
   $('#fab').classList.toggle('off', !(S.view==='dash' || S.view==='records'));
+  if (cloud.masked()){ $('#view').innerHTML = cloud.maskHTML(); cloud.ui(); return; }
   $('#view').innerHTML = ({dash:renderDash, records:renderRecords, hands:renderHands, tours:renderTours, trips:renderTrips, settle:renderSettle, settings:renderSettings})[S.view]();
   if (S.view==='tours' && sampleFn) { const b=$('#pasteBtn'); if (b) b.hidden=false; }
+  cloud.ui();
 }
 
 /* ---------- entry form ---------- */
@@ -2864,7 +2956,8 @@ $('#restoreFile').addEventListener('change', async ev=>{
   try{
     const d=JSON.parse(await f.text());
     if (!d || !Array.isArray(d.entries)) throw new Error('bad');
-    if (!(await ask(`백업의 기록 ${d.entries.length}건으로 바꿀까요? 지금 데이터는 덮어써져요.`, '불러오기'))) return;
+    if (!(await ask(store.mode==='cloud' ? `백업의 기록 ${d.entries.length}건으로 계정 기록을 바꿀까요? 모든 기기에 반영돼요. (지금 계정 기록은 이 기기에 복구용으로 한 번 보관해요)` : `백업의 기록 ${d.entries.length}건으로 바꿀까요? 지금 데이터는 덮어써져요.`, '불러오기'))) return;
+    if (store.mode==='cloud'){ try{ localStorage.setItem('evlog.backup.pre-restore.'+cloud.uid, JSON.stringify({at:new Date().toISOString(), entries:S.entries, tours:S.tours, trips:S.trips, hands:S.hands, cfg:S.cfg})); }catch{} }
     S.entries=d.entries; S.tours=d.tours||[]; S.trips=d.trips||[]; S.hands=d.hands||[]; migrateAll(); S.cfg={...S.cfg, ...(d.cfg||{}), rates:{...DEFAULT_RATES, ...((d.cfg||{}).rates||{})}};
     ensureMe(); store.saveLocal(); S.dmode=null; render(); toast('백업을 불러왔어요');
   }catch{ toast('EV log 백업 파일이 아니에요'); }
@@ -3588,7 +3681,631 @@ document.addEventListener('click', async ev=>{
   render();
 }, true);
 
+/* ---------- cloud sync (Firebase Auth: Google + Cloud Firestore) ----------
+   Guest (not signed in): everything stays in this browser under LS_KEY, exactly as before.
+   Signed in: the account's data lives in Firestore under evlog/{uid}/… and is mirrored in a
+   per-account cache (evlog.acct.{uid}) that also holds what has not reached the server yet.
+   Rules that keep records safe:
+   - nothing is uploaded until this session has read the account from the server (fresh);
+     a failed read is an error, never "the account is empty";
+   - only records that differ from the last server-confirmed version are sent (per record id);
+   - deletes are tombstones (_d), so another device cannot bring a deleted record back;
+   - when the same record changed on two devices, the newer edit wins and the other version
+     is kept in the account's conflict box (downloadable from MY);
+   - the guest data in this browser is never overwritten or deleted by signing in or out. */
+const FB_CONFIG = {
+  apiKey: "AIzaSyCd2bYMiEGz9rsQ7Sq3prdeuHKc-jvryDE",
+  authDomain: "evlog-691f1.firebaseapp.com",
+  projectId: "evlog-691f1",
+  storageBucket: "evlog-691f1.firebasestorage.app",
+  messagingSenderId: "256637143127",
+  appId: "1:256637143127:web:ef0911d1a4ad502784fb12"
+};
+const FB_SDK = '10.14.1';
+const CLOUD_COLS = ['entries','tours','trips','hands'];
+const CK_LAST = 'evlog.cloud.last', CK_ACCT = 'evlog.acct.';
+const META_KEYS = ['_u','_d','_by','_k'];
+const stableStr = v => {
+  if (v===null || typeof v!=='object') return JSON.stringify(v===undefined ? null : v);
+  if (Array.isArray(v)) return '['+v.map(stableStr).join(',')+']';
+  return '{'+Object.keys(v).filter(k=>v[k]!==undefined).sort().map(k=>JSON.stringify(k)+':'+stableStr(v[k])).join(',')+'}';
+};
+const h53 = s => { let a=0xdeadbeef, b=0x41c6ce57; for (let i=0;i<s.length;i++){ const c=s.charCodeAt(i); a=Math.imul(a^c,2654435761); b=Math.imul(b^c,1597334677); }
+  a=Math.imul(a^(a>>>16),2246822507)^Math.imul(b^(b>>>13),3266489909); b=Math.imul(b^(b>>>16),2246822507)^Math.imul(a^(a>>>13),3266489909);
+  return (4294967296*(2097151&b)+(a>>>0)).toString(36); };
+const cleanJ = o => JSON.parse(JSON.stringify(o===undefined ? null : o));
+const stripMeta = d => { const o={...d}; META_KEYS.forEach(k=>delete o[k]); return o; };
+const hashRec = d => h53(stableStr(cleanJ(stripMeta(d))));
+const hashVal = v => h53(stableStr(cleanJ(v)));
+const withTimeout = (p, ms) => Promise.race([p, new Promise((_,rej)=>setTimeout(()=>rej(Object.assign(new Error('timeout'),{code:'timeout'})), ms))]);
+const DEVICE_ID = (()=>{ let d=lsGet('evlog.device'); if (!d){ d=uid(); lsSet('evlog.device', d); } return d; })();
+const hm = t => { const d=new Date(t); return d.toTimeString().slice(0,5); };
+const whenTxt = t => { if (!t) return '아직 없음'; const d=new Date(t), n=new Date(); const same=d.toDateString()===n.toDateString(); return same ? `오늘 ${hm(t)}` : `${d.getMonth()+1}월 ${d.getDate()}일 ${hm(t)}`; };
+const countsOf = l => { l=l||{}; const c={entries:(l.entries||[]).length, hands:(l.hands||[]).length, trips:(l.trips||[]).length, tours:(l.tours||[]).length}; c.total=c.entries+c.hands+c.trips+c.tours; return c; };
+const countsTxt = c => `수익 기록 ${c.entries}건 · 핸드 ${c.hands}개 · 원정 ${c.trips}개 · 직접 등록한 대회 ${c.tours}개`;
+function downloadJSON(obj, name){
+  try{ const url=URL.createObjectURL(new Blob([JSON.stringify(obj,null,2)],{type:'application/json'})); const el=document.createElement('a'); el.href=url; el.download=name; el.rel='noopener'; document.body.appendChild(el); el.click(); setTimeout(()=>{ el.remove(); URL.revokeObjectURL(url); }, 1500); return true; }catch{ return false; }
+}
+const GICON = `<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="#4285F4" d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.4a4.6 4.6 0 0 1-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.3z"/><path fill="#34A853" d="M12 22c2.7 0 5-.9 6.6-2.4l-3.2-2.5c-.9.6-2 .9-3.4.9-2.6 0-4.8-1.8-5.6-4.1H3.1v2.6A10 10 0 0 0 12 22z"/><path fill="#FBBC05" d="M6.4 13.9a6 6 0 0 1 0-3.8V7.5H3.1a10 10 0 0 0 0 9z"/><path fill="#EA4335" d="M12 6c1.5 0 2.8.5 3.8 1.5l2.8-2.8A10 10 0 0 0 3.1 7.5l3.3 2.6C7.2 7.8 9.4 6 12 6z"/></svg>`;
+const PICON = `<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>`;
+
+/* a small dialog that returns which button was pressed (null when closed) */
+function choose({title, html, buttons}){
+  return new Promise(res=>{
+    const d=$('#choiceDlg'); $('#chTitle').textContent=title; $('#chBody').innerHTML=html;
+    const f=$('#chFoot'); f.innerHTML=buttons.map((b,i)=>`${b.spacer?'<span style="flex:1"></span>':''}<button type="button" class="btn ${b.primary?'primary':''} ${b.danger?'danger':''}" data-ch="${i}">${esc(b.label)}</button>`).join('');
+    const done=v=>{ d.onclose=null; if (d.open) d.close(); res(v); };
+    f.querySelectorAll('[data-ch]').forEach(el=>el.onclick=async()=>{ const b=buttons[+el.dataset.ch]; if (b.keep){ await b.keep(); return; } done(b.val); });
+    d.oncancel=e=>{ e.preventDefault(); done(null); }; d.onclose=()=>res(null);
+    $('#chX').onclick=()=>done(null);
+    d.showModal(); setTimeout(()=>{ const p=f.querySelector('.primary')||f.querySelector('button'); p&&p.focus(); },0);
+  });
+}
+
+const cloud = {
+  phase:'init',   // init | unavailable | guest | checking | loading | ready | expired
+  user:null, uid:null, A:null, gen:0, auth:null, fs:null, ready:false, sdkErr:'', signing:false, signingOut:false,
+  fresh:false, syncing0:null, flushing:false, again:false, timer:null, retryT:null, retryN:0, err:null, unsub:[], listenErr:false,
+  pending:0, holdWrites:false, menuOpen:false, _uiKey:'',
+  available(){ try{ if (window.top!==window) return false; }catch{ return false; } return /^https?:$/.test(location.protocol); },
+
+  /* ---- boot ---- */
+  boot(){
+    if (!this.available()){ this.phase='unavailable'; this.ui(); return; }
+    const last=lsGet(CK_LAST);
+    if (last){ this.phase='checking'; this.uid=last; } else this.phase='guest';
+    document.body.classList.toggle('cloud-mask', this.masked());
+    this.ui();
+    window.addEventListener('online', ()=>this.onOnline());
+    window.addEventListener('offline', ()=>this.ui());
+    document.addEventListener('visibilitychange', ()=>{ if (document.visibilityState==='visible') this.onVisible(); });
+    try{ const t=sessionStorage.getItem('evlog.toast'); if (t){ sessionStorage.removeItem('evlog.toast'); setTimeout(()=>toast(t), 400); } }catch{}
+  },
+  loadScript(src){ return new Promise((res,rej)=>{ const s=document.createElement('script'); s.src=src; s.onload=res; s.onerror=()=>{ s.remove(); rej(new Error('load '+src)); }; document.head.appendChild(s); }); },
+  async start(){
+    if (this.phase==='unavailable' || this.ready || this._starting) return;
+    this._starting=true; this.sdkErr='';
+    try{
+      if (!window.firebase || !firebase.auth || !firebase.firestore){
+        const base=`https://www.gstatic.com/firebasejs/${FB_SDK}/`;
+        await withTimeout(this.loadScript(base+'firebase-app-compat.js'), 15000);
+        await withTimeout(Promise.all([this.loadScript(base+'firebase-auth-compat.js'), this.loadScript(base+'firebase-firestore-compat.js')]), 15000);
+      }
+      if (!firebase.apps.length) firebase.initializeApp(FB_CONFIG);
+      this.auth=firebase.auth(); this.fs=firebase.firestore();   // memory cache: offline copies live in our own per-account cache
+      this.ready=true;
+      try{
+        const r=await this.auth.getRedirectResult();
+        if (r && r.user){ try{ const v=sessionStorage.getItem('evlog.redirView'); if (v){ S.view=v; sessionStorage.removeItem('evlog.redirView'); } }catch{} toast('로그인했어요'); }
+      }catch(e){ if (e && e.code) this.loginError(e); }
+      this.auth.onAuthStateChanged(u=>{ try{ this.onAuth(u); }catch(e){ console.error(e); } });
+    }catch(e){
+      console.error(e); this.sdkErr='load';
+      if (this.phase==='checking'){
+        // offline at start: we cannot ask Google who is signed in, so show this device's copy of the last account
+        const A=this.readCache(this.uid);
+        if (A && A.synced0){ this.enterAccount(this.uid, A); this.phase='ready'; }
+        else { this.phase='guest'; this.uid=null; }
+        render();
+      }
+      this.ui();
+    }finally{ this._starting=false; }
+  },
+  onOnline(){ this.ui(); if (this.sdkErr && !this.ready) return this.start(); if (this.user){ if (!this.fresh || this.listenErr) this.initialSync(this.gen); else this.schedule(200); } },
+  onVisible(){ if (!this.user || !navigator.onLine) return; if (!this.fresh || this.listenErr) this.initialSync(this.gen); else if (this.pending) this.schedule(200); },
+
+  /* ---- per-account cache ---- */
+  key(id){ return CK_ACCT+id; },
+  readCache(id){ try{ const A=JSON.parse(lsGet(this.key(id))||'null'); if (A && A.v===1) return A; }catch{} return null; },
+  newCache(id){ const e=()=>({entries:{},tours:{},trips:{},hands:{},cfg:{}}); return {v:1, uid:id, profile:{}, data:{entries:[],tours:[],trips:[],hands:[]}, cfg:null, base:e(), touched:e(), synced0:false, lastSync:0, guestSeen:'', conflicts:[], pendingN:0}; },
+  persist(){
+    const A=this.A; if (!A || store.mode!=='cloud') return;
+    const now=Date.now(); let p=0;
+    CLOUD_COLS.forEach(n=>{
+      const base=A.base[n], t=A.touched[n], seen=new Set();
+      (S[n]||[]).forEach(d=>{ if (!d || d.id==null) return; const id=String(d.id); seen.add(id); if (base[id]!==hashRec(d)){ p++; if (!t[id]) t[id]=now; } else delete t[id]; });
+      Object.keys(base).forEach(id=>{ if (!seen.has(id) && base[id]!=='DEL'){ p++; if (!t[id]) t[id]=now; } });
+      A.data[n]=S[n]||[];
+    });
+    const cur=cleanJ(S.cfg||{}), cb=A.base.cfg, ct=A.touched.cfg;
+    Object.keys(cur).forEach(k=>{ if (cb[k]!==hashVal(cur[k])){ p++; if (!ct[k]) ct[k]=now; } else delete ct[k]; });
+    Object.keys(cb).forEach(k=>{ if (!(k in cur) && cb[k]!=='DEL'){ p++; if (!ct[k]) ct[k]=now; } });
+    A.cfg=cur; A.pendingN=p; this.pending=p;
+    try{ localStorage.setItem(this.key(A.uid), JSON.stringify(A)); this.storeErr=false; }
+    catch(e){ this.storeErr=true; console.error(e); }
+  },
+  changed(){ if (store.mode!=='cloud') return; this.persist(); this.ui(); if (this.storeErr) toast('이 기기 저장 공간이 부족해요. 백업 파일을 받아 두세요'); this.schedule(); },
+
+  /* ---- auth ---- */
+  onAuth(u){
+    const g=++this.gen;
+    if (!u){
+      this.user=null; this.stopListen(); this.fresh=false;
+      if (this.signingOut) return;
+      if (this.uid && lsGet(CK_LAST)===this.uid){
+        // this device was signed in and the session went away (expired or signed out elsewhere)
+        const A=this.A || this.readCache(this.uid);
+        if (A && (A.pendingN||0)>0){ if (!this.A) this.enterAccount(this.uid, A); this.phase='expired'; this.ui(); render(); return; }
+        lsSet(CK_LAST,'');
+        if (store.mode==='cloud'){ try{ sessionStorage.setItem('evlog.toast','로그인이 끝나 이 기기 기록을 보여드려요'); }catch{} location.reload(); return; }
+      }
+      this.phase='guest'; this.uid=null; document.body.classList.remove('cloud-mask'); this.ui(); render(); return;
+    }
+    if (store.mode==='cloud' && this.A && this.uid!==u.uid){ this.persist(); this.stopListen(); }   // switching accounts: the old account keeps its own cache
+    this.user=u; this.uid=u.uid; lsSet(CK_LAST, u.uid);
+    const A=(this.A && this.A.uid===u.uid) ? this.A : (this.readCache(u.uid) || this.newCache(u.uid));
+    A.profile={name:u.displayName||'', email:u.email||'', photo:u.photoURL||''};
+    this.enterAccount(u.uid, A);
+    this.initialSync(g);
+  },
+  enterAccount(id, A){
+    this.A=A; this.uid=id; this.err=null; this.fresh=false; this.retryN=0;
+    store.mode='cloud';
+    CLOUD_COLS.forEach(n=>{ S[n]=(A.data[n]||[]).map(d=>({...d})); });
+    const c=A.cfg||{};
+    S.cfg={rateDate:'', players:[], ...c, rates:{...DEFAULT_RATES, ...(c.rates||{})}};
+    if (!Array.isArray(S.cfg.players)) S.cfg.players=[];
+    S.myName=(A.profile && A.profile.name) || '';
+    S.dmode=null; S.h2h=null; S.f.player='all';
+    this.phase = A.synced0 ? 'ready' : 'loading';
+    this.pending=A.pendingN||0;
+    if (A.synced0){ ensureMe(); fillBrandList(); }
+    document.body.classList.toggle('cloud-mask', this.masked());
+    this.ui(); render();
+  },
+  inAppBrowser(){ return /KAKAOTALK|Instagram|FBAN|FBAV|FB_IAB|\bLine\/|NAVER\(inapp|DaumApps|everytimeApp|BAND\//i.test(navigator.userAgent); },
+  signIn(){
+    if (this.signing) return;
+    if (this.inAppBrowser()){ choose({title:'다른 브라우저에서 열어 주세요', html:`<p style="margin:0">카카오톡·인스타그램 같은 앱 안의 브라우저에서는 Google이 로그인을 막아요. 오른쪽 위(또는 아래) 메뉴에서 <b>다른 브라우저로 열기</b>를 눌러 Safari나 Chrome에서 열어 주세요.</p><p class="hint">로그인하지 않아도 이 기기에 저장하며 계속 쓸 수 있어요.</p>`, buttons:[{label:'확인', val:1, primary:true}]}); return; }
+    if (!this.ready){ toast(this.sdkErr ? '로그인 기능을 불러오지 못했어요. 인터넷 연결을 확인하고 새로고침해 주세요' : '로그인 준비 중이에요. 잠시 후 다시 눌러 주세요'); if (this.sdkErr) this.start(); return; }
+    const pv=new firebase.auth.GoogleAuthProvider(); pv.setCustomParameters({prompt:'select_account'});
+    this.signing=true; this.ui();
+    // popup first: it works on desktop browsers and on iPhone/iPad Safari when started from a tap,
+    // and it does not depend on third-party storage the way a cross-domain redirect does
+    this.auth.signInWithPopup(pv)
+      .then(r=>{ toast('로그인했어요'); const u=r&&r.user;
+        if (u && this.A && this.uid===u.uid && (this.phase==='expired' || !this.fresh)){ this.user=u; this.phase=this.A.synced0?'ready':'loading'; this._uiKey=''; this.initialSync(this.gen); } })
+      .catch(e=>this.loginError(e, pv))
+      .finally(()=>{ this.signing=false; this.ui(); });
+  },
+  loginError(e, pv){
+    const c=(e&&e.code)||''; console.warn(c, e);
+    const kept=' 이 기기 기록은 그대로예요.';
+    if (/popup-closed-by-user|cancelled-popup-request|user-cancelled/.test(c)) return toast('로그인을 취소했어요.'+kept);
+    if (/popup-blocked/.test(c)) return choose({title:'로그인 창이 차단됐어요', html:`<p style="margin:0">브라우저가 Google 로그인 창(팝업)을 막았어요.</p><ul class="hint" style="margin:10px 0 0;padding-left:18px;line-height:1.8"><li>PC: 주소창 오른쪽의 팝업 차단 아이콘에서 이 사이트를 허용해 주세요.</li><li>아이폰·아이패드: 설정 › Safari › <b>팝업 차단</b>을 끈 뒤 다시 시도해 주세요.</li></ul><p class="hint">${kept.trim()}</p>`, buttons:[{label:'닫기', val:0},{label:'다시 시도', val:1, primary:true}]}).then(v=>{ if (v) this.signIn(); });
+    if (/operation-not-supported-in-this-environment|web-storage-unsupported/.test(c)){
+      if (pv && !/web-storage/.test(c)){ try{ sessionStorage.setItem('evlog.redirView', S.view); }catch{} return this.auth.signInWithRedirect(pv).catch(e2=>this.loginError(e2)); }
+      return choose({title:'이 브라우저에서는 로그인할 수 없어요', html:`<p style="margin:0">쿠키·저장소가 꺼져 있거나 개인정보 보호 모드일 수 있어요. 일반 창의 Safari나 Chrome에서 열어 주세요.</p><p class="hint">${kept.trim()}</p>`, buttons:[{label:'확인', val:1, primary:true}]});
+    }
+    if (/network-request-failed|timeout/.test(c)) return toast('인터넷 연결이 불안정해 로그인하지 못했어요. 연결을 확인하고 다시 시도해 주세요.'+kept);
+    if (/too-many-requests/.test(c)) return toast('로그인 시도가 너무 많아요. 잠시 후 다시 시도해 주세요');
+    if (/unauthorized-domain|invalid-api-key|api-key-not-valid|operation-not-allowed|configuration-not-found|app-not-authorized|argument-error|internal-error|invalid-oauth/.test(c))
+      return choose({title:'로그인 설정 오류', html:`<p style="margin:0">앱의 로그인 설정에 문제가 있어 지금은 로그인할 수 없어요. 앱 관리자에게 아래 코드를 알려 주세요.</p><p class="hint n">${esc(c)}</p><p class="hint">${kept.trim()}</p>`, buttons:[{label:'확인', val:1, primary:true}]});
+    toast(`로그인하지 못했어요${c?` (${c})`:''}.`+kept);
+  },
+  async signOut(){
+    if (!this.uid || store.mode!=='cloud') return;
+    this.closeMenu();
+    if (this.pending && this.canWrite()){ toast('저장되지 않은 변경을 올리는 중…'); await this.flush(); }
+    if (this.pending){
+      const v=await choose({title:'저장되지 않은 변경이 있어요',
+        html:`<p style="margin:0">아직 계정에 올라가지 않은 변경이 <b>${this.pending}건</b> 있어요.${this.err?` (${esc(this.err.msg)})`:!navigator.onLine?' (오프라인)':''}</p>
+          <ul class="hint" style="margin:10px 0 0;padding-left:18px;line-height:1.8"><li><b>이 기기에 보관하고 로그아웃</b>: 변경 내용은 이 기기에 남고, 같은 계정으로 다시 로그인하면 자동으로 올라가요.</li><li>로그아웃 전에 <b>백업 파일</b>도 받을 수 있어요.</li></ul>`,
+        buttons:[{label:'백업 파일 받기', keep:()=>{ this.backupAccount(); }},{label:'취소', val:null, spacer:true},...(navigator.onLine&&this.user?[{label:'다시 시도', val:'retry'}]:[]),{label:'보관하고 로그아웃', val:'keep', primary:true}]});
+      if (v==='retry'){ this.err=null; await (this.fresh? this.flush() : this.initialSync(this.gen)); if (!this.pending){ toast('모두 저장했어요'); return this.signOut(); } toast('아직 저장하지 못했어요'); return; }
+      if (v!=='keep') return;
+      return this.doSignOut(true);
+    }
+    return this.doSignOut(false);
+  },
+  async doSignOut(keepCache){
+    this.signingOut=true; this.gen++; this.stopListen(); clearTimeout(this.timer); clearTimeout(this.retryT);
+    if (!keepCache){ try{ localStorage.removeItem(this.key(this.uid)); }catch{} }   // nothing unsent: drop this account's copy from the device
+    lsSet(CK_LAST,'');
+    try{ if (this.auth) await this.auth.signOut(); }catch{}
+    try{ if (this.fs) await this.fs.terminate(); }catch{}
+    try{ sessionStorage.setItem('evlog.toast', keepCache ? '로그아웃했어요. 저장 안 된 변경은 이 기기에 보관해 뒀어요' : '로그아웃했어요. 계정 기록은 클라우드에 그대로 있어요'); }catch{}
+    location.reload();
+  },
+
+  /* ---- server ---- */
+  root(id){ return this.fs.collection('evlog').doc(id); },
+  canWrite(){ return !!(this.user && this.fs && this.A && this.A.synced0 && this.fresh && this.phase==='ready' && navigator.onLine && !this.holdWrites && !this.signingOut); },
+  initialSync(g){
+    if (this.syncing0){ if (this._syncG===g) return this.syncing0; return this.syncing0.catch(()=>{}).then(()=>this.initialSync(g)); }   // a newer sign-in must not be swallowed by an older load
+    this._syncG=g;
+    const run=(async()=>{
+      if (g!==this.gen || !this.user) return;
+      if (!navigator.onLine){ this.ui(); render(); return; }   // the 'online' event tries again
+      this.err=null; clearTimeout(this.retryT); this.ui();
+      const id=this.uid, ref=this.root(id);
+      try{
+        const [cols, cf]=await withTimeout(Promise.all([Promise.all(CLOUD_COLS.map(n=>ref.collection(n).get({source:'server'}))), ref.collection('meta').doc('cfg').get({source:'server'})]), 25000);
+        if (g!==this.gen) return;
+        const remote={}; CLOUD_COLS.forEach((n,i)=>{ remote[n]=new Map(cols[i].docs.map(d=>[d.id, {...d.data(), id:d.id}])); });
+        this.mergeRemote(remote, cf.exists ? cf.data() : null, true);
+        this.A.synced0=true; this.fresh=true; this.phase='ready'; this.retryN=0;
+        document.body.classList.remove('cloud-mask');
+        if (migrateAll()){} this.persist(); render();
+        this.holdWrites=true;
+        try{ await this.guestCheck(g); } finally{ this.holdWrites=false; }
+        if (g!==this.gen) return;
+        ensureMe(); fillBrandList(); this.persist(); render();
+        this.listen(g);
+        await this.flush();
+      }catch(e){ if (g===this.gen) this.fail(e, 'load'); }
+    })();
+    this.syncing0=run; run.finally(()=>{ this.syncing0=null; this.ui(); });
+    return run;
+  },
+  /* remote: {col: Map(id -> data)}; rcfg: cfg doc data, null when the doc does not exist, undefined to skip.
+     full: remote holds the whole collection (a record missing there was hard-deleted). */
+  mergeRemote(remote, rcfg, full){
+    const A=this.A; let changed=false, lost=0;
+    const keepLost=(col,id,doc,side)=>{ A.conflicts.unshift({col, id, side, at:new Date().toISOString(), doc:cleanJ(doc)}); A.conflicts=A.conflicts.slice(0,200); lost++; };
+    CLOUD_COLS.forEach(n=>{
+      const R=remote[n]; if (!R) return;
+      const base=A.base[n], tch=A.touched[n], cur=new Map((S[n]||[]).map(d=>[String(d.id), d])); let colChanged=false;
+      const ids=new Set([...R.keys(), ...(full ? Object.keys(base) : [])]);
+      ids.forEach(id=>{
+        const L=cur.get(id), R0=R.get(id), B=base[id];
+        const lh = L ? hashRec(L) : (B!==undefined ? 'DEL' : undefined);
+        const rh = R0 ? (R0._d ? 'DEL' : hashRec(R0)) : (B!==undefined && B!=='DEL' ? 'DEL' : undefined);
+        if (rh===undefined || rh===B) return;                       // nothing new on the server
+        const localDirty = lh!==undefined && lh!==B;
+        const takeServer=()=>{ if (rh==='DEL') cur.delete(id); else { const doc={...stripMeta(R0), id}; if (n==='entries') migrateEntry(doc); cur.set(id, doc); } base[id]=rh; delete tch[id]; colChanged=true; };
+        if (!localDirty || lh===rh){ takeServer(); return; }
+        const lt=tch[id]||0, rt=(R0 && R0._u)||0;                   // both changed: newer edit wins
+        if (rt>=lt){ if (L) keepLost(n, id, stripMeta(L), '이 기기'); takeServer(); }
+        else { if (rh!=='DEL') keepLost(n, id, stripMeta(R0), '다른 기기'); base[id]=rh; }
+      });
+      if (colChanged){ S[n]=[...cur.values()]; changed=true; }
+    });
+    if (rcfg){
+      const rc=stripMeta(rcfg), rk=rcfg._k||{}, cb=A.base.cfg, ct=A.touched.cfg, cur=S.cfg||{};
+      const keys=new Set([...Object.keys(rc), ...(full ? Object.keys(cb) : [])]);
+      keys.forEach(k=>{
+        const B=cb[k];
+        const lh = (k in cur && cur[k]!==undefined) ? hashVal(cur[k]) : (B!==undefined ? 'DEL' : undefined);
+        const rh = (k in rc) ? hashVal(rc[k]) : (B!==undefined && B!=='DEL' ? 'DEL' : undefined);
+        if (rh===undefined || rh===B) return;
+        const localDirty = lh!==undefined && lh!==B;
+        const take=()=>{ if (rh==='DEL') delete cur[k]; else cur[k]=cleanJ(rc[k]); cb[k]=rh; delete ct[k]; changed=true; };
+        if (!localDirty || lh===rh) return take();
+        if ((rk[k]||0)>=(ct[k]||0)){ keepLost('cfg', k, {[k]:cur[k]}, '이 기기'); take(); }
+        else { keepLost('cfg', k, {[k]:rc[k]}, '다른 기기'); cb[k]=rh; }
+      });
+      if (changed){ S.cfg={...cur, rates:{...DEFAULT_RATES, ...(cur.rates||{})}}; if (!Array.isArray(S.cfg.players)) S.cfg.players=[]; S.cfg.players.forEach(p=>{ p.color=fixColor(p.color); }); }
+    }
+    if (lost) setTimeout(()=>toast(`다른 기기와 동시에 바뀐 기록 ${lost}건을 최신 내용으로 맞췄어요. 이전 내용은 MY에 보관했어요`), 200);
+    return changed || lost>0;
+  },
+  listen(g){
+    this.stopListen(); this.listenErr=false;
+    const ref=this.root(this.uid);
+    CLOUD_COLS.forEach(n=>{
+      this.unsub.push(ref.collection(n).onSnapshot(snap=>{
+        if (g!==this.gen) return;
+        const m=new Map();
+        snap.docChanges().forEach(ch=>{ if (ch.doc.metadata.hasPendingWrites) return; m.set(ch.doc.id, ch.type==='removed' ? {_d:true, _u:0} : {...ch.doc.data(), id:ch.doc.id}); });
+        if (m.size && this.mergeRemote({[n]:m}, undefined, false)){ this.persist(); this.rerender(); }
+      }, err=>this.onListenErr(err, g)));
+    });
+    this.unsub.push(ref.collection('meta').doc('cfg').onSnapshot(d=>{
+      if (g!==this.gen || !d.exists || d.metadata.hasPendingWrites) return;
+      if (this.mergeRemote({}, d.data(), false)){ fillBrandList(); this.persist(); this.rerender(); }
+    }, err=>this.onListenErr(err, g)));
+  },
+  stopListen(){ this.unsub.forEach(f=>{ try{ f(); }catch{} }); this.unsub=[]; },
+  onListenErr(err, g){ if (g!==this.gen) return; console.error(err); this.listenErr=true; this.fresh=false; this.stopListen(); this.fail(err, 'listen'); },
+  rerender(){ clearTimeout(this._rr); this._rr=setTimeout(()=>{ if (!document.querySelector('dialog[open]')) render(); else this.rerender(); }, 150); },
+  schedule(ms){ clearTimeout(this.timer); if (store.mode!=='cloud') return; this.timer=setTimeout(()=>this.flush(), ms==null ? 700 : ms); },
+  async flush(){
+    if (!this.canWrite()){ this.ui(); return; }
+    if (this.flushing){ this.again=true; return this.flushing; }
+    const g=this.gen, A=this.A, ref=this.root(this.uid), now=Date.now();
+    const ops=[];   // {ref, data, opts, ack:[kind, id, hash]}
+    CLOUD_COLS.forEach(n=>{
+      const base=A.base[n], seen=new Set();
+      (S[n]||[]).forEach(d=>{ if (!d || d.id==null) return; const id=String(d.id); seen.add(id); const body=cleanJ(stripMeta(d)); const h=hashRec(body); if (base[id]===h) return;
+        ops.push({ref:ref.collection(n).doc(id), data:{...body, id:d.id, _u:A.touched[n][id]||now, _by:DEVICE_ID}, ack:[n,id,h]}); });
+      Object.keys(base).forEach(id=>{ if (seen.has(id) || base[id]==='DEL') return; ops.push({ref:ref.collection(n).doc(id), data:{_d:true, _u:A.touched[n][id]||now, _by:DEVICE_ID}, ack:[n,id,'DEL']}); });
+    });
+    const cur=cleanJ(S.cfg||{}), cb=A.base.cfg, cdata={_k:{}, _u:now, _by:DEVICE_ID}, fields=['_u','_by'], cacks=[];
+    Object.keys(cur).forEach(k=>{ const h=hashVal(cur[k]); if (cb[k]===h) return; cdata[k]=cur[k]; cdata._k[k]=A.touched.cfg[k]||now; fields.push(k, '_k.'+k); cacks.push([k,h]); });
+    Object.keys(cb).forEach(k=>{ if (k in cur || cb[k]==='DEL') return; cdata[k]=firebase.firestore.FieldValue.delete(); cdata._k[k]=now; fields.push(k, '_k.'+k); cacks.push([k,'DEL']); });
+    if (!ops.length && !cacks.length){ A.lastSync=Date.now(); this.err=null; this.persist(); this.ui(); return; }
+    const cfgRef=ref.collection('meta').doc('cfg');
+    const run=(async()=>{
+      let staleAll=false;
+      try{
+        for (let i=0; i<ops.length || (i===0 && cacks.length); i+=400){
+          const chunk=ops.slice(i, i+400), last=i+400>=ops.length, withCfg=last && cacks.length>0;
+          // write only if the server still holds the version this device last confirmed;
+          // otherwise merge the newer server version first (no blind overwrite of another device's edit)
+          const res=await withTimeout(this.fs.runTransaction(async t=>{
+            const snaps=await Promise.all(chunk.map(o=>t.get(o.ref)));
+            const cs=withCfg ? await t.get(cfgRef) : null;
+            const stale={}; let cfgStale=null;
+            snaps.forEach((sn,j)=>{ const [n,id]=chunk[j].ack, B=A.base[n][id], d=sn.exists ? sn.data() : null;
+              const rh = d ? (d._d ? 'DEL' : hashRec(d)) : (B!==undefined && B!=='DEL' ? 'DEL' : undefined);
+              if (rh!==undefined && rh!==B) (stale[n]=stale[n]||new Map()).set(id, d ? {...d, id} : {_d:true, _u:0}); });
+            if (cs && cs.exists){ const rc=cs.data(); if (cacks.some(([k])=>{ const B=A.base.cfg[k], rh=(k in rc) ? hashVal(rc[k]) : (B!==undefined && B!=='DEL' ? 'DEL' : undefined); return rh!==undefined && rh!==B; })) cfgStale=rc; }
+            if (Object.keys(stale).length || cfgStale) return {stale, cfgStale};
+            chunk.forEach(o=>t.set(o.ref, o.data));
+            if (withCfg) t.set(cfgRef, cdata, {mergeFields:fields});
+            return null;
+          }), 20000);
+          if (g!==this.gen) return;
+          if (res){ if (this.mergeRemote(res.stale, res.cfgStale||undefined, false)){ fillBrandList(); this.rerender(); } staleAll=true; break; }
+          chunk.forEach(o=>{ const [n,id,h]=o.ack; A.base[n][id]=h; });
+          if (withCfg) cacks.forEach(([k,h])=>{ A.base.cfg[k]=h; });
+          if (last) break;
+        }
+        if (g!==this.gen) return;
+        if (staleAll){ this.again=true; return; }
+        A.lastSync=Date.now(); this.err=null; this.retryN=0;
+      }catch(e){ if (g===this.gen) this.fail(e, 'save'); }
+      finally{ if (g===this.gen) this.persist(); }
+    })();
+    this.flushing=run; this.ui();
+    try{ await run; } finally{
+      this.flushing=false; this.ui();
+      if (g===this.gen && !this.err && (this.again || this.pending)){ this.again=false; this.schedule(300); }
+    }
+  },
+  fail(e, what){
+    console.error(e);
+    const c=(e&&e.code)||'';
+    if (/unauthenticated/.test(c) && this.user && this.user.getIdToken && !this._refreshing){
+      this._refreshing=true; const g=this.gen;
+      this.user.getIdToken(true).then(()=>{ this._refreshing=false; if (g===this.gen) this.retry(); }).catch(()=>{ this._refreshing=false; if (g===this.gen) this.fail({code:'user-token-expired'}, what); });
+      return;
+    }
+    if (/unauthenticated|user-token-expired|invalid-user-token|user-disabled|requires-recent-login/.test(c)){ this.phase='expired'; this.err=null; this.fresh=false; this.stopListen(); this.ui(); render(); return; }
+    this.err={what, code:c, msg:this.syncErrMsg(e)};
+    if (!/permission-denied|invalid-argument/.test(c)){
+      this.retryN++; const d=[5,15,30,60,120][Math.min(this.retryN-1,4)]*1000;
+      clearTimeout(this.retryT); this.retryT=setTimeout(()=>this.retry(true), d);
+    }
+    this.ui(); if (!this.A || !this.A.synced0 || S.view==='settings') render();
+  },
+  syncErrMsg(e){
+    const c=(e&&e.code)||'';
+    if (!navigator.onLine) return '인터넷에 연결되어 있지 않아요';
+    if (/permission-denied/.test(c)) return '이 계정의 저장 공간에 접근할 권한이 없어요 (서버 보안 규칙 확인 필요)';
+    if (/unavailable|timeout|deadline|network/.test(c)) return '서버에 연결하지 못했어요. 인터넷 연결을 확인해 주세요';
+    if (/resource-exhausted/.test(c)) return '저장 한도를 잠시 넘었어요. 조금 뒤에 다시 시도해 주세요';
+    if (/invalid-argument/.test(c)) return '저장할 수 없는 형식의 기록이 있어요';
+    if (/failed-precondition/.test(c)) return '서버 데이터베이스 설정을 확인해야 해요';
+    return '동기화하지 못했어요' + (c ? ` (${c})` : '');
+  },
+  retry(auto){ if (!this.user || store.mode!=='cloud') return; if (auto && !navigator.onLine) return; this.err=null; if (!this.fresh || this.listenErr) return this.initialSync(this.gen); return this.flush(); },
+  async syncNow(){
+    if (!this.user){ if (this.phase==='expired') return this.signIn(); return; }
+    if (!navigator.onLine){ toast('인터넷에 연결되면 동기화할게요'); return; }
+    this.err=null; this.fresh=false;
+    await this.initialSync(this.gen);
+    if (this.err) toast(this.err.msg); else if (!this.pending) toast(`동기화 완료 · ${hm(Date.now())}`);
+  },
+
+  /* ---- this browser's guest records ---- */
+  guestData(){ try{ return JSON.parse(lsGet(LS_KEY)||'null'); }catch{ return null; } },
+  guestSig(l){ return h53(stableStr(CLOUD_COLS.map(n=>((l&&l[n])||[]).map(d=>String(d.id)).sort()))); },
+  async guestCheck(g){
+    const l=this.guestData(), c=countsOf(l); if (!c.total) return;
+    const sig=this.guestSig(l); if (lsGet('evlog.guestSeen.'+this.uid)===sig || this.A.guestSeen===sig) return;
+    if (!importPlan(l).n){ lsSet('evlog.guestSeen.'+this.uid, sig); return; }   // everything is already in the account
+    const v=await openImport(l);
+    if (g!==this.gen) return;
+    if (v==='keep' || v==='merged') { this.A.guestSeen=sig; lsSet('evlog.guestSeen.'+this.uid, sig); this.persist(); }
+  },
+  backupAccount(){
+    const ok=downloadJSON({app:'EV log', version:1, exportedAt:new Date().toISOString(), account:this.A&&this.A.profile.email||'', entries:S.entries, tours:S.tours, trips:S.trips, hands:S.hands, cfg:S.cfg}, `evlog-backup-${todayISO()}.json`);
+    toast(ok? '백업 파일을 저장했어요' : '백업 파일을 만들지 못했어요');
+  },
+
+  /* ---- status & UI ---- */
+  masked(){ return this.phase==='checking' || (this.phase==='loading' && !(this.A && this.A.synced0)); },
+  state(){
+    const p=this.phase;
+    if (p==='init'||p==='guest'||p==='unavailable') return ['local','이 기기에만 저장됨'];
+    if (p==='checking') return ['loading','계정 확인 중…'];
+    if (p==='expired') return ['expired','로그인 만료 · 다시 로그인 필요'];
+    if (!navigator.onLine || (this.sdkErr && !this.ready)) return ['offline', this.pending ? `오프라인 · 변경사항 ${this.pending}건 저장 대기` : '오프라인 · 연결되면 다시 동기화'];
+    if (this.err) return ['error','동기화 실패 · 다시 시도'];
+    if (p==='loading' || (this.syncing0 && !this.fresh)) return ['loading','클라우드 기록 불러오는 중'];
+    if (this.flushing || this.pending || this.syncing0) return ['syncing','동기화 중'];
+    if (this.A && this.A.lastSync && this.fresh) return ['synced','동기화 완료'];
+    return ['syncing','동기화 중'];
+  },
+  profile(){ const u=this.user, p=(this.A&&this.A.profile)||{}; return {name:(u&&u.displayName)||p.name||'', email:(u&&u.email)||p.email||'', photo:(u&&u.photoURL)||p.photo||''}; },
+  avatarHTML(cls){ const p=this.profile(); return p.photo ? `<img src="${esc(p.photo)}" alt="" class="${cls}" referrerpolicy="no-referrer">` : `<span class="${cls} acct-ic">${PICON}</span>`; },
+  ui(){
+    const [st, label]=this.state();
+    document.body.classList.toggle('cloud-mask', this.masked());
+    const box=$('#acctEntry');
+    if (box){
+      const inAcct = store.mode==='cloud' && this.phase!=='guest';
+      const key=[inAcct, this.phase==='expired', this.signing, this.phase==='checking', this.profile().name, this.profile().photo, this.phase==='unavailable'].join('|');
+      if (key!==this._uiKey){
+        this._uiKey=key;
+        const pill=`<button type="button" class="sync-pill" data-act="cloudManage" data-st="${st}" aria-label="저장 상태: ${esc(label)}. 계정 및 동기화 열기"><i class="dot" aria-hidden="true"></i><span class="sp-l">${esc(label)}</span></button>`;
+        if (this.phase==='checking') box.innerHTML=`<span class="sync-pill" data-st="loading" role="status"><i class="dot" aria-hidden="true"></i><span class="sp-l">계정 확인 중…</span></span>`;
+        else if (!inAcct || this.phase==='expired'){
+          const btn = this.phase==='unavailable' ? '' : `<button type="button" class="btn gsign" data-act="cloudIn" ${this.signing?'disabled aria-busy="true"':''}>${GICON}<span class="gs-l">${this.signing ? '로그인 중…' : this.phase==='expired' ? '다시 로그인' : 'Google로 로그인'}</span><span class="gs-s">${this.signing ? '로그인 중…' : this.phase==='expired' ? '다시 로그인' : '로그인'}</span></button>`;
+          box.innerHTML=pill+btn+(this.phase==='expired'? this.menuBtnHTML(st) : '');
+        } else box.innerHTML=pill+this.menuBtnHTML(st);
+        let layer=$('#acctLayer'); if (!layer){ layer=document.createElement('div'); layer.id='acctLayer'; document.body.appendChild(layer); }
+        layer.innerHTML = (inAcct && this.phase!=='checking') ? this.menuHTML(st,label) : '';
+        if (this.menuOpen) this.placeMenu();
+      }
+      document.querySelectorAll('#acctLayer [data-cs="label"]').forEach(el=>el.textContent=label);
+      document.querySelectorAll('#acctLayer [data-cs="dot"]').forEach(el=>el.dataset.st=st);
+      box.querySelectorAll('.sync-pill').forEach(p=>{ p.dataset.st=st; const l=p.querySelector('.sp-l'); if (l) l.textContent=label; if (p.tagName==='BUTTON') p.setAttribute('aria-label', `저장 상태: ${label}. 계정 및 동기화 열기`); });
+      box.querySelectorAll('[data-cs="label"]').forEach(el=>el.textContent=label);
+      box.querySelectorAll('[data-cs="dot"]').forEach(el=>el.dataset.st=st);
+      const ab=box.querySelector('.acct-btn'); if (ab) ab.dataset.st=st;
+    }
+    const card=$('#acctCard');
+    if (card && S.view==='settings'){
+      const html=accountCard(), h=h53(html); if (card.dataset.h!==h){
+        const fa=document.activeElement && card.contains(document.activeElement) ? document.activeElement.dataset.act : null;
+        card.outerHTML=html; const nc=$('#acctCard'); if (nc) nc.dataset.h=h;
+        if (fa){ const el=$(`#acctCard [data-act="${fa}"]`); el && el.focus(); }
+      }
+    }
+    const bh=$('#backupHint'); if (bh) bh.innerHTML=backupHint();
+  },
+  menuBtnHTML(st){ const p=this.profile(); return `<button type="button" class="acct-btn" id="acctBtn" data-st="${st}" aria-haspopup="menu" aria-expanded="${this.menuOpen}" aria-controls="acctMenu" aria-label="계정 메뉴 열기${p.name?': '+esc(p.name):''}">${this.avatarHTML('acct-av')}<span class="an">${esc(p.name||'내 계정')}</span><i class="badge" aria-hidden="true"></i></button>`; },
+  placeMenu(){ const b=$('#acctBtn'), m=$('#acctMenu'); if (!b||!m) return; const r=b.getBoundingClientRect(); m.style.top=(r.bottom+10)+'px'; m.style.right=Math.max(12, innerWidth-r.right)+'px'; },
+  menuHTML(st, label){
+    const p=this.profile();
+    return `<div class="acct-menu" id="acctMenu" role="menu" aria-label="계정 메뉴" ${this.menuOpen?'':'hidden'}>
+        <div class="am-head">${this.avatarHTML('acct-ph')}<div style="min-width:0"><b>${esc(p.name||'Google 계정')}</b><div class="hint" style="margin:0">${esc(p.email)}</div><div class="acct-st"><span class="dot" data-cs="dot" data-st="${st}"></span><span data-cs="label">${esc(label)}</span></div></div></div>
+        <button type="button" role="menuitem" data-act="cloudManage">계정 및 동기화</button>
+        ${this.phase==='expired' ? `<button type="button" role="menuitem" data-act="cloudIn">다시 로그인</button>` : `<button type="button" role="menuitem" data-act="cloudSync">지금 동기화</button>`}
+        <button type="button" role="menuitem" data-act="cloudOut">로그아웃</button>
+      </div><div class="am-scrim" ${this.menuOpen?'':'hidden'} data-act="menuClose"></div>`;
+  },
+  openMenu(){ this.menuOpen=true; this._uiKey=''; this.ui(); const m=$('#acctMenu'); if (m){ const f=m.querySelector('[role=menuitem]'); f&&f.focus(); } },
+  closeMenu(focusBtn){ if (!this.menuOpen) return; this.menuOpen=false; this._uiKey=''; this.ui(); if (focusBtn){ const b=$('#acctBtn'); b&&b.focus(); } },
+  maskHTML(){
+    const off=!navigator.onLine;
+    const body = this.phase==='checking' ? ['계정 확인 중…','로그인 상태를 확인하고 있어요.']
+      : this.err ? ['계정 기록을 불러오지 못했어요', esc(this.err.msg)+'. 계정 기록은 서버에 그대로 있어요.']
+      : off ? ['인터넷에 연결되면 계정 기록을 불러와요','이 기기에는 아직 이 계정의 기록 사본이 없어요.']
+      : ['클라우드 기록 불러오는 중…','계정에 저장된 기록을 가져오고 있어요.'];
+    const btns = this.phase==='checking' ? '' : `<div class="toolbar" style="justify-content:center;margin:16px 0 0">${this.err||off?`<button class="btn primary" data-act="cloudSync">다시 시도</button>`:''}<button class="btn" data-act="cloudOut">로그아웃</button></div>`;
+    return `<div class="empty" role="status" aria-live="polite">${this.err||off?'':'<span class="spin" aria-hidden="true"></span>'}<b>${body[0]}</b>${body[1]}${btns}</div>`;
+  }
+};
+
+/* ---- importing this browser's guest records into the account ---- */
+function importPlan(l){
+  l=l||{};
+  const A=cloud.A, plan={add:{entries:[],hands:[],trips:[],tours:[]}, skip:0, dupSig:0, pmap:{}, addPlayers:[]};
+  const lp=(l.cfg&&l.cfg.players)||[], cp=S.cfg.players||[];
+  lp.forEach(p=>{ const m=cp.find(x=>x.name===p.name); if (m) plan.pmap[p.id]=m.id; else { plan.pmap[p.id]=p.id; if (cp.length) plan.addPlayers.push(p); } });
+  const sig=(name,e)=>[name, e.date, e.name, +e.buyin||0, +e.prize||0, e.kind].join('|');
+  const cloudSig=new Set((S.entries||[]).map(e=>sig((cp.find(x=>x.id===e.player)||{}).name, e)));
+  const lpName=id=>(lp.find(x=>x.id===id)||{}).name;
+  const gone=(n,id)=>A && A.base[n][String(id)]==='DEL';   // deleted from the account earlier: do not bring it back
+  (l.entries||[]).forEach(e0=>{ const e=migrateEntry(cleanJ(e0));
+    if (S.entries.some(x=>x.id===e.id) || gone('entries', e.id)){ plan.skip++; return; }
+    if (cloudSig.has(sig(lpName(e.player), e))){ plan.dupSig++; return; }
+    e.player = plan.pmap[e.player] || e.player; if (e.stake && e.stake.inv) e.stake.inv = plan.pmap[e.stake.inv] || e.stake.inv; plan.add.entries.push(e); });
+  ['hands','trips','tours'].forEach(n=>(l[n]||[]).forEach(d=>{ if ((S[n]||[]).some(x=>x.id===d.id) || gone(n, d.id)) plan.skip++; else plan.add[n].push(cleanJ(d)); }));
+  plan.n = plan.add.entries.length+plan.add.hands.length+plan.add.trips.length+plan.add.tours.length;
+  return plan;
+}
+async function openImport(l){
+  l=l||cloud.guestData();
+  const dc=countsOf(l), ac=countsOf(S), plan=importPlan(l);
+  const grid=(t,c)=>`<div class="statbox"><span>${t}</span><b class="n">${c.total}건</b><small>${countsTxt(c)}</small></div>`;
+  const backupBtn={label:'이 기기 기록 백업', keep:()=>{ downloadJSON({app:'EV log', version:1, exportedAt:new Date().toISOString(), ...l}, `evlog-device-backup-${todayISO()}.json`) ? toast('이 기기 기록을 백업 파일로 저장했어요') : toast('백업 파일을 만들지 못했어요'); }};
+  let v;
+  if (!ac.total){
+    v=await choose({title:'이 기기 기록을 계정으로 가져올까요?',
+      html:`<p style="margin:0 0 12px">로그인한 계정에는 아직 기록이 없어요. 이 기기 기록을 가져오면 휴대폰·아이패드·PC에서 같이 볼 수 있어요.</p><div class="statgrid">${grid('이 기기',dc)}</div>
+        <p class="hint">가져와도 이 기기의 기록은 지우지 않아요. 가져오지 않으면 계정은 빈 상태로 시작하고, 이 기기 기록은 로그아웃하면 다시 보여요.</p>`,
+      buttons:[backupBtn,{label:'가져오지 않기', val:'keep', spacer:true},{label:plan.n?`${plan.n}건 가져오기`:'가져올 기록 없음', val:'merge', primary:true}]});
+  } else {
+    v=await choose({title:'계정과 이 기기에 모두 기록이 있어요',
+      html:`<div class="statgrid">${grid('계정 기록',ac)}${grid('이 기기 기록',dc)}</div>
+        <p class="hint">합치면 계정에 없는 <b>${plan.n}건</b>만 더해져요. 같은 기록 ${plan.skip+plan.dupSig}건(같은 ID${plan.dupSig?`, 날짜·이름·금액이 같은 기록 ${plan.dupSig}건`:''})은 한 번만 남아요.</p>
+        <p class="hint">합치기 전에 두 기록을 모두 담은 복구용 백업 파일을 자동으로 받아요. 어느 쪽을 골라도 이 기기의 기록은 지우지 않아요.</p>`,
+      buttons:[backupBtn,{label:'기존 계정 기록 사용', val:'keep', spacer:true},{label:'이 기기 기록도 합치기', val:'merge', primary:true}]});
+  }
+  if (v==='merge'){ if (!plan.n){ return 'keep'; } return (await runImport(l)) ? 'merged' : null; }
+  return v;
+}
+async function runImport(l){
+  const A=cloud.A; if (!A) return false;
+  // 1) recovery backup holding both sides, kept on the device and downloaded
+  const snap={app:'EV log', kind:'merge-backup', version:1, at:new Date().toISOString(), account:{email:A.profile.email||'', entries:S.entries, tours:S.tours, trips:S.trips, hands:S.hands, cfg:S.cfg}, device:l};
+  try{ localStorage.setItem('evlog.backup.merge.'+cloud.uid, JSON.stringify(snap)); }catch{}
+  downloadJSON(snap, `evlog-merge-backup-${todayISO()}.json`);
+  // 2) add only what the account does not have yet
+  const plan=importPlan(l);
+  if (!(S.cfg.players||[]).length && l.cfg) S.cfg={...l.cfg, ...S.cfg, players:l.cfg.players||[], rates:{...DEFAULT_RATES, ...((l.cfg||{}).rates||{}), ...(S.cfg.rates||{})}};
+  else if (l.cfg){
+    S.cfg.players=[...(S.cfg.players||[]), ...plan.addPlayers];
+    const uni=(a,b,k)=>{ const out=[...(a||[])]; (b||[]).forEach(x=>{ if (!out.some(y=>k? y[k]===x[k] : y===x)) out.push(x); }); return out; };
+    S.cfg.brands=uni(S.cfg.brands, l.cfg.brands, 'name'); S.cfg.investors=uni(S.cfg.investors, l.cfg.investors); S.cfg.favs=uni(S.cfg.favs, l.cfg.favs);
+  }
+  ['entries','hands','trips','tours'].forEach(n=>{ S[n]=[...(S[n]||[]), ...plan.add[n]]; });
+  cloud.persist(); render();
+  // 3) upload, then check against the server (not a local cache)
+  cloud.holdWrites=false;
+  await cloud.flush();
+  if (cloud.err || cloud.pending || !navigator.onLine){ toast('가져온 기록은 이 기기에 저장했고, 연결되면 계정에 올라가요'); return true; }
+  try{
+    let missing=0; const ref=cloud.root(cloud.uid);
+    for (const n of CLOUD_COLS){ const ids=plan.add[n].map(d=>String(d.id)); if (!ids.length) continue; const s=await ref.collection(n).get({source:'server'}); const have=new Set(s.docs.filter(d=>!d.data()._d).map(d=>d.id)); missing+=ids.filter(id=>!have.has(id)).length; }
+    toast(missing ? `${missing}건은 아직 확인되지 않았어요. 잠시 후 '지금 동기화'를 눌러 주세요` : `${plan.n}건을 계정으로 가져왔어요. 이 기기 기록도 그대로 있어요`);
+  }catch{ toast('가져온 기록을 서버에서 확인하지 못했어요. 잠시 후 \'지금 동기화\'를 눌러 주세요'); }
+  return true;
+}
+function backupHint(){
+  if (store.mode==='cloud') return `기록은 Google 계정(${esc(cloud.profile().email)})에 동기화되고 이 기기에도 사본이 있어요. 백업 파일은 로그인 중에도 받을 수 있어요. 불러오기를 하면 <b>계정 기록이 백업 내용으로 바뀌고 모든 기기에 반영돼요.</b>`;
+  return `기록은 지금 <b>이 기기(브라우저)에만</b> 저장돼요. 브라우저 기록을 지우면 사라질 수 있으니 Google로 로그인해 동기화하거나 가끔 백업 파일을 받아두세요. 불러오기를 하면 지금 데이터가 백업 내용으로 바뀌어요.`;
+}
+function dormantAccounts(){
+  const out=[]; try{ for (let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if (!k || !k.startsWith(CK_ACCT)) continue; const A=JSON.parse(localStorage.getItem(k)||'null'); if (A && A.pendingN>0) out.push({email:(A.profile||{}).email||'', n:A.pendingN}); } }catch{}
+  return out;
+}
+function accountCard(){
+  const [st,label]=cloud.state();
+  if (cloud.phase==='unavailable') return `<section class="card s12 acct-card" id="acctCard"><h2>계정 및 동기화</h2><p class="hint" style="margin:0">지금은 <b>이 기기에만 저장됨</b> 상태예요. Google 로그인과 기기 간 동기화는 s2uleopen-cpu.github.io/EVlog 주소에서 쓸 수 있어요.</p></section>`;
+  if (store.mode!=='cloud'){
+    const c=countsOf(S), dorm=dormantAccounts();
+    return `<section class="card s12 acct-card" id="acctCard"><h2>계정 및 동기화</h2>
+      <div class="acct"><div style="flex:1;min-width:220px"><div class="acct-st" style="margin:0 0 6px"><span class="dot" data-st="local"></span><b style="color:var(--ink)">이 기기에만 저장됨</b></div>
+        <p class="hint" style="margin:0">Google 계정으로 로그인하면 휴대폰과 아이패드에서 같은 기록을 이어서 관리할 수 있어요.</p>
+        <p class="hint n" style="margin:6px 0 0">이 기기에 저장된 기록 · ${countsTxt(c)}</p></div>
+      <button class="btn primary gbtn" data-act="cloudIn" ${cloud.signing||cloud.phase==='checking'?'disabled aria-busy="true"':''}>${GICON}${cloud.signing?'로그인 중…':'Google로 로그인'}</button></div>
+      ${dorm.length?`<p class="hint">이 기기에 아직 올라가지 않은 계정 변경이 보관돼 있어요: ${dorm.map(d=>`${esc(d.email)} ${d.n}건`).join(', ')}. 그 계정으로 다시 로그인하면 자동으로 올라가요.</p>`:''}
+      ${cloud.sdkErr?`<p class="hint" style="color:var(--down)">로그인 기능을 불러오지 못했어요. 인터넷 연결을 확인하고 새로고침해 주세요.</p>`:''}
+      <p class="hint">로그인하지 않아도 지금처럼 이 기기에 저장하며 쓸 수 있어요.</p></section>`;
+  }
+  const p=cloud.profile(), A=cloud.A||{}, g=cloud.guestData(), gc=countsOf(g), conf=(A.conflicts||[]).length;
+  const errLine = cloud.err ? `<p class="hint acct-err" role="alert">${esc(cloud.err.msg)}. 입력한 기록은 이 기기에 안전하게 보관돼 있어요.</p>` : cloud.phase==='expired' ? `<p class="hint acct-err" role="alert">로그인이 만료됐어요. 다시 로그인하면 저장 대기 중인 변경이 계정에 올라가요.</p>` : '';
+  return `<section class="card s12 acct-card" id="acctCard"><h2>계정 및 동기화</h2>
+    <div class="acct">${cloud.avatarHTML('acct-ph')}<div style="min-width:0;flex:1"><b>${esc(p.name||'Google 계정')}</b><div class="hint" style="margin:2px 0 0">${esc(p.email)}</div>
+      <div class="acct-st" aria-live="polite"><span class="dot" data-st="${st}"></span><span>${esc(label)}</span></div></div></div>
+    <div class="acct-grid n"><div><span>마지막 동기화</span><b>${whenTxt(A.lastSync)}</b></div><div><span>저장 대기 중인 변경</span><b>${cloud.pending}건</b></div><div><span>계정 기록</span><b>${countsOf(S).total}건</b></div></div>
+    ${errLine}
+    <div class="toolbar" style="margin:12px 0 0">
+      ${cloud.phase==='expired' ? `<button class="btn primary gbtn" data-act="cloudIn">${GICON}다시 로그인</button>` : `<button class="btn primary" data-act="cloudSync" ${cloud.syncing0||cloud.flushing?'disabled aria-busy="true"':''}>${cloud.syncing0||cloud.flushing?'동기화 중…':'지금 동기화'}</button>`}
+      <button class="btn" data-act="backup">백업 파일 받기</button>
+      ${gc.total?`<button class="btn" data-act="cloudImport">이 기기 기록 합치기</button>`:''}
+      ${conf?`<button class="btn" data-act="cloudConflicts">동시 수정 보관본 ${conf}건 받기</button>`:''}
+      <span style="flex:1"></span><button class="btn" data-act="cloudOut">로그아웃</button></div>
+    <p class="hint">함께 동기화: 수익 기록 · 핸드 리뷰 · 직접 등록한 대회(개인 일정) · 원정·경비 · 스테이킹·정산 · 플레이어 · 예산·목표 · 브랜드 · 즐겨찾기 · 환율. 기기마다 따로: 테마, 작성 중인 핸드, '이 기기에서 나는' 선택. 공개 대회 일정은 앱에 들어 있는 공용 정보라 계정에 저장하지 않아요.</p></section>`;
+}
+document.addEventListener('click', ev=>{
+  const b=ev.target.closest('[data-act^="cloud"],[data-act="menuClose"],#acctBtn'); if (!b) return;
+  if (b.id==='acctBtn'){ cloud.menuOpen ? cloud.closeMenu(true) : cloud.openMenu(); return; }
+  const a=b.dataset.act;
+  if (a==='menuClose') return cloud.closeMenu(true);
+  if (a==='cloudIn'){ cloud.closeMenu(); return cloud.signIn(); }
+  if (a==='cloudOut') return cloud.signOut();
+  if (a==='cloudSync'){ cloud.closeMenu(); return cloud.syncNow(); }
+  if (a==='cloudImport') return openImport();
+  if (a==='cloudConflicts'){ downloadJSON({app:'EV log', kind:'conflict-copies', at:new Date().toISOString(), items:(cloud.A||{}).conflicts||[]}, `evlog-conflict-copies-${todayISO()}.json`); return; }
+  if (a==='cloudManage'){ cloud.closeMenu(); if (S.view!=='settings'){ S.view='settings'; render(); } setTimeout(()=>{ const c=$('#acctCard'); if (c){ c.scrollIntoView({behavior:'smooth', block:'start'}); const f=c.querySelector('button'); f&&f.focus({preventScroll:true}); } }, 30); }
+});
+document.addEventListener('click', ev=>{ if (cloud.menuOpen && !ev.target.closest('#acctMenu,#acctBtn')) cloud.closeMenu(); });
+window.addEventListener('resize', ()=>{ if (cloud.menuOpen) cloud.placeMenu(); });
+document.addEventListener('keydown', ev=>{
+  if (!cloud.menuOpen) return;
+  if (ev.key==='Escape'){ ev.preventDefault(); cloud.closeMenu(true); return; }
+  if (ev.key==='ArrowDown'||ev.key==='ArrowUp'){ const items=[...document.querySelectorAll('#acctMenu [role=menuitem]')]; if (!items.length) return; ev.preventDefault(); const i=items.indexOf(document.activeElement); items[(i+(ev.key==='ArrowDown'?1:-1)+items.length)%items.length].focus(); }
+});
+
 /* ---------- boot ---------- */
+cloud.boot();
 render();
 (async ()=>{
   if (window.claude && claude.use){
@@ -3602,8 +4319,8 @@ render();
   ensureMe(); fillBrandList(); setTimeout(checkShareHash, 0);
   if (Array.isArray(S.cfg.brands) && !hadOnline && S.cfg.brands.some(b=>b.type==='online')) store.putCfg().catch(()=>{});
   if (!hadPlayers || !hadBrands){ try{ await store.putCfg(); }catch{} }
-  $('#storeNote').textContent = store.mode==='db' ? '이 브라우저에 저장 중' : '이 브라우저에 저장 중';
   render();
+  if (store.mode==='local') cloud.start();
 })();
 })();
 </script>
