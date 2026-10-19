@@ -1258,7 +1258,12 @@ details.fold[open]{padding-bottom:14px}
 
 /* phones & narrow tablets: bottom tab bar */
 @media (max-width:1023px){
-  html[data-theme] nav.tabs,html[data-theme] .top .right,html[data-theme] .subnav,html[data-theme] .addtop{display:none!important}
+  html[data-theme] nav.tabs,html[data-theme] .top .right,html[data-theme] .addtop{display:none!important}
+  html[data-theme] .subnav{display:none}
+  html[data-theme] .subnav.on{display:flex!important;gap:6px;overflow-x:auto;scrollbar-width:none;position:sticky;top:56px;z-index:9;padding:10px 16px;background:var(--bg);border-bottom:1px solid var(--line)}
+  html[data-theme] .subnav.on::-webkit-scrollbar{display:none}
+  html[data-theme] .subnav button{flex:none;height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line2);background:transparent;color:var(--muted);font-size:14px;font-weight:500}
+  html[data-theme] .subnav button[aria-current="page"]{background:var(--btn);border-color:var(--btn);color:var(--btn-ink);font-weight:600}
   html[data-theme] .top{background:rgba(var(--base),.94);border-bottom:1px solid var(--line);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
   html[data-theme] .top-in{height:56px!important;padding:0 16px!important;padding-top:0!important;flex-wrap:nowrap;gap:12px}
   html[data-theme] .brand{flex-direction:row;align-items:baseline;gap:8px;height:auto}
@@ -1278,7 +1283,6 @@ details.fold[open]{padding-bottom:14px}
   html[data-theme] .toast{bottom:calc(140px + env(safe-area-inset-bottom,0px))!important}
   html[data-theme] .ctrl{padding-top:22px!important}
   html[data-theme] .ctrl h1{font-size:26px!important}
-  html[data-theme] body:is([data-view="hands"],[data-view="trips"],[data-view="settle"]) .backmy{display:block}
 }
 @media (max-width:1023px) and (min-width:641px){
   html[data-theme] .ctrl,html[data-theme] .filters,html[data-theme] .content{padding-left:28px;padding-right:28px}
@@ -2747,7 +2751,7 @@ function formSummaries(e){
 
 const TITLES = {dash:'대시보드', records:'기록', hands:'핸드 리뷰', tours:'대회 일정', trips:'원정', settle:'스테이킹·정산', settings:'MY'};
 const EYEBROWS = {dash:'MY PERFORMANCE', records:'RECORDS', hands:'HAND REVIEW', tours:'SCHEDULE', trips:'TRIPS', settle:'STAKING', settings:'MY PAGE'};
-const NAV_GROUP = {dash:'dash', records:'rec', hands:'my', settle:'my', trips:'my', tours:'sched', settings:'my'};
+const NAV_GROUP = {dash:'dash', records:'rec', hands:'rec', settle:'rec', trips:'rec', tours:'sched', settings:'my'};
 function renderPills(){
   if (S.view==='dash' && S.dmode==='vs'){ $('#playerPills').innerHTML=''; return; }
   const solo = S.view==='dash';
