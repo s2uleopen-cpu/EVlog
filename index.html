@@ -2289,7 +2289,13 @@ function ensureMe(){
   // entries without a player belong to the first player
   S.entries.forEach(e=>{ if(!e.player) e.player=S.cfg.players[0].id; });
 }
+/* account mode: the signed-in account names one of its players as the account holder (cfg.selfPlayerId).
+   It syncs with the account, overrides the per-device choice, and is never set without the user's pick. */
+const acctOn = () => store.mode==='cloud';
+const ownPlayers = () => S.cfg.players.filter(p=>!p.remote);
+const selfId = () => { const s=acctOn() && S.cfg.selfPlayerId; return s && S.cfg.players.some(p=>p.id===s && !p.remote) ? s : null; };
 const myPlayerId = () => {
+  const me=selfId(); if (me) return me;
   const saved = lsGet(LS_ME); if (saved && S.cfg.players.some(p=>p.id===saved)) return saved;
   const mine = S.cfg.players.find(p=>p.owner && p.owner===S.myId); if (mine) return mine.id;
   return S.cfg.players[0]?.id;
@@ -3057,9 +3063,40 @@ function renderDash(){
     if (pair) return `<div class="toolbar" style="margin-bottom:12px"><button class="btn" data-dmode="solo">← 내 성적으로</button></div>` + renderVsDash(pair[0], pair[1], ALL);
     return `<div class="empty"><b>대결하려면 플레이어가 두 명 이상 필요해요</b>설정에서 친구를 플레이어로 추가해 주세요.<br><br><button class="btn primary" data-view="settings">플레이어 추가</button> <button class="btn" data-dmode="solo">개인으로 보기</button></div>`;
   }
+  if (acctOn()){ const out=renderSoloDash(P(myPlayerId()), ALL), card=selfPickCard(); return card ? out.replace('<div class="dash">', '<div class="dash">'+card) : out; }
   if (S.dAll && S.cfg.players.length>1) return renderAllDash(ALL);
   const pid = S.f.player!=='all' ? S.f.player : myPlayerId();
   return renderSoloDash(P(pid), ALL);
+}
+function selfPickCard(){
+  if (selfId()) return '';
+  const own=ownPlayers(); if (!own.length) return '';
+  const sug=myPlayerId();
+  const btns=own.map(p=>{ const n=S.entries.filter(e=>e.player===p.id && !e.src).length;
+    return `<button type="button" class="btn ${p.id===sug?'primary':''}" data-self="${esc(p.id)}">${avatar(p)}<span>${esc(p.name)}</span><small class="n" style="opacity:.7">기록 ${n}건</small></button>`; }).join('');
+  return `<section class="card s12 selfpick"><h2>이 계정의 본인을 골라 주세요</h2>
+    <p class="hint" style="margin:-6px 0 14px">고른 플레이어의 기록만 대시보드에 보이고, 나중에 친구 랭킹에도 이 기록만 들어가요. 기록 자체는 바뀌지 않고, MY에서 언제든 바꿀 수 있어요.</p>
+    <div class="toolbar" style="margin:0;flex-wrap:wrap">${btns}</div></section>`;
+}
+async function setSelf(id){
+  const p=S.cfg.players.find(x=>x.id===id && !x.remote); if (!p || !acctOn()) return;
+  if (id===S.cfg.selfPlayerId) return;
+  const v=await choose({title:'본인 플레이어 지정', html:`<p style="margin:0"><b>${esc(p.name)}</b>을(를) 이 계정의 본인으로 지정할까요?</p><p class="hint">모든 기기에 함께 적용돼요. 기록은 그대로이고, 다른 플레이어의 기록은 지워지지 않아요.</p>`, buttons:[{label:'취소', val:0},{label:'지정', val:1, primary:true}]});
+  if (!v){ render(); return; }
+  const key='evlog.backup.pre-self.'+(cloud.uid||'local');
+  if (!lsGet(key)) lsSet(key, JSON.stringify({at:new Date().toISOString(), prev:S.cfg.selfPlayerId??null, players:S.cfg.players}));
+  S.cfg.selfPlayerId=id; lsSet(LS_ME, id); S.f.player='all'; S.dAll=false;
+  try{ await store.putCfg(); toast(`${p.name}을(를) 본인으로 지정했어요`); }catch{ toast('저장하지 못했어요'); }
+  render();
+}
+async function undoSelf(){
+  const key='evlog.backup.pre-self.'+(cloud.uid||'local'); let b=null; try{ b=JSON.parse(lsGet(key)||'null'); }catch{}
+  if (!b) return;
+  if (!(await ask('본인 지정을 처음 지정하기 전 상태로 되돌릴까요?', '되돌리기'))) return;
+  if (b.prev) S.cfg.selfPlayerId=b.prev; else delete S.cfg.selfPlayerId;
+  try{ localStorage.removeItem(key); }catch{}
+  try{ await store.putCfg(); toast('되돌렸어요'); }catch{ toast('저장하지 못했어요'); }
+  render();
 }
 function entryRow(e){
   const s=spentOf(e), w=wonOf(e), n=w-s, st=stakeOf(e);
@@ -3416,8 +3453,10 @@ function renderSettings(){
     <p class="hint" style="margin:-6px 0 14px">장부를 같이 쓰는 사람과 각자의 한 달 바이인 예산이에요. 예산의 70%, 100%에 닿으면 대시보드에 경고가 떠요.</p>
     <div class="players">${S.cfg.players.map(p=>`<div class="p">${avatar(p)}<input type="text" value="${esc(p.name)}" data-pname="${esc(p.id)}" aria-label="플레이어 이름"><input type="text" inputmode="numeric" data-money autocomplete="off" value="${fmtIn(+p.budget||'')}" data-pbudget="${esc(p.id)}" placeholder="월 예산 (원)" aria-label="월 예산" style="width:130px;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:8px 10px" class="num"><input type="color" value="${esc(p.color)}" data-pcolor="${esc(p.id)}" aria-label="색"><button class="btn ghost" data-pdel="${esc(p.id)}">삭제</button></div>`).join('')}</div>
     <div class="toolbar" style="margin:0"><button class="btn" data-act="addPlayer">+ 플레이어 추가</button><button class="btn" data-act="gotoShare">+ 친구 코드로 추가</button><button class="btn primary" data-act="savePlayers">저장</button></div>
-    <label class="f" style="margin-top:18px">이 기기에서 나는<select id="mePick">${S.cfg.players.map(p=>`<option value="${esc(p.id)}" ${p.id===mine?'selected':''}>${esc(p.name)}</option>`).join('')}</select></label>
-    <p class="hint">기록 추가할 때 이 플레이어가 기본으로 선택돼요.</p>
+    ${acctOn() ? `<label class="f" style="margin-top:18px">이 계정의 본인<select id="selfPick">${selfId()?'':'<option value="" selected>아직 고르지 않음</option>'}${ownPlayers().map(p=>`<option value="${esc(p.id)}" ${p.id===selfId()?'selected':''}>${esc(p.name)}</option>`).join('')}</select></label>
+    <p class="hint">대시보드에는 본인 기록만 보이고, 기록 추가할 때도 본인이 기본으로 선택돼요. 모든 기기에 함께 적용돼요.${lsGet('evlog.backup.pre-self.'+(cloud.uid||'local')) ? ` <button type="button" class="btn ghost" data-act="selfUndo" style="margin-left:6px">지정 전으로 되돌리기</button>` : ''}</p>`
+    : `<label class="f" style="margin-top:18px">이 기기에서 나는<select id="mePick">${S.cfg.players.map(p=>`<option value="${esc(p.id)}" ${p.id===mine?'selected':''}>${esc(p.name)}</option>`).join('')}</select></label>
+    <p class="hint">기록 추가할 때 이 플레이어가 기본으로 선택돼요.</p>`}
   </section>
   <section class="card s12"><h2>자주 가는 브랜드 · 홀덤펍</h2>
     <p class="hint" style="margin:-6px 0 14px">여기 저장한 이름은 기록 추가할 때 목록과 빠른 선택 버튼으로 나와요. 기록 화면에서 직접 입력해도 자동으로 추가돼요.</p>
@@ -3459,7 +3498,8 @@ const navIcon = v => { const sv=document.querySelector(`nav.tabs [data-view="${v
 function allMenuCard(){
   const open=stakeItems().filter(x=>x.open).length;
   const items=[['hands','핸드 리뷰',`저장한 핸드 ${S.hands.length}개`],['trips','원정',`원정 ${S.trips.length}개 · 경비·동행 정산`],['settle','스테이킹·정산', open? `미정산 ${open}건` : '미정산 없음'],['tours','대회 일정','일정 · 즐겨찾기 · 참가 예정'],['records','기록',`전체 ${S.entries.length}건`]];
-  return `<section class="card s12 allmenu"><h2>전체 메뉴</h2><div class="menu-list">${items.map(([v,t,sub])=>`<button type="button" data-view="${v}"><span class="mi">${navIcon(v)}</span><span class="mt"><b>${t}</b><small>${esc(sub)}</small></span><span class="chev" aria-hidden="true">›</span></button>`).join('')}</div></section>`;
+  items.unshift(['friends','친구', !acctOn()||!cloud.user ? '로그인하면 친구 코드로 추가' : fr.uid ? (()=>{ const inc=fr.list.filter(f=>f.status==='pending'&&f.to===fr.uid).length, n=fr.list.filter(f=>f.status==='accepted').length; return inc? `받은 신청 ${inc}건` : `친구 ${n}명`; })() : '친구 코드 · 신청 · 차단']);
+  return `<section class="card s12 allmenu"><h2>전체 메뉴</h2><div class="menu-list">${items.map(([v,t,sub])=>`<button type="button" data-view="${v}"><span class="mi">${navIcon(v)||(v==='friends'?FR_ICON:'')}</span><span class="mt"><b>${t}</b><small>${esc(sub)}</small></span><span class="chev" aria-hidden="true">›</span></button>`).join('')}</div></section>`;
 }
 function displayCard(){
   const pref = document.documentElement.dataset.themePref || 'dark', lab={light:'Light',dark:'Dark',system:'System'};
@@ -3479,16 +3519,16 @@ function formSummaries(e){
   set('eMoreSum', [t? t.name : '', e.field? `필드 ${e.field}` : '', +e.extra? `부대비용 ${fmtCur(e.extra,e.cur)}` : '', e.note? '메모 있음' : ''].filter(Boolean).join(' · '));
 }
 
-const TITLES = {dash:'대시보드', records:'기록', hands:'핸드 리뷰', tours:'대회 일정', trips:'원정', settle:'스테이킹·정산', settings:'MY'};
-const EYEBROWS = {dash:'MY PERFORMANCE', records:'RECORDS', hands:'HAND REVIEW', tours:'SCHEDULE', trips:'TRIPS', settle:'STAKING', settings:'MY PAGE'};
-const NAV_GROUP = {dash:'dash', records:'rec', hands:'rec', settle:'rec', trips:'rec', tours:'sched', settings:'my'};
+const TITLES = {friends:'친구', dash:'대시보드', records:'기록', hands:'핸드 리뷰', tours:'대회 일정', trips:'원정', settle:'스테이킹·정산', settings:'MY'};
+const EYEBROWS = {friends:'FRIENDS', dash:'MY PERFORMANCE', records:'RECORDS', hands:'HAND REVIEW', tours:'SCHEDULE', trips:'TRIPS', settle:'STAKING', settings:'MY PAGE'};
+const NAV_GROUP = {friends:'my', dash:'dash', records:'rec', hands:'rec', settle:'rec', trips:'rec', tours:'sched', settings:'my'};
 function pselState(){
   const dash=S.view==='dash', allOn = dash ? !!S.dAll : S.f.player==='all';
   return {allOn, curId: allOn ? '*' : (dash && S.f.player==='all' ? myPlayerId() : S.f.player)};
 }
 function renderPills(){
   const box=$('#playerPills'); closePMenu(true);
-  if ((S.view==='dash' && S.dmode==='vs') || S.cfg.players.length<2){ box.innerHTML=''; return; }
+  if ((S.view==='dash' && (S.dmode==='vs' || acctOn())) || S.cfg.players.length<2){ box.innerHTML=''; return; }
   const {allOn,curId}=pselState(), cur = allOn ? null : P(curId);
   box.innerHTML = `<button type="button" class="psel" id="pselBtn" aria-haspopup="listbox" aria-expanded="false" aria-label="플레이어 선택: ${esc(cur? cur.name : '전체 플레이어')}">${cur? avatar(cur)+`<span>${esc(cur.name)}</span>` : `<span class="psel-all" aria-hidden="true"></span><span>전체 플레이어</span>`}<svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5"/></svg></button>`;
 }
@@ -3533,7 +3573,7 @@ document.addEventListener('pointerdown', ev=>{ if (!pMenu.hidden && !pMenu.conta
 addEventListener('resize', ()=>{ if (!pMenu.hidden && !isPhone()) closePMenu(true); });
 { let rw=innerWidth, rt; addEventListener('resize', ()=>{ clearTimeout(rt); rt=setTimeout(()=>{ if (Math.abs(innerWidth-rw)>60 && S.view==='dash' && !document.querySelector('dialog[open]')){ rw=innerWidth; render(); } }, 200); }); }
 function render(){
-  _dayMap=null;
+  _dayMap=null; fr.check();
   if (!S.dmode && S.cfg.players.length) S.dmode = lsGet('evlog.dmode') || 'solo';
   if (S.f.player!=='all' && !S.cfg.players.some(p=>p.id===S.f.player)) S.f.player='all';
   document.querySelectorAll('nav.tabs button').forEach(b=>b.setAttribute('aria-selected', b.dataset.view===S.view));
@@ -3557,7 +3597,7 @@ function render(){
   renderPills(); fillBrandList();
   $('#fab').classList.toggle('off', !(S.view==='dash' || S.view==='records'));
   if (cloud.masked()){ $('#view').innerHTML = cloud.maskHTML(); cloud.ui(); return; }
-  $('#view').innerHTML = ({dash:renderDash, records:renderRecords, hands:renderHands, tours:renderTours, trips:renderTrips, settle:renderSettle, settings:renderSettings})[S.view]();
+  $('#view').innerHTML = ({dash:renderDash, records:renderRecords, hands:renderHands, tours:renderTours, trips:renderTrips, settle:renderSettle, settings:renderSettings, friends:renderFriends})[S.view]();
   if (S.view==='tours' && sampleFn) { const b=$('#pasteBtn'); if (b) b.hidden=false; }
   cloud.ui(); applyTheme();
 }
@@ -4105,6 +4145,7 @@ document.addEventListener('click', async ev=>{
   if (t.matches('[data-close]')) { t.closest('dialog').close(); return; }
   if (t.dataset.view){ S.view=t.dataset.view; render(); window.scrollTo(0,0); return; }
   if (t.dataset.mode){ S.mode=t.dataset.mode; render(); return; }
+  if (t.dataset.self){ setSelf(t.dataset.self); return; }
   if (t.dataset.dmode){ S.dmode=t.dataset.dmode; lsSet('evlog.dmode', S.dmode); render(); window.scrollTo(0,0); return; }
   if (t.dataset.dchart){ S.dChart=t.dataset.dchart; render(); return; }
   if (t.id==='pselBtn'){ if (pMenu.hidden) openPMenu(); else closePMenu(); return; }
@@ -4118,6 +4159,7 @@ document.addEventListener('click', async ev=>{
   if (t.dataset.cal){ S.calM+=+t.dataset.cal; if(S.calM<1){S.calM=12;S.calY--;} if(S.calM>12){S.calM=1;S.calY++;} render(); return; }
   if (t.dataset.settle){ settlePair(t.dataset.settle); return; }
   if (t.dataset.pdel){
+    if (t.dataset.pdel===selfId()){ toast('본인 플레이어는 삭제할 수 없어요. 먼저 본인을 다른 플레이어로 바꿔 주세요'); return; }
     const id=t.dataset.pdel, n=S.entries.filter(e=>e.player===id||(e.stake&&e.stake.inv===id)).length;
     if (S.cfg.players.length<=1){ toast('플레이어는 한 명 이상 있어야 해요'); return; }
     if (n){ toast(`이 플레이어의 기록 ${n}건이 있어 삭제할 수 없어요`); return; }
@@ -4125,6 +4167,7 @@ document.addEventListener('click', async ev=>{
     try{ await store.putCfg(); }catch{} return;
   }
   const a=t.dataset.act;
+  if (a==='selfUndo') return undoSelf();
   if (a==='add') openEntry();
   if (t.dataset.bdel){ S.cfg.brands=(S.cfg.brands||[]).filter(b=>b.name!==t.dataset.bdel); fillBrandList(); render(); try{ await store.putCfg(); }catch{} return; }
   if (a==='addBrand'){ const n=$('#bNew').value.trim(); if (!n) return; if ((S.cfg.brands||[]).some(b=>b.name===n)){ toast('이미 있는 이름이에요'); return; }
@@ -4164,7 +4207,7 @@ function collectPlayers(){
   document.querySelectorAll('[data-pcolor]').forEach(i=>{ const p=S.cfg.players.find(x=>x.id===i.dataset.pcolor); if (p) p.color=i.value; });
   document.querySelectorAll('[data-pbudget]').forEach(i=>{ const p=S.cfg.players.find(x=>x.id===i.dataset.pbudget); if (p) p.budget=num(i.value); });
 }
-document.addEventListener('change', ev=>{ if (ev.target.dataset && ev.target.dataset.h2h!=null){ const i=+ev.target.dataset.h2h; h2hPair(); S.h2h[i]=ev.target.value; if (S.h2h[0]===S.h2h[1]) S.h2h[1-i]=S.cfg.players.find(p=>p.id!==ev.target.value).id; render(); return; } if (ev.target.id==='mePick'){ lsSet(LS_ME, ev.target.value); toast('이 기기의 기본 플레이어를 바꿨어요'); } });
+document.addEventListener('change', ev=>{ if (ev.target.dataset && ev.target.dataset.h2h!=null){ const i=+ev.target.dataset.h2h; h2hPair(); S.h2h[i]=ev.target.value; if (S.h2h[0]===S.h2h[1]) S.h2h[1-i]=S.cfg.players.find(p=>p.id!==ev.target.value).id; render(); return; } if (ev.target.id==='selfPick'){ if (ev.target.value) setSelf(ev.target.value); return; } if (ev.target.id==='mePick'){ lsSet(LS_ME, ev.target.value); toast('이 기기의 기본 플레이어를 바꿨어요'); } });
 document.addEventListener('keydown', ev=>{ if (ev.key==='Enter' && ev.target.id==='bNew'){ document.querySelector('[data-act=addBrand]').click(); return; } if (ev.key==='Enter' && ev.target.matches('tr[data-edit],tr[data-edittour]')) ev.target.click(); });
 /* restore: check the file, keep a copy of what is here now, then merge by id or replace */
 function checkBackup(d){
@@ -4938,6 +4981,149 @@ document.addEventListener('click', async ev=>{
   render();
 }, true);
 
+/* ---------- friends (account mode only) ----------
+   Firestore: users/{uid} (own settings), friendCodes/{code} → {uid, nickname},
+   friendships/{a_b} {users:[a,b], from, to, status, fromName, toName}, blocks/{uid}/list/{other}.
+   Security rules enforce consent, no duplicates, no self-requests and blocks; this UI only follows them. */
+const FR_ALPHA = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+const FR_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c1.2-3.6 3.6-5.5 6.5-5.5s5.3 1.9 6.5 5.5"/><circle cx="17" cy="9" r="2.6"/><path d="M16.5 14.6c2.4.2 4 1.8 5 4.6"/></svg>`;
+const frPair = (a,b) => a<b ? a+'_'+b : b+'_'+a;
+const frCodeOk = c => /^[A-Z0-9]{8}$/.test(c);
+const frNorm = c => String(c||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
+const fr = {
+  uid:null, me:null, list:[], blocks:[], unsub:[], loading:false, err:'', wanted:false,
+  found:null, finding:false, busy:false,
+  ready(){ return store.mode==='cloud' && !!(cloud.user && cloud.fs && cloud.uid) && navigator.onLine; },
+  db(){ return cloud.fs; },
+  ts(){ return firebase.firestore.FieldValue.serverTimestamp(); },
+  stop(){ this.unsub.forEach(u=>{ try{u();}catch{} }); this.unsub=[]; this.uid=null; this.me=null; this.list=[]; this.blocks=[]; this.found=null; this.err=''; this.loading=false; },
+  check(){ if (this.uid && this.uid!==(cloud.user && cloud.uid)) this.stop(); },
+  errMsg(e){ const c=(e&&e.code)||''; if (/permission-denied/.test(c)) return '권한이 없어 처리하지 못했어요. 친구 기능 보안 규칙이 게시됐는지 확인해 주세요'; if (/unavailable|network/.test(c)) return '인터넷 연결을 확인하고 다시 시도해 주세요'; return '처리하지 못했어요. 잠시 후 다시 시도해 주세요'; },
+  newCode(){ const a=new Uint32Array(8); crypto.getRandomValues(a); return [...a].map(x=>FR_ALPHA[x%FR_ALPHA.length]).join(''); },
+  async start(){
+    this.check();
+    if (!this.ready() || this.uid===cloud.uid || this.loading) return;
+    this.loading=true; this.err=''; const id=cloud.uid, db=this.db();
+    try{
+      const ref=db.collection('users').doc(id); let snap=await ref.get();
+      if (!snap.exists){
+        const nick=(P(myPlayerId()).name||'').trim().slice(0,20) || '플레이어';
+        let code=null;
+        for (let i=0;i<6 && !code;i++){ const c=this.newCode(); try{ await db.collection('friendCodes').doc(c).set({uid:id, nickname:nick}); code=c; }catch(e){ if (!/permission-denied/.test(e&&e.code||'')) throw e; } }
+        if (!code) throw Object.assign(new Error('code'),{code:'permission-denied'});
+        await ref.set({nickname:nick, friendCode:code, privacy:'off', rank:false, createdAt:this.ts(), updatedAt:this.ts()});
+        snap=await ref.get();
+      }
+      if (cloud.uid!==id) return;
+      this.uid=id; this.me=snap.data();
+      this.unsub.push(db.collection('friendships').where('users','array-contains',id).onSnapshot(s=>{ this.list=s.docs.map(d=>({...d.data(), id:d.id})); if (S.view==='friends') render(); }, e=>{ this.err=this.errMsg(e); if (S.view==='friends') render(); }));
+      this.unsub.push(db.collection('blocks').doc(id).collection('list').onSnapshot(s=>{ this.blocks=s.docs.map(d=>({...d.data(), id:d.id})); if (S.view==='friends') render(); }, ()=>{}));
+    }catch(e){ console.error(e); this.err=this.errMsg(e); }
+    finally{ this.loading=false; if (S.view==='friends') render(); }
+    const pend=lsGet('evlog.pendingFriend'); if (pend && this.uid){ try{ localStorage.removeItem('evlog.pendingFriend'); }catch{} this.find(pend); }
+  },
+  other(f){ return f.from===this.uid ? {id:f.to, name:f.toName} : {id:f.from, name:f.fromName}; },
+  rel(otherId){ return this.list.find(f=>f.id===frPair(this.uid, otherId)); },
+  isBlocked(otherId){ return this.blocks.some(b=>b.id===otherId); },
+  async find(raw){
+    const c=frNorm(raw); this.found=null;
+    if (!frCodeOk(c)){ toast('친구 코드 8자리를 정확히 입력해 주세요'); render(); return; }
+    if (this.me && c===this.me.friendCode){ toast('내 친구 코드예요'); render(); return; }
+    this.finding=true; render();
+    try{ const d=await this.db().collection('friendCodes').doc(c).get(); this.found = d.exists ? {code:c, uid:d.data().uid, name:d.data().nickname||'이름 없음'} : {code:c, none:true}; }
+    catch(e){ toast(this.errMsg(e)); }
+    finally{ this.finding=false; render(); }
+  },
+  async run(fn, ok, denied){ if (this.busy) return; this.busy=true; render(); try{ await fn(); if (ok) toast(ok); }catch(e){ console.error(e); toast(denied && /permission-denied/.test(e&&e.code||'') ? denied : this.errMsg(e)); } finally{ this.busy=false; render(); } },
+  request(){ const t=this.found; if (!t || t.none || !this.uid) return;
+    if (t.uid===this.uid){ toast('나에게는 신청할 수 없어요'); return; }
+    if (this.isBlocked(t.uid)){ toast('차단한 사용자예요. 차단을 풀면 신청할 수 있어요'); return; }
+    const f=this.rel(t.uid);
+    if (f && f.status==='accepted'){ toast('이미 친구예요'); return; }
+    if (f && f.from===this.uid){ toast('이미 신청했어요. 상대가 수락하면 친구가 돼요'); return; }
+    if (f) return this.accept(f);
+    return this.run(async()=>{ const users=this.uid<t.uid ? [this.uid,t.uid] : [t.uid,this.uid];
+      await this.db().collection('friendships').doc(frPair(this.uid,t.uid)).set({users, from:this.uid, to:t.uid, status:'pending', fromName:this.me.nickname, toName:t.name, createdAt:this.ts()});
+      this.found=null; }, '친구 신청을 보냈어요', '이 사용자에게는 신청을 보낼 수 없어요'); },
+  accept(f){ return this.run(()=>this.db().collection('friendships').doc(f.id).update({status:'accepted', acceptedAt:this.ts()}), `${this.other(f).name}님과 친구가 됐어요`); },
+  async drop(f, kind){ const o=this.other(f);
+    const msg = kind==='reject' ? `${o.name}님의 신청을 거절할까요?` : kind==='cancel' ? `${o.name}님에게 보낸 신청을 취소할까요?` : `${o.name}님을 친구에서 삭제할까요? 서로의 랭킹이 바로 안 보이게 돼요.`;
+    if (!(await ask(msg, kind==='reject'?'거절':kind==='cancel'?'신청 취소':'삭제'))) return;
+    return this.run(()=>this.db().collection('friendships').doc(f.id).delete(), kind==='reject'?'거절했어요':kind==='cancel'?'신청을 취소했어요':'친구에서 삭제했어요'); },
+  async block(otherId, name){
+    if (!(await ask(`${name}님을 차단할까요? 친구 관계가 끊기고, 서로 신청할 수 없게 돼요.`, '차단'))) return;
+    return this.run(async()=>{ await this.db().collection('blocks').doc(this.uid).collection('list').doc(otherId).set({name, at:this.ts()});
+      const f=this.rel(otherId); if (f) await this.db().collection('friendships').doc(f.id).delete();
+      if (this.found && this.found.uid===otherId) this.found=null; }, '차단했어요'); },
+  unblock(b){ return this.run(()=>this.db().collection('blocks').doc(this.uid).collection('list').doc(b.id).delete(), '차단을 풀었어요'); },
+  async rename(v){ const n=String(v||'').trim().slice(0,20); if (!n){ toast('닉네임을 입력해 주세요'); return; } if (n===this.me.nickname) return;
+    return this.run(async()=>{ await this.db().collection('users').doc(this.uid).update({nickname:n, updatedAt:this.ts()}); await this.db().collection('friendCodes').doc(this.me.friendCode).set({uid:this.uid, nickname:n}); this.me={...this.me, nickname:n}; }, '닉네임을 바꿨어요'); },
+  inviteLink(){ const base=shareLinkBase(); return base && this.me ? base+'#evfriend='+this.me.friendCode : ''; }
+};
+function frRow(name, sub, btns){ return `<div class="friend"><span class="av" style="background:var(--muted)">${esc((name||'?').trim().slice(0,1))}</span><span style="min-width:0;flex:1"><b>${esc(name||'이름 없음')}</b>${sub?`<span class="hint" style="display:block;margin:0">${esc(sub)}</span>`:''}</span><span class="toolbar" style="margin:0;gap:6px">${btns}</span></div>`; }
+function renderFriends(){
+  const back=`<div class="toolbar" style="margin:0 0 12px"><button class="btn" data-view="settings">‹ MY</button></div>`;
+  if (store.mode!=='cloud' || !cloud.user){
+    return back+`<div class="empty"><b>친구 기능은 로그인하면 쓸 수 있어요</b>Google로 로그인하면 친구 코드로 친구를 추가하고, 서로 동의한 친구끼리 ROI를 비교할 수 있어요. 로그인하지 않아도 기존 기록은 이 기기에서 그대로 쓸 수 있어요.<br><br><button class="btn primary" data-act="cloudIn">Google로 로그인</button></div>`;
+  }
+  fr.wanted=true; fr.check(); if (!fr.uid && !fr.loading && !fr.err) setTimeout(()=>fr.start(),0);
+  if (!fr.uid){
+    return back+(fr.err ? `<div class="empty"><b>친구 기능을 불러오지 못했어요</b>${esc(fr.err)}<br><br><button class="btn primary" data-act="frRetry">다시 시도</button></div>` : `<div class="empty"><b>친구 정보를 불러오는 중이에요</b>잠시만 기다려 주세요.</div>`);
+  }
+  const me=fr.me, dis=fr.busy?'disabled':'', link=fr.inviteLink();
+  const inc=fr.list.filter(f=>f.status==='pending' && f.to===fr.uid), out=fr.list.filter(f=>f.status==='pending' && f.from===fr.uid), mates=fr.list.filter(f=>f.status==='accepted');
+  const t=fr.found; let foundHTML='';
+  if (t){
+    if (t.none) foundHTML=`<p class="hint" role="status">${esc(t.code)} 코드를 쓰는 사용자가 없어요. 코드를 다시 확인해 주세요.</p>`;
+    else { const f=fr.rel(t.uid), bl=fr.isBlocked(t.uid);
+      const st = bl ? '차단한 사용자' : !f ? '' : f.status==='accepted' ? '이미 친구' : f.from===fr.uid ? '신청 보냄 · 수락 대기' : '나에게 신청함';
+      const act = bl ? '' : !f ? `<button class="btn primary" data-act="frRequest" ${dis}>친구 신청</button>` : (f.status==='pending' && f.to===fr.uid) ? `<button class="btn primary" data-act="frAccept" data-fid="${esc(f.id)}" ${dis}>수락</button>` : '';
+      foundHTML=`<div class="friends" style="margin-top:12px">${frRow(t.name, st, act)}</div>`; }
+  }
+  const sec=(title, arr, row, empty)=>`<section class="card s12"><h2>${title}${arr.length?` <span class="hint n" style="margin:0">${arr.length}</span>`:''}</h2>${fr.err?`<p class="hint acct-err" role="alert">${esc(fr.err)}</p>`:''}${arr.length?`<div class="friends" style="margin-top:0">${arr.map(row).join('')}</div>`:`<p class="hint">${empty}</p>`}</section>`;
+  return back+`<div class="dash">
+  <section class="card s6x"><h2>내 친구 코드</h2>
+    <div class="n" style="font-size:28px;font-weight:600;letter-spacing:.12em;margin:4px 0 6px">${esc(me.friendCode)}</div>
+    <p class="hint" style="margin:0 0 12px">이 코드를 아는 사람만 나를 찾을 수 있어요. 이메일과 기록은 공개되지 않아요.</p>
+    <div class="toolbar" style="margin:0"><button class="btn primary" data-act="frCopyCode">코드 복사</button>${link?`<button class="btn" data-act="frCopyLink">초대 링크 복사</button>`:''}</div>
+    <label class="f" style="margin-top:16px">친구에게 보이는 닉네임<span style="display:flex;gap:6px"><input id="frNick" maxlength="20" value="${esc(me.nickname)}" style="flex:1;min-width:0"><button class="btn" data-act="frRename" ${dis}>저장</button></span></label>
+  </section>
+  <section class="card s6x"><h2>코드로 친구 찾기</h2>
+    <div style="display:flex;gap:6px"><input id="frCode" maxlength="9" autocomplete="off" autocapitalize="characters" placeholder="친구 코드 8자리" value="${esc(S.frInput||'')}" style="flex:1;min-width:0;text-transform:uppercase"><button class="btn primary" data-act="frFind" ${fr.finding?'disabled aria-busy="true"':''}>${fr.finding?'찾는 중…':'찾기'}</button></div>
+    ${foundHTML}
+    <p class="hint">상대가 수락해야 친구가 돼요. 친구끼리도 랭킹 참여와 공개 범위는 각자 정해요.</p>
+  </section>
+  ${inc.length?sec('받은 신청', inc, f=>{ const o=fr.other(f); return frRow(o.name, '나에게 친구 신청을 보냈어요', `<button class="btn primary" data-act="frAccept" data-fid="${esc(f.id)}" ${dis}>수락</button><button class="btn" data-act="frReject" data-fid="${esc(f.id)}" ${dis}>거절</button><button class="btn ghost" data-act="frBlock" data-oid="${esc(o.id)}" data-oname="${esc(o.name)}" ${dis}>차단</button>`); }, ''):''}
+  ${sec('친구', mates, f=>{ const o=fr.other(f); return frRow(o.name, '', `<button class="btn" data-act="frRemove" data-fid="${esc(f.id)}" ${dis}>삭제</button><button class="btn ghost" data-act="frBlock" data-oid="${esc(o.id)}" data-oname="${esc(o.name)}" ${dis}>차단</button>`); }, '아직 친구가 없어요. 내 코드를 보내거나 친구 코드로 찾아보세요.')}
+  ${out.length?sec('보낸 신청', out, f=>{ const o=fr.other(f); return frRow(o.name, '수락 대기 중', `<button class="btn" data-act="frCancel" data-fid="${esc(f.id)}" ${dis}>신청 취소</button>`); }, ''):''}
+  ${fr.blocks.length?sec('차단한 사용자', fr.blocks, b=>frRow(b.name, '', `<button class="btn" data-act="frUnblock" data-bid="${esc(b.id)}" ${dis}>차단 해제</button>`), ''):''}
+  </div>`;
+}
+document.addEventListener('click', ev=>{
+  const t=ev.target.closest('[data-act^="fr"]'); if (!t) return;
+  const a=t.dataset.act, byId=id=>fr.list.find(f=>f.id===id);
+  if (a==='frRetry'){ fr.err=''; fr.stop(); fr.start(); render(); }
+  else if (a==='frCopyCode') copyText(fr.me.friendCode);
+  else if (a==='frCopyLink') copyText(fr.inviteLink());
+  else if (a==='frRename') fr.rename($('#frNick').value);
+  else if (a==='frFind'){ S.frInput=$('#frCode').value; fr.find(S.frInput); }
+  else if (a==='frRequest') fr.request();
+  else if (a==='frAccept'){ const f=byId(t.dataset.fid); if (f) fr.accept(f); }
+  else if (a==='frReject'){ const f=byId(t.dataset.fid); if (f) fr.drop(f,'reject'); }
+  else if (a==='frCancel'){ const f=byId(t.dataset.fid); if (f) fr.drop(f,'cancel'); }
+  else if (a==='frRemove'){ const f=byId(t.dataset.fid); if (f) fr.drop(f,'remove'); }
+  else if (a==='frBlock') fr.block(t.dataset.oid, t.dataset.oname);
+  else if (a==='frUnblock'){ const b=fr.blocks.find(x=>x.id===t.dataset.bid); if (b) fr.unblock(b); }
+});
+document.addEventListener('keydown', ev=>{ if (ev.key==='Enter' && ev.target && ev.target.id==='frCode'){ ev.preventDefault(); S.frInput=ev.target.value; fr.find(S.frInput); } });
+function checkFriendHash(){
+  const m=location.hash.match(/evfriend=([A-Za-z0-9]{8})/); if (!m) return;
+  try{ history.replaceState(null,'',location.href.split('#')[0]); }catch{}
+  const c=frNorm(m[1]); S.frInput=c; S.view='friends';
+  if (fr.uid) fr.find(c); else { lsSet('evlog.pendingFriend', c); if (!(store.mode==='cloud' && cloud.user)) toast('Google로 로그인하면 친구 신청을 이어서 할 수 있어요'); }
+  render();
+}
+
 /* ---------- cloud sync (Firebase Auth: Google + Cloud Firestore) ----------
    Guest (not signed in): everything stays in this browser under LS_KEY, exactly as before.
    Signed in: the account's data lives in Firestore under evlog/{uid}/… and is mirrored in a
@@ -5545,7 +5731,7 @@ function accountCard(){
       ${gc.total?`<button class="btn" data-act="cloudImport">이 기기 기록 합치기</button>`:''}
       ${conf?`<button class="btn" data-act="cloudConflicts">동시 수정 보관본 ${conf}건 받기</button>`:''}
       <span style="flex:1"></span><button class="btn" data-act="cloudOut">로그아웃</button></div>
-    <p class="hint">함께 동기화: 수익 기록 · 핸드 리뷰 · 직접 등록한 대회(개인 일정) · 원정·경비 · 스테이킹·정산 · 플레이어 · 예산·목표 · 브랜드 · 즐겨찾기 · 환율. 기기마다 따로: 테마, 작성 중인 핸드, '이 기기에서 나는' 선택. 공개 대회 일정은 앱에 들어 있는 공용 정보라 계정에 저장하지 않아요.</p></section>`;
+    <p class="hint">함께 동기화: 수익 기록 · 핸드 리뷰 · 직접 등록한 대회(개인 일정) · 원정·경비 · 스테이킹·정산 · 플레이어 · 예산·목표 · 브랜드 · 즐겨찾기 · 환율. 본인 플레이어 지정도 계정에 함께 저장돼요. 기기마다 따로: 테마, 작성 중인 핸드. 공개 대회 일정은 앱에 들어 있는 공용 정보라 계정에 저장하지 않아요.</p></section>`;
 }
 document.addEventListener('click', ev=>{
   const b=ev.target.closest('[data-act^="cloud"],[data-act="menuClose"],#acctBtn'); if (!b) return;
@@ -5582,7 +5768,7 @@ render();
   const hadPlayers = S.cfg.players.length, hadBrands = Array.isArray(S.cfg.brands);
   if (migrateAll()){ store.saveLocal(); if (store.mode==='db') S.entries.forEach(e=>store.put('entries',e).catch(()=>{})); }
   const hadOnline=(S.cfg.brands||[]).some(b=>b.type==='online');
-  ensureMe(); fillBrandList(); setTimeout(checkShareHash, 0);
+  ensureMe(); fillBrandList(); setTimeout(checkShareHash, 0); setTimeout(checkFriendHash, 0);
   if (Array.isArray(S.cfg.brands) && !hadOnline && S.cfg.brands.some(b=>b.type==='online')) store.putCfg().catch(()=>{});
   if (!hadPlayers || !hadBrands){ try{ await store.putCfg(); }catch{} }
   render();
