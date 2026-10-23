@@ -1638,7 +1638,7 @@ html[data-skin][data-theme="dark"]{
   --edge:inset 0 1px 0 rgba(255,255,255,.055);
   --lift:0 1px 1px rgba(0,0,0,.35),0 18px 40px -24px rgba(0,0,0,.75);
   --shadow-pop:0 24px 60px -20px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.07);
-  --page:radial-gradient(1100px 620px at 78% -12%,rgba(120,150,190,.10),transparent 62%),radial-gradient(900px 560px at -10% 108%,rgba(50,181,138,.05),transparent 60%),linear-gradient(180deg,#0B0D11,#090A0D)}
+  --page:#0A0C0F}
 html[data-skin][data-theme="light"]{
   --bg:#F2F3F6;--side:rgba(255,255,255,.72);--surface:#FFFFFF;--sunk:rgba(15,23,42,.025);--field:rgba(255,255,255,.7);--raise:rgba(15,23,42,.05);
   --ink:#141A23;--ink2:#3B4452;--muted:#667080;--muted-bg:#5D6878;
@@ -1651,7 +1651,7 @@ html[data-skin][data-theme="light"]{
   --edge:inset 0 1px 0 rgba(255,255,255,.9);
   --lift:0 1px 2px rgba(15,23,42,.05),0 18px 40px -26px rgba(15,23,42,.22);
   --shadow-pop:0 24px 60px -24px rgba(15,23,42,.3),0 0 0 1px rgba(15,23,42,.08);
-  --page:radial-gradient(1100px 620px at 78% -12%,rgba(120,150,190,.16),transparent 62%),radial-gradient(900px 560px at -10% 108%,rgba(50,181,138,.07),transparent 60%),linear-gradient(180deg,#F4F5F8,#EEF0F3)}
+  --page:#F2F3F6}
 
 html[data-theme] body{background:var(--page) fixed,var(--bg);background-color:var(--bg)}
 /* cards: translucent layers, hairline edge, top highlight, soft lift */
@@ -1899,6 +1899,107 @@ html[data-theme] .ra-rec .al-i{grid-template-columns:minmax(0,1fr) auto!importan
   html[data-theme] .ks .kc-v{font-size:17px!important}
 }
 
+
+/* ===== v10: UI cleanup — one source of truth for the parts reworked in this pass =====
+   flat page background · solid cards · per-page header action · records table · KPI sizing ·
+   unified entry form · compact analysis cards · calmer calendar. Later rules here win on purpose. */
+html[data-theme]{background-color:var(--bg)}
+html[data-theme] body{background:var(--bg)!important}
+html[data-theme] :is(.card,.kpis,.trip,.empty,.summary,.agenda,.cal,.row,.kt){background:var(--surface);-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:0 1px 2px rgba(15,23,42,.04)}
+html[data-theme="dark"] :is(.card,.kpis,.trip,.empty,.summary,.agenda,.cal,.row,.kt){box-shadow:none}
+html[data-theme] :is(.hero,.dh){background:var(--surface)!important}
+html[data-theme] .kstrip{background:var(--surface)!important}
+html[data-theme][data-theme="light"] .top{-webkit-backdrop-filter:none;backdrop-filter:none}
+/* status-bar strip: keep scrolled content from showing behind the clock/battery area */
+html[data-theme] body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;pointer-events:none;background:var(--bg)}
+@media (min-width:768px){ html[data-theme] body::before{background:linear-gradient(90deg,var(--side) var(--side-w,220px),var(--bg) var(--side-w,220px))} }
+@media (max-width:767px){
+  html[data-theme] body::before{background:var(--side)}
+  html[data-theme] .top{top:env(safe-area-inset-top,0px)}
+  html[data-theme] .subnav.on{top:calc(54px + env(safe-area-inset-top,0px))}
+}
+/* page header action: one primary button per page, same alignment everywhere */
+.pageact{display:flex;align-self:flex-start;gap:8px}
+.pageact:empty{display:none}
+@media (max-width:767px){ html[data-theme] .addtop.keep{display:inline-flex!important;align-items:center} }
+html[data-theme] .top .right .addbtn{display:none!important}
+.extlink{display:inline-flex;align-items:center;gap:4px;font-size:13px;color:var(--muted);text-decoration:none;padding:6px 2px;border-bottom:1px solid transparent}
+.extlink:hover{color:var(--ink);border-bottom-color:var(--line2)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* empty states sized to their content */
+html[data-theme] .empty.empty-sm{padding:28px 22px!important;min-height:0!important}
+.empty-act{margin-top:14px;display:flex;justify-content:center;gap:8px}
+/* records table: six readable columns, details on demand */
+html[data-theme] .rec-card{padding:4px 20px 14px!important}
+.rtbl{width:100%;table-layout:auto}
+.rtbl th{white-space:nowrap}
+.rtbl td{vertical-align:top;padding-top:12px;padding-bottom:12px}
+.rtbl .rdate{white-space:nowrap;color:var(--muted);width:1%}
+.rtbl .rname{min-width:180px;white-space:normal}
+.rtbl .rname b{font-weight:600;display:block;line-height:1.35;word-break:keep-all;overflow-wrap:anywhere}
+.rtbl .rtags{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+.rtbl .rtags .tag{margin:0;font-size:11px}
+.rtbl .rkind{white-space:nowrap;color:var(--ink2);width:1%}
+.rtbl .rkind small,.rtbl .ramt small{display:block;font-size:11px;color:var(--muted);font-weight:400}
+.rtbl .ramt{white-space:nowrap;text-align:right;width:1%}
+.rtbl .rnet b{font-weight:600}
+.rtbl .rnet.up b{color:var(--up-text,var(--up))} .rtbl .rnet.down b{color:var(--down-text,var(--down))}
+.rtbl tr.rrow{cursor:pointer}
+.rtbl tr.rrow:hover td,.rtbl tr.rrow.open td{background:var(--hi)}
+.rtbl tr.rrow:focus-visible{outline:2px solid var(--brand);outline-offset:-2px}
+.rtbl tr.rdet td{padding:0 0 4px;background:var(--hi);border-top:0}
+.rd{padding:6px 12px 14px}
+.rd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px 18px}
+.rd-i{display:flex;flex-direction:column;gap:2px;min-width:0}
+.rd-i span{font-size:11.5px;color:var(--muted)}
+.rd-i b{font-size:13px;font-weight:500;color:var(--ink);overflow-wrap:anywhere}
+.rd-note{margin:12px 0 0;font-size:13px;color:var(--ink2);white-space:pre-wrap}
+.rd-act{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.rec-foot{margin:12px 0 0!important;font-size:12px}
+/* dashboard KPIs: full amounts, size follows the cell instead of truncating */
+.ks{container-type:inline-size}
+html[data-theme] .ks .kc-v,html[data-theme] .kstrip .kc-v{white-space:nowrap;overflow:visible;text-overflow:clip;font-size:clamp(15px,12.5cqi,24px)!important}
+.kstrip .kpic{container-type:inline-size}
+html[data-theme] .kstrip .kc-v{font-size:clamp(16px,13cqi,28px)!important}
+html[data-theme] .dh .hero-amt{white-space:nowrap}
+@media (min-width:1024px) and (max-width:1365px){
+  html[data-theme] .dh{grid-template-columns:minmax(0,1fr)!important;align-items:start;gap:16px}
+  .kstats{border-top:1px solid var(--line-soft)!important;padding-top:14px}
+  .ks:first-child{padding-left:0!important;border-left:0!important}
+}
+/* stat boxes (monthly results, highlights, satellites, trips): amounts never break mid-number */
+html[data-theme] .statbox{container-type:inline-size;min-width:0}
+html[data-theme] .statbox b{white-space:nowrap;overflow:visible;text-overflow:clip;font-size:clamp(13px,12.5cqi,20px)!important}
+/* entry form: every field, the blinds field and every fold share one style */
+html[data-theme] #entryForm :is(input:not([type=checkbox]):not([type=radio]):not([type=color]),select){height:40px!important;padding:0 12px!important;font-size:14px!important;border:1px solid var(--line2)!important;border-radius:var(--r-sm,8px)!important;background:var(--field,transparent)!important;color:var(--ink)!important;box-shadow:none}
+html[data-theme] #entryForm :is(input,select):focus{border-color:var(--brand)!important;box-shadow:0 0 0 3px var(--brand-soft)!important}
+html[data-theme] #entryForm .grid2{gap:14px 12px}
+html[data-theme] #entryForm details.fold{margin:0!important;padding:0!important;border:0!important;border-top:1px solid var(--line-soft)!important;border-radius:0!important;box-shadow:none!important;background:transparent!important}
+html[data-theme] #entryForm details.fold:last-of-type{border-bottom:1px solid var(--line-soft)!important}
+html[data-theme] #entryForm details.fold > summary{min-height:46px;padding:0!important;font-size:13.5px;font-weight:500}
+html[data-theme] #entryForm details.fold[open]{padding-bottom:14px!important}
+html[data-theme] #entryForm #dStake{margin-top:12px!important}
+html[data-theme] #entryForm #dStake > p.hint{margin:0 0 10px!important}
+/* analysis cards: height follows content */
+html[data-theme] .dash > .card.ana{align-self:start}
+.bud-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.bud-top b{font-size:22px;font-weight:600}
+.bud-top span{font-size:13px;color:var(--ink2)} .bud-top small{color:var(--muted)}
+html[data-theme] .bud-bar{height:6px!important;margin:10px 0 8px;border-radius:3px}
+.bud-left{margin:0!important;font-size:12px}
+html[data-theme] .budget .r{grid-template-columns:minmax(0,96px) 1fr auto;padding:6px 0}
+.kvrows{display:flex;flex-direction:column}
+.kvr{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--line-soft)}
+.kvr:first-child{border-top:0;padding-top:2px}
+.kvr span{font-size:13px;color:var(--ink2);min-width:0} .kvr span small{display:block;font-size:11.5px;color:var(--muted)}
+.kvr b{font-size:16px;font-weight:600;white-space:nowrap}
+.kvr b.up{color:var(--up-text,var(--up))} .kvr b.down{color:var(--down-text,var(--down))}
+.ftbl{width:100%} .ftbl th,.ftbl td{text-align:right;white-space:nowrap} .ftbl .l{text-align:left}
+/* calendar: today = outlined date number, selected day = soft fill, chips one height */
+html[data-theme] .cal .d.today .dn{background:transparent!important;color:var(--brand-text)!important;box-shadow:inset 0 0 0 1.5px var(--brand);font-weight:700;border-radius:999px;padding:0 6px}
+html[data-theme] .cal .d.sel{box-shadow:inset 0 0 0 1px var(--line2)!important;background:var(--hi)!important}
+html[data-theme] .cal .d.sel .dn{font-weight:700;color:var(--ink)}
+@media (min-width:768px){ html[data-theme] .cal .ev-d{height:20px;line-height:16px;padding:2px 6px!important;margin:0;font-size:11px} html[data-theme] .cal .d{gap:3px} }
 </style>
 </head>
 <body>
@@ -1925,7 +2026,7 @@ html[data-theme] .ra-rec .al-i{grid-template-columns:minmax(0,1fr) auto!importan
 </nav>
 <div class="ctrl">
   <div class="ttl"><button type="button" class="backmy" data-view="settings">‹ 전체 메뉴</button><div class="eyebrow" id="pageEyebrow">MY PERFORMANCE</div><h1 id="pageTitle">대시보드</h1></div>
-  <button type="button" class="btn addtop" data-act="add">+ 기록 추가</button>
+  <div class="pageact" id="pageAct"></div>
   <div class="seg dmode" id="dmodeSeg" role="group" aria-label="대시보드 보기 방식">
     <button data-dmode="solo" aria-pressed="false">개인</button>
     <button data-dmode="vs" aria-pressed="true">대결</button>
@@ -2028,7 +2129,7 @@ html[data-theme] .ra-rec .al-i{grid-template-columns:minmax(0,1fr) auto!importan
       <div class="toolbar" style="margin:10px 0 0"><button type="button" class="btn primary" id="eAddHand">저장하고 핸드 리뷰 쓰기</button></div>
       <p class="hint" style="margin:6px 0 0">이 게임에서 복기할 핸드가 있으면, 기록을 저장하면서 바로 이 게임에 연결된 핸드 리뷰로 넘어가요.</p>
     </div>
-    <details class="box more fold" id="dStake"><summary>스테이킹 (투자) <span class="hint fsum" id="sumStake"></span></summary>
+    <details class="f full more fold" id="dStake"><summary>스테이킹 (투자) <span class="hint fsum" id="sumStake"></span></summary>
       <p class="hint" style="margin:0">투자자 1명(개인 또는 업체)이 바이인을 대신 내거나 나눠 냈다면 추가하세요. 바이인 부담과 상금 배분 비율을 따로 정할 수 있어요.</p>
       <div id="stakeBox" hidden>
         <div class="grid2" style="margin-top:10px">
@@ -2637,8 +2738,13 @@ function budgetCard(ALL){
   const [y,m]=budgetMonth();
   const ps = (S.f.player==='all'? S.cfg.players : S.cfg.players.filter(p=>p.id===S.f.player));
   const set = ps.filter(p=>+p.budget>0);
-  if (!set.length) return `<section class="card s4 budget"><h2>${m}월 예산</h2><p class="hint" style="margin:0 0 12px">한 달 바이인 예산을 정해두면 70%와 100%에서 경고해 드려요.</p><button class="btn" data-view="settings">예산 설정</button></section>`;
-  return `<section class="card s4 budget"><h2>${m}월 예산 <button data-view="settings">수정</button></h2>${set.map(p=>{
+  if (!set.length) return `<section class="card s4 budget ana"><h2>${m}월 예산 <button data-view="settings">설정</button></h2><p class="hint" style="margin:0">한 달 바이인 예산을 정해두면 70%와 100%에서 알려 드려요.</p></section>`;
+  if (set.length===1){ const p=set[0], sp=playerMonthSpent(p.id,y,m,ALL), b=+p.budget, r=sp/b, cls=r>=1?'down':r>=.7?'warn':'';
+    return `<section class="card s4 budget ana"><h2>${m}월 예산 <button data-view="settings">수정</button></h2>
+      <div class="bud-top"><b class="n ${cls}">${Math.round(r*100)}%</b><span class="n">${won(sp)}<small> / ${won(b)}</small></span></div>
+      <div class="prog bud-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.min(100,Math.round(r*100))}" aria-label="예산 사용률"><i style="width:${Math.min(100,r*100)}%;background:${r>=1?'var(--down)':r>=.7?'var(--warn)':'var(--ink2)'}"></i></div>
+      <p class="hint n bud-left">${sp>=b ? `예산을 ${won(sp-b)} 넘겼어요` : `남은 예산 ${won(b-sp)}`}</p></section>`; }
+  return `<section class="card s4 budget ana"><h2>${m}월 예산 <button data-view="settings">수정</button></h2>${set.map(p=>{
     const sp=playerMonthSpent(p.id,y,m,ALL), r=sp/(+p.budget), cls=r>=1?'down':r>=.7?'warn':'';
     return `<div class="r"><span class="who-tag">${avatar(p)}${esc(p.name)}</span><div class="prog"><i style="width:${Math.min(100,r*100)}%;background:${r>=1?'var(--down)':r>=.7?'var(--warn)':esc(p.color)}"></i></div><span class="n ${cls}" style="font-size:12.5px;font-weight:700;text-align:right">${Math.round(r*100)}%<small style="display:block;font-weight:400;color:var(--faint)">${won(sp)} / ${won(+p.budget)}</small></span></div>`;
   }).join('')}${set.some(p=>playerMonthSpent(p.id,y,m,ALL)>=+p.budget)?`<p class="hint down" style="margin-top:8px">예산을 넘긴 플레이어가 있어요. 이번 달은 쉬어가는 것도 방법이에요.</p>`:''}</section>`;
@@ -2649,26 +2755,32 @@ function reentryCard(list){
   const single = singleG.flatMap(g=>g.items), multi = multiG.flatMap(g=>g.items);
   const cs=calc(single), cm=calc(multi);
   const avgE = multiG.length? (multiG.reduce((a,g)=>a+g.entries,0)/multiG.length).toFixed(1) : '–';
-  return `<section class="card s4"><h2>리엔트리 분석 <span class="sub">대회 기준</span></h2>
-    <div class="statgrid n">
-      <div class="statbox"><span>한 번에 끝낸 대회</span><b class="${ud(cs.roi||0)}">${pct(cs.roi)}</b><small>${cs.count}회 · ${sgn(cs.net)}</small></div>
-      <div class="statbox"><span>리엔트리한 대회</span><b class="${ud(cm.roi||0)}">${pct(cm.roi)}</b><small>${cm.count}회 · 평균 ${avgE}엔트리</small></div>
+  if (!single.length && !multi.length) return `<section class="card s4 ana"><h2>리엔트리 분석 <span class="sub">대회 기준</span></h2><p class="hint" style="margin:0">이 기간에는 비교할 토너먼트 기록이 없어요.</p></section>`;
+  return `<section class="card s4 ana"><h2>리엔트리 분석 <span class="sub">대회 기준</span></h2>
+    <div class="kvrows n">
+      <div class="kvr"><span>한 번에 끝낸 대회<small>${cs.count}회 · ${sgn(cs.net)}</small></span><b class="${ud(cs.roi||0)}">${single.length?pct(cs.roi):'–'}</b></div>
+      <div class="kvr"><span>리엔트리한 대회<small>${cm.count}회 · 평균 ${avgE}엔트리</small></span><b class="${ud(cm.roi||0)}">${multi.length?pct(cm.roi):'–'}</b></div>
     </div>
     <p class="hint" style="margin-top:12px">${!multi.length||!single.length ? '두 경우 기록이 모두 쌓이면 비교 결과가 나와요.' : (cm.roi||0) < (cs.roi||0) ? '리엔트리했을 때 ROI가 더 낮아요. 리엔트리 기준을 다시 정해볼 만해요.' : '리엔트리했을 때 ROI가 더 높거나 비슷해요.'}</p>
   </section>`;
 }
 function fieldCard(pList, players){
   const ps = players;
-  const rows = ps.map(p=>{
-    const g = groupGames(pList.filter(e=>e.player===p.id && !e.backing && !e.trip)).filter(x=>x.top!=null);
-    if (!g.length) return `<tr><td>${whoTag(p.id)}</td><td colspan="3" style="color:var(--faint)">총 엔트리를 입력하면 보여요</td></tr>`;
-    const avg = g.reduce((a,x)=>a+x.top,0)/g.length, best = Math.min(...g.map(x=>x.top));
-    const deep = g.filter(x=>x.top<=.15).length;
-    return `<tr><td>${whoTag(p.id)}</td><td>상위 ${(avg*100).toFixed(0)}%</td><td>상위 ${(best*100).toFixed(1)}%</td><td>${deep} / ${g.length}</td></tr>`;
-  }).join('');
-  return `<section class="card s4"><h2>필드 대비 순위 <span class="sub">순위 ÷ 총 엔트리</span></h2>
-    <div class="tablewrap"><table class="num"><thead><tr><th></th><th>평균</th><th>최고</th><th>상위 15%</th></tr></thead><tbody>${rows}</tbody></table></div>
-    <p class="hint" style="margin-top:10px">상금을 못 받은 대회도 얼마나 깊이 갔는지 보여줘요.</p></section>`;
+  const st = ps.map(p=>{ const g = groupGames(pList.filter(e=>e.player===p.id && !e.backing && !e.trip)).filter(x=>x.top!=null);
+    return g.length ? {p, n:g.length, avg:g.reduce((a,x)=>a+x.top,0)/g.length, best:Math.min(...g.map(x=>x.top)), deep:g.filter(x=>x.top<=.15).length} : {p, n:0}; });
+  const head = `<h2>필드 대비 순위 <span class="sub">순위 ÷ 총 엔트리</span></h2>`;
+  if (!st.some(x=>x.n)) return `<section class="card s4 ana">${head}<p class="hint" style="margin:0">기록에 순위와 총 엔트리(필드)를 넣으면 상위 몇 %까지 갔는지 보여줘요.</p></section>`;
+  if (ps.length===1){ const x=st[0];
+    return `<section class="card s4 ana">${head}<div class="kvrows n">
+      <div class="kvr"><span>평균 순위</span><b>상위 ${(x.avg*100).toFixed(0)}%</b></div>
+      <div class="kvr"><span>최고 성적</span><b>상위 ${(x.best*100).toFixed(1)}%</b></div>
+      <div class="kvr"><span>상위 15% 달성</span><b>${x.deep} / ${x.n}회</b></div></div>
+      <p class="hint" style="margin:10px 0 0">상금을 못 받은 대회도 얼마나 깊이 갔는지 보여줘요.</p></section>`; }
+  return `<section class="card s4 ana">${head}
+    <div class="tablewrap"><table class="num ftbl"><thead><tr><th class="l">플레이어</th><th>평균 순위</th><th>최고 성적</th><th>상위 15%</th></tr></thead><tbody>${st.map(x=> x.n
+      ? `<tr><td class="l">${whoTag(x.p.id)}</td><td>상위 ${(x.avg*100).toFixed(0)}%</td><td>상위 ${(x.best*100).toFixed(1)}%</td><td>${x.deep} / ${x.n}</td></tr>`
+      : `<tr><td class="l">${whoTag(x.p.id)}</td><td colspan="3" class="l" style="color:var(--faint)">총 엔트리를 입력하면 보여요</td></tr>`).join('')}</tbody></table></div>
+    <p class="hint" style="margin:10px 0 0">상금을 못 받은 대회도 얼마나 깊이 갔는지 보여줘요.</p></section>`;
 }
 function shortKRW(n){ n=+n||0; if (n>=1e8){ const v=n/1e8; return (Number.isInteger(v)?v:v.toFixed(1))+'억'; } if (n>=1e4) return Math.round(n/1e4).toLocaleString()+'만'; return n.toLocaleString(); }
 function dDay(d){ const t=todayISO(); const [y1,m1,d1]=t.split('-').map(Number), [y2,m2,d2]=d.split('-').map(Number); const n=Math.round((Date.UTC(y2,m2-1,d2)-Date.UTC(y1,m1-1,d1))/864e5); return n===0?'D-DAY':`D-${n}`; }
@@ -3123,15 +3235,42 @@ function renderRecords(){
   const tk = pool.length ? `<section class="card" style="margin-bottom:14px"><h2>미사용 참가권 <span class="sub">${pool.reduce((a,t)=>a+t.left,0)}장</span></h2><div class="mini">${pool.map(t=>`<button data-edit="${esc(t.src)}"><span style="min-width:0;flex:1"><span class="t">🎟 ${esc(t.name)}</span><span class="m">${esc(t.e.date)} · ${esc(t.e.name)}${S.cfg.players.length>1?' · '+esc(P(t.player).name):''}</span></span><span class="v n">${t.left}장<small>${t.val?'1장 '+won(t.val*(+t.e.rate||1)):''}</small></span></button>`).join('')}</div><p class="hint" style="margin:8px 0 0">기록 추가에서 바이인 결제를 "참가권 사용"으로 고르면 여기서 차감돼요.</p></section>` : '';
   if (!list.length) return tool + tk + `<div class="empty"><b>${periodLabel()}에는 기록이 없어요</b>기간이나 플레이어를 바꾸거나 새 기록을 추가해 보세요.</div>`;
   const stakeTag = e => { const st=stakeOf(e); return st? `<span class="tag b">${esc(invName(st))} ${st.buyPct}/${st.prizePct}</span>` : ''; };
-  const table = `<section class="card only-wide" style="padding:6px 22px"><div class="tablewrap"><table class="num data"><thead><tr>
-    <th class="l">날짜</th><th class="l">플레이어</th><th class="l">이름</th><th class="l">구분</th><th>바이인</th><th>엔트리</th><th>상금</th><th>순위</th><th>상위</th><th>핸드</th><th>쓴 금액</th><th>번 금액</th><th>순손익</th></tr></thead><tbody>
-    ${list.map(e=>{const s=spentOf(e),w=wonOf(e),n=w-s,tp=topPct(e);return `<tr data-edit="${esc(e.id)}" tabindex="0">
-      <td class="l">${esc(e.date)}</td><td class="l">${whoTag(e.player)}</td><td class="l"><b>${esc(e.name)}</b>${e.src?` <span class="tag">공유</span>`:''}${e.brand?` <span class="tag b">${esc(e.brand)}</span>`:''}${isCash(e)? `${e.blinds?` <span class="tag">${esc(e.blinds)}</span>`:''}${e.hours?` <span class="tag">${e.hours}h</span>`:''}`:''}${e.tripId&&S.trips.find(t=>t.id===e.tripId)?` <span class="tag">원정</span>`:''}${mdTag(e)? ' '+mdTag(e) : ''}</td>
-      <td class="l"><span class="tag">${kindLabel(e)}</span><span class="tag">${e.ch==='online'?'온라인':'오프라인'}</span>${stakeTag(e)}</td>
-      <td>${fmtCur(e.buyin,e.cur)}</td><td>${isCash(e)?'–':e.entries}</td><td>${e.prize?fmtCur(e.prize,e.cur):''}${+e.tickets? `${e.prize?'<br>':''}<b>참가권 ${e.tickets}장</b>` : ''}${!e.prize&&!+e.tickets?'–':''}${isCash(e)?'<small style="color:var(--faint)"> 아웃</small>':''}</td><td>${esc(e.place||'–')}${e.field?`<small style="color:var(--faint)">/${esc(e.field)}</small>`:''}</td><td>${tp!=null?(tp*100).toFixed(0)+'%':'–'}</td>
-      <td>${handsOf(e.id).length? `<button class="hcount" data-handsfor="${esc(e.id)}">${handsOf(e.id).length}</button>` : `<button class="hcount add" data-handadd="${esc(e.id)}" title="이 게임 핸드 기록">+</button>`}</td><td>${won(s)}</td><td>${won(w)}</td><td class="${ud(n)}"><b>${sgn(n)}</b></td></tr>`;}).join('')}
-    </tbody></table></div></section>
-    <p class="hint only-wide">쓴 금액·번 금액은 스테이킹을 반영한 내 몫이에요. 참가권 가치와 원정 경비는 들어가지 않아요. 같은 대회의 Day 1·Day 2 기록은 하나의 대회로 합산해 참가 수·입상·최고 위닝을 계산해요.</p>`;
+  const showP = !acctOn() && S.f.player==='all' && S.cfg.players.length>1;
+  const COLS = showP ? 7 : 6;
+  const kv = (l,v) => v==null||v==='' ? '' : `<div class="rd-i"><span>${l}</span><b>${v}</b></div>`;
+  const detail = e => { const s=spentOf(e), w=wonOf(e), tp=topPct(e), st=stakeOf(e), hs=handsOf(e.id).length, trip=e.tripId&&S.trips.find(t=>t.id===e.tripId), g=GM.get(e.id);
+    return `<div class="rd">
+      <div class="rd-grid n">
+        ${kv('플레이어', esc(P(e.player).name))}
+        ${kv('게임 유형', esc(kindLabel(e)))}
+        ${kv('온/오프라인', e.ch==='online'?'온라인':'오프라인')}
+        ${isCash(e) ? kv('블라인드', e.blinds?esc(e.blinds):'–') + kv('플레이 시간', e.hours? esc(e.hours)+'시간' : '–')
+                    : kv('엔트리', esc(e.entries||1)+'회') + kv('순위', e.place? esc(e.place)+(e.field?` / ${esc(e.field)}명`:'') : '–') + kv('상위 비율', tp!=null? (tp*100).toFixed(1)+'%' : '–')}
+        ${kv('총 투입 (내 몫)', won(s))}
+        ${kv('수령 (내 몫)', won(w))}
+        ${+e.tickets ? kv('획득 참가권', esc(e.tickets)+'장') : ''}
+        ${st ? kv('스테이킹', `${esc(invName(st))} · 바이인 ${st.buyPct}% · 상금 ${st.prizePct}%`) : ''}
+        ${trip ? kv('원정', esc(trip.name)) : ''}
+        ${g ? kv('멀티데이', `${g.items.length}일 합계 ${sgn(g.n)}`) : ''}
+        ${e.brand ? kv('브랜드', esc(e.brand)) : ''}
+      </div>
+      ${e.note ? `<p class="rd-note">${esc(e.note)}</p>` : ''}
+      <div class="rd-act"><button type="button" class="btn" data-edit="${esc(e.id)}">수정 · 삭제</button>${hs? `<button type="button" class="btn" data-handsfor="${esc(e.id)}">핸드 리뷰 ${hs}개</button>` : `<button type="button" class="btn ghost" data-handadd="${esc(e.id)}">+ 핸드 리뷰</button>`}</div>
+    </div>`; };
+  const table = `<section class="card only-wide rec-card"><div class="tablewrap"><table class="num data rtbl"><thead><tr>
+    <th class="l">날짜</th>${showP?'<th class="l">플레이어</th>':''}<th class="l">대회 · 게임</th><th class="l">구분</th><th>바이인</th><th>상금 · 아웃</th><th>순손익</th></tr></thead><tbody>
+    ${list.map(e=>{ const n=wonOf(e)-spentOf(e), tags=[e.src?'<span class="tag">공유</span>':'', e.brand?`<span class="tag b">${esc(e.brand)}</span>`:'', stakeOf(e)?'<span class="tag">스테이킹</span>':'', e.tripId&&S.trips.find(t=>t.id===e.tripId)?'<span class="tag">원정</span>':'', GM.get(e.id)?`<span class="tag">멀티데이 ${GM.get(e.id).items.length}일</span>`:'', handsOf(e.id).length?`<span class="tag">핸드 ${handsOf(e.id).length}</span>`:''].join('');
+      const prize = isCash(e) ? fmtCur(e.prize||0,e.cur) : `${e.prize?fmtCur(e.prize,e.cur):''}${+e.tickets?`${e.prize?' + ':''}참가권 ${e.tickets}장`:''}${!e.prize&&!+e.tickets?'–':''}`;
+      return `<tr class="rrow" data-rx="${esc(e.id)}" tabindex="0" aria-expanded="false" title="눌러서 상세 보기">
+      <td class="l rdate">${esc(e.date)}</td>${showP?`<td class="l">${whoTag(e.player)}</td>`:''}
+      <td class="l rname"><b>${esc(e.name)}</b>${tags?`<span class="rtags">${tags}</span>`:''}</td>
+      <td class="l rkind">${esc(kindLabel(e))}${e.ch==='online'?'<small>온라인</small>':''}</td>
+      <td class="ramt">${fmtCur(e.buyin,e.cur)}${!isCash(e)&&+e.entries>1?`<small>× ${esc(e.entries)}</small>`:''}</td>
+      <td class="ramt">${prize}</td>
+      <td class="ramt rnet ${ud(n)}"><b>${sgn(n)}</b></td></tr>
+      <tr class="rdet" hidden><td colspan="${COLS}">${detail(e)}</td></tr>`; }).join('')}
+    </tbody></table></div>
+    <p class="hint rec-foot">행을 누르면 순위·엔트리·스테이킹·핸드 등 상세 정보가 펼쳐져요. 순손익은 스테이킹을 반영한 내 몫이고 참가권 가치와 원정 경비는 빠져요. 같은 대회의 Day 1·Day 2는 하나의 대회로 합산해 참가 수를 세요.</p></section>`;
   return tool + tk + table + `<div class="list only-narrow">${list.map(entryRow).join('')}</div>`;
 }
 function goingAvs(t){ const g=(t.going||[]).filter(id=>S.cfg.players.some(p=>p.id===id)); return g.length? `<span class="avs">${g.map(id=>avatar(P(id))).join('')}</span>` : ''; }
@@ -3391,8 +3530,7 @@ function renderTours(){
   const tool = `<div class="toolbar">
     <div class="seg"><button data-tv="cal" aria-pressed="${S.tourView!=='list'&&S.tourView!=='fav'}">달력</button><button data-tv="list" aria-pressed="${S.tourView==='list'}">목록</button><button data-tv="fav" aria-pressed="${S.tourView==='fav'}">★ 즐겨찾기${favs().length?' '+favs().length:''}</button></div>
     <span style="flex:1"></span>
-    <a class="btn" href="https://www.bluffcatch.com/tournaments" target="_blank" rel="noopener">블러프캐치 ↗</a>
-    <button class="btn primary" data-act="addTour">+ 대회 등록</button></div>`;
+    <a class="extlink" href="https://www.bluffcatch.com/tournaments" target="_blank" rel="noopener">블러프캐치 일정 보기 <span aria-hidden="true">↗</span><span class="sr">(새 창)</span></a></div>`;
   if (S.tourView==='fav') return tool + favListView();
   if (S.tourView!=='list') return tool + renderCalendar();
   const series = SCHEDULE.length ? `<section class="card"><h2>공식 일정 <span class="sub">모든 사용자에게 같이 보여요</span></h2><div class="mini">${SCHEDULE.map(se=>{ const ds=(se.events||[]).flatMap(e=>(e.days||[]).map(d=>d.date)).filter(Boolean).sort(); return (se.events||[]).map(ev=>{ const up=(ev.days||[]).filter(d=>d.date&&d.date>=todayISO()); const d0=up[0]||(ev.days||[]).find(d=>d.date); const key=d0? `s|${se.id}|${ev.id}|${ev.days.indexOf(d0)}`:''; return `<button ${key?`data-evt="${esc(key)}"`:''}><span class="favbtn ${isFav(se.id+'|'+ev.id)?'on':''}" data-fav="${esc(se.id+'|'+ev.id)}" role="button" aria-label="즐겨찾기">${isFav(se.id+'|'+ev.id)?'★':'☆'}</span><span style="min-width:0;flex:1"><span class="t">${se.brand?`<span class="tag b">${esc(se.brand)}</span>`:''}${esc(ev.name)}</span><span class="m">${esc(se.series||'')}${(()=>{ const ds=(ev.days||[]).map(d=>d.date).filter(Boolean).sort(); if (!ds.length) return ''; const f=ds[0], l=ds[ds.length-1], t=todayISO(); if (f===l) return ' · '+dShort(f); let out=' · '+dShort(f)+' ~ '+dShort(l); if (t>f && t<=l && d0) out+=` <b class="more-days">다음 ${dShort(d0.date)}</b>`; else if (t>l) out+=' <b class="more-days ended">종료</b>'; return out; })()}${se.venue?' · '+esc(se.venue):''}</span></span><span class="v n">${ev.gtd?'GTD '+fmtCur(ev.gtd,ev.cur||'KRW'):''}<small>${ev.buyin?fmtCur(ev.buyin,ev.cur||'KRW'):esc(ev.buyinText||'')}</small></span></button>`; }).join(''); }).join('')}</div></section>` : '';
@@ -3438,7 +3576,7 @@ function renderSettle(){
   const items=stakeItems(), groups={};
   items.filter(x=>x.open).forEach(x=>{ const g=groups[x.key]=groups[x.key]||{key:x.key, player:x.e.player, name:x.name, amt:0, n:0}; g.amt+=x.owe; g.n++; });
   const head = `<p class="hint" style="margin:-6px 0 18px">스테이킹이 있는 기록마다, 투자자가 아직 안 낸 바이인 몫과 내가 아직 안 준 상금 몫을 합쳐 주고받을 금액을 계산해요.</p>`;
-  if (!items.length) return head + `<div class="empty"><b>정산할 스테이킹이 없어요</b>기록 추가 화면 아래쪽 '스테이킹'에서 투자자와 비율을 넣어보세요.</div>`;
+  if (!items.length) return head + `<div class="empty empty-sm"><b>정산할 스테이킹이 없어요</b>스테이킹은 기록에서 추가해요. 기록을 열고 아래쪽 '스테이킹 (투자)'에서 투자자와 비율을 넣으면 여기서 정산 금액이 계산돼요.<div class="empty-act"><button class="btn" data-view="records">기록으로 이동</button></div></div>`;
   const gl=Object.values(groups);
   return head + `<div class="dash">
     <section class="card s5"><h2>지금 정산할 금액</h2>${gl.length? gl.map(g=>{ const pay=g.amt>=0; return `<div class="owe">${pay? whoTag(g.player) : `<span class="who-tag">${esc(g.name)}</span>`}<span class="arrow">→</span>${pay? `<span class="who-tag">${esc(g.name)}</span>` : whoTag(g.player)}<span class="amt n">${won(Math.abs(g.amt))}</span><button class="btn" data-settle="${esc(g.key)}">정산 완료</button><span class="hint" style="width:100%;margin:0">${pay?'내가 줄 돈':'내가 받을 돈'} · 미정산 ${g.n}건</span></div>`; }).join('') : '<p class="hint">모두 정산됐어요.</p>'}</section>
@@ -3576,8 +3714,13 @@ pBd.addEventListener('click', ()=>closePMenu());
 document.addEventListener('pointerdown', ev=>{ if (!pMenu.hidden && !pMenu.contains(ev.target) && !ev.target.closest('#pselBtn') && ev.target!==pBd) closePMenu(true); }, true);
 addEventListener('resize', ()=>{ if (!pMenu.hidden && !isPhone()) closePMenu(true); });
 { let rw=innerWidth, rt; addEventListener('resize', ()=>{ clearTimeout(rt); rt=setTimeout(()=>{ if (Math.abs(innerWidth-rw)>60 && S.view==='dash' && !document.querySelector('dialog[open]')){ rw=innerWidth; render(); } }, 200); }); }
+/* one primary action per page, rendered into the page header; 기록 추가 also has the mobile FAB */
+const PAGE_ACT = {dash:['add','+ 기록 추가'], records:['add','+ 기록 추가'], tours:['addTour','+ 대회 등록'], trips:['addTrip','+ 원정 만들기']};
+function renderPageAct(){ const box=$('#pageAct'); if (!box) return; let a=PAGE_ACT[S.view];
+  if (S.view==='trips' && S.tripView) a=null;
+  box.innerHTML = a ? `<button type="button" class="btn primary addtop${a[0]==='add'?'':' keep'}" data-act="${a[0]}">${a[1]}</button>` : ''; }
 function render(){
-  _dayMap=null; fr.check();
+  _dayMap=null; fr.check(); renderPageAct();
   document.body.classList.toggle('no-per', S.view==='friends'||S.view==='leaderboard');
   if (fr.ready() && !fr.uid && !fr.loading && !fr.err && cloud.A && cloud.A.synced0) setTimeout(()=>fr.start(),0);
   if (fr.uid) lb.schedule();
@@ -3900,8 +4043,8 @@ function renderTrips(){
   if (open) return renderTripDetail(open);
   S.tripView=null;
   const trips=[...S.trips].sort((a,b)=>(b.start||'').localeCompare(a.start||''));
-  const tool = `<div class="toolbar"><span class="hint" style="margin:0">해외 대회 기록과 원정 경비를 묶어 원정 손익과 동행자 정산을 관리해요. 원정 경비는 대시보드 ROI에 들어가지 않아요.</span><span style="flex:1"></span><button class="btn primary" data-act="addTrip">+ 원정 만들기</button></div>`;
-  if (!trips.length) return tool + `<div class="empty"><b>아직 원정이 없어요</b>마닐라, 대만처럼 다녀온 원정을 만들고, 기록 추가할 때 원정을 선택하세요.</div>`;
+  const tool = `<div class="toolbar"><span class="hint" style="margin:0">해외 대회 기록과 원정 경비를 묶어 원정 손익과 동행자 정산을 관리해요. 원정 경비는 대시보드 ROI에 들어가지 않아요.</span></div>`;
+  if (!trips.length) return tool + `<div class="empty empty-sm"><b>아직 원정이 없어요</b>마닐라, 대만처럼 다녀온 원정을 만들고, 기록 추가할 때 원정을 선택하세요.<div class="empty-act"><button class="btn primary" data-act="addTrip">+ 원정 만들기</button></div></div>`;
   return tool + `<div class="trips">${trips.map(t=>{ const sm=tripSummary(t), loc=[t.country,t.city||t.place].filter(Boolean).join(' · ');
     return `<button class="trip" data-tripopen="${esc(t.id)}">
       <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start"><div style="min-width:0"><h3>${esc(t.name)}</h3><div class="when">${esc(t.start||'')}${t.end&&t.end!==t.start?' ~ '+esc(t.end):''}${loc?' · '+esc(loc):''}</div></div>
@@ -4215,6 +4358,10 @@ function collectPlayers(){
   document.querySelectorAll('[data-pbudget]').forEach(i=>{ const p=S.cfg.players.find(x=>x.id===i.dataset.pbudget); if (p) p.budget=num(i.value); });
 }
 document.addEventListener('change', ev=>{ if (ev.target.dataset && ev.target.dataset.h2h!=null){ const i=+ev.target.dataset.h2h; h2hPair(); S.h2h[i]=ev.target.value; if (S.h2h[0]===S.h2h[1]) S.h2h[1-i]=S.cfg.players.find(p=>p.id!==ev.target.value).id; render(); return; } if (ev.target.id==='selfPick'){ if (ev.target.value) setSelf(ev.target.value); return; } if (ev.target.id==='mePick'){ lsSet(LS_ME, ev.target.value); toast('이 기기의 기본 플레이어를 바꿨어요'); } });
+document.addEventListener('error', ev=>{ const im=ev.target; if (!im || !im.classList || !im.classList.contains('acct-photo')) return; const sp=document.createElement('span'); sp.className=(im.dataset.fb||'acct-av')+' acct-ic'; sp.setAttribute('role','img'); sp.setAttribute('aria-label','Google 계정'); sp.innerHTML=PICON; im.replaceWith(sp); }, true);
+function toggleRec(tr){ const d=tr.nextElementSibling; if (!d || !d.classList.contains('rdet')) return; const open=d.hidden; d.hidden=!open; tr.setAttribute('aria-expanded', String(open)); tr.classList.toggle('open', open); }
+document.addEventListener('click', ev=>{ const tr=ev.target.closest('tr.rrow'); if (!tr || ev.target.closest('button,a,input,select')) return; toggleRec(tr); });
+document.addEventListener('keydown', ev=>{ if ((ev.key==='Enter'||ev.key===' ') && ev.target.matches && ev.target.matches('tr.rrow')){ ev.preventDefault(); toggleRec(ev.target); } });
 document.addEventListener('keydown', ev=>{ if (ev.key==='Enter' && ev.target.id==='bNew'){ document.querySelector('[data-act=addBrand]').click(); return; } if (ev.key==='Enter' && ev.target.matches('tr[data-edit],tr[data-edittour]')) ev.target.click(); });
 /* restore: check the file, keep a copy of what is here now, then merge by id or replace */
 function checkBackup(d){
@@ -5693,7 +5840,7 @@ const cloud = {
     return ['syncing','동기화 중'];
   },
   profile(){ const u=this.user, p=(this.A&&this.A.profile)||{}; return {name:(u&&u.displayName)||p.name||'', email:(u&&u.email)||p.email||'', photo:(u&&u.photoURL)||p.photo||''}; },
-  avatarHTML(cls){ const p=this.profile(); return p.photo ? `<img src="${esc(p.photo)}" alt="" class="${cls}" referrerpolicy="no-referrer">` : `<span class="${cls} acct-ic">${PICON}</span>`; },
+  avatarHTML(cls){ const p=this.profile(), ok=/^https:\/\//.test(p.photo||''); return ok ? `<img src="${esc(p.photo)}" alt="Google 프로필 사진" class="${cls} acct-photo" referrerpolicy="no-referrer" data-fb="${cls}">` : `<span class="${cls} acct-ic" role="img" aria-label="Google 계정">${PICON}</span>`; },
   ui(){
     const [st, label]=this.state();
     document.body.classList.toggle('cloud-mask', this.masked());
