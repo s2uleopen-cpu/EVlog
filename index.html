@@ -646,6 +646,9 @@ tr.zero td{color:var(--faint)}
 .codebox{width:100%;min-height:96px;resize:vertical;border:1px solid rgba(var(--ov),.1);background:rgba(var(--ov),.03);border-radius:10px;padding:10px 12px;color:var(--ink);font-family:"IBM Plex Mono",monospace;font-size:11.5px;line-height:1.5;word-break:break-all}
 .sharepreview{padding:12px;border-radius:12px;box-shadow:inset 0 0 0 1px rgba(var(--acc),.35)}
 .friends{margin-top:18px}
+html body.no-per #periodArea,html body.no-per #filterGrp,html[data-theme] body.no-per #periodArea,html[data-theme] body.no-per #filterGrp{display:none!important}
+.lb-rank{width:22px;text-align:center;font-weight:600;color:var(--muted)}
+.lb-me{background:var(--hi);border-radius:10px;padding-left:8px;padding-right:8px}
 .friend{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(var(--ov),.06)}
 .friend:last-of-type{border-bottom:0}
 
@@ -3498,8 +3501,9 @@ const navIcon = v => { const sv=document.querySelector(`nav.tabs [data-view="${v
 function allMenuCard(){
   const open=stakeItems().filter(x=>x.open).length;
   const items=[['hands','핸드 리뷰',`저장한 핸드 ${S.hands.length}개`],['trips','원정',`원정 ${S.trips.length}개 · 경비·동행 정산`],['settle','스테이킹·정산', open? `미정산 ${open}건` : '미정산 없음'],['tours','대회 일정','일정 · 즐겨찾기 · 참가 예정'],['records','기록',`전체 ${S.entries.length}건`]];
+  items.unshift(['leaderboard','친구 랭킹', !acctOn()||!cloud.user ? '로그인하면 친구와 ROI 비교' : fr.me && fr.me.rank ? `${LB_LV[fr.me.privacy]||''} 공개 중` : '랭킹 미참여']);
   items.unshift(['friends','친구', !acctOn()||!cloud.user ? '로그인하면 친구 코드로 추가' : fr.uid ? (()=>{ const inc=fr.list.filter(f=>f.status==='pending'&&f.to===fr.uid).length, n=fr.list.filter(f=>f.status==='accepted').length; return inc? `받은 신청 ${inc}건` : `친구 ${n}명`; })() : '친구 코드 · 신청 · 차단']);
-  return `<section class="card s12 allmenu"><h2>전체 메뉴</h2><div class="menu-list">${items.map(([v,t,sub])=>`<button type="button" data-view="${v}"><span class="mi">${navIcon(v)||(v==='friends'?FR_ICON:'')}</span><span class="mt"><b>${t}</b><small>${esc(sub)}</small></span><span class="chev" aria-hidden="true">›</span></button>`).join('')}</div></section>`;
+  return `<section class="card s12 allmenu"><h2>전체 메뉴</h2><div class="menu-list">${items.map(([v,t,sub])=>`<button type="button" data-view="${v}"><span class="mi">${navIcon(v)||(v==='friends'?FR_ICON:v==='leaderboard'?LB_ICON:'')}</span><span class="mt"><b>${t}</b><small>${esc(sub)}</small></span><span class="chev" aria-hidden="true">›</span></button>`).join('')}</div></section>`;
 }
 function displayCard(){
   const pref = document.documentElement.dataset.themePref || 'dark', lab={light:'Light',dark:'Dark',system:'System'};
@@ -3519,16 +3523,16 @@ function formSummaries(e){
   set('eMoreSum', [t? t.name : '', e.field? `필드 ${e.field}` : '', +e.extra? `부대비용 ${fmtCur(e.extra,e.cur)}` : '', e.note? '메모 있음' : ''].filter(Boolean).join(' · '));
 }
 
-const TITLES = {friends:'친구', dash:'대시보드', records:'기록', hands:'핸드 리뷰', tours:'대회 일정', trips:'원정', settle:'스테이킹·정산', settings:'MY'};
-const EYEBROWS = {friends:'FRIENDS', dash:'MY PERFORMANCE', records:'RECORDS', hands:'HAND REVIEW', tours:'SCHEDULE', trips:'TRIPS', settle:'STAKING', settings:'MY PAGE'};
-const NAV_GROUP = {friends:'my', dash:'dash', records:'rec', hands:'rec', settle:'rec', trips:'rec', tours:'sched', settings:'my'};
+const TITLES = {leaderboard:'친구 랭킹', friends:'친구', dash:'대시보드', records:'기록', hands:'핸드 리뷰', tours:'대회 일정', trips:'원정', settle:'스테이킹·정산', settings:'MY'};
+const EYEBROWS = {leaderboard:'LEADERBOARD', friends:'FRIENDS', dash:'MY PERFORMANCE', records:'RECORDS', hands:'HAND REVIEW', tours:'SCHEDULE', trips:'TRIPS', settle:'STAKING', settings:'MY PAGE'};
+const NAV_GROUP = {leaderboard:'my', friends:'my', dash:'dash', records:'rec', hands:'rec', settle:'rec', trips:'rec', tours:'sched', settings:'my'};
 function pselState(){
   const dash=S.view==='dash', allOn = dash ? !!S.dAll : S.f.player==='all';
   return {allOn, curId: allOn ? '*' : (dash && S.f.player==='all' ? myPlayerId() : S.f.player)};
 }
 function renderPills(){
   const box=$('#playerPills'); closePMenu(true);
-  if ((S.view==='dash' && (S.dmode==='vs' || acctOn())) || S.cfg.players.length<2){ box.innerHTML=''; return; }
+  if ((S.view==='dash' && (S.dmode==='vs' || acctOn())) || S.view==='friends' || S.view==='leaderboard' || S.cfg.players.length<2){ box.innerHTML=''; return; }
   const {allOn,curId}=pselState(), cur = allOn ? null : P(curId);
   box.innerHTML = `<button type="button" class="psel" id="pselBtn" aria-haspopup="listbox" aria-expanded="false" aria-label="플레이어 선택: ${esc(cur? cur.name : '전체 플레이어')}">${cur? avatar(cur)+`<span>${esc(cur.name)}</span>` : `<span class="psel-all" aria-hidden="true"></span><span>전체 플레이어</span>`}<svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5"/></svg></button>`;
 }
@@ -3574,9 +3578,12 @@ addEventListener('resize', ()=>{ if (!pMenu.hidden && !isPhone()) closePMenu(tru
 { let rw=innerWidth, rt; addEventListener('resize', ()=>{ clearTimeout(rt); rt=setTimeout(()=>{ if (Math.abs(innerWidth-rw)>60 && S.view==='dash' && !document.querySelector('dialog[open]')){ rw=innerWidth; render(); } }, 200); }); }
 function render(){
   _dayMap=null; fr.check();
+  document.body.classList.toggle('no-per', S.view==='friends'||S.view==='leaderboard');
+  if (fr.ready() && !fr.uid && !fr.loading && !fr.err && cloud.A && cloud.A.synced0) setTimeout(()=>fr.start(),0);
+  if (fr.uid) lb.schedule();
   if (!S.dmode && S.cfg.players.length) S.dmode = lsGet('evlog.dmode') || 'solo';
   if (S.f.player!=='all' && !S.cfg.players.some(p=>p.id===S.f.player)) S.f.player='all';
-  document.querySelectorAll('nav.tabs button').forEach(b=>b.setAttribute('aria-selected', b.dataset.view===S.view));
+  document.querySelectorAll('nav.tabs button').forEach(b=>b.setAttribute('aria-selected', b.dataset.view===S.view || (b.dataset.view==='settings' && (S.view==='friends'||S.view==='leaderboard'))));
   document.querySelectorAll('#bNav button').forEach(b=>b.setAttribute('aria-current', b.dataset.g===NAV_GROUP[S.view] ? 'page' : 'false'));
   $('#subNav').classList.toggle('on', NAV_GROUP[S.view]==='rec');
   document.querySelectorAll('#subNav button').forEach(b=>b.setAttribute('aria-current', b.dataset.view===S.view ? 'page' : 'false'));
@@ -3597,7 +3604,7 @@ function render(){
   renderPills(); fillBrandList();
   $('#fab').classList.toggle('off', !(S.view==='dash' || S.view==='records'));
   if (cloud.masked()){ $('#view').innerHTML = cloud.maskHTML(); cloud.ui(); return; }
-  $('#view').innerHTML = ({dash:renderDash, records:renderRecords, hands:renderHands, tours:renderTours, trips:renderTrips, settle:renderSettle, settings:renderSettings, friends:renderFriends})[S.view]();
+  $('#view').innerHTML = ({dash:renderDash, records:renderRecords, hands:renderHands, tours:renderTours, trips:renderTrips, settle:renderSettle, settings:renderSettings, friends:renderFriends, leaderboard:renderLeaderboard})[S.view]();
   if (S.view==='tours' && sampleFn) { const b=$('#pasteBtn'); if (b) b.hidden=false; }
   cloud.ui(); applyTheme();
 }
@@ -4986,6 +4993,7 @@ document.addEventListener('click', async ev=>{
    friendships/{a_b} {users:[a,b], from, to, status, fromName, toName}, blocks/{uid}/list/{other}.
    Security rules enforce consent, no duplicates, no self-requests and blocks; this UI only follows them. */
 const FR_ALPHA = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+const LB_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V13h4v7M10 20V8h4v12M16 20v-9h4v9"/></svg>`;
 const FR_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c1.2-3.6 3.6-5.5 6.5-5.5s5.3 1.9 6.5 5.5"/><circle cx="17" cy="9" r="2.6"/><path d="M16.5 14.6c2.4.2 4 1.8 5 4.6"/></svg>`;
 const frPair = (a,b) => a<b ? a+'_'+b : b+'_'+a;
 const frCodeOk = c => /^[A-Z0-9]{8}$/.test(c);
@@ -5016,10 +5024,10 @@ const fr = {
       }
       if (cloud.uid!==id) return;
       this.uid=id; this.me=snap.data();
-      this.unsub.push(db.collection('friendships').where('users','array-contains',id).onSnapshot(s=>{ this.list=s.docs.map(d=>({...d.data(), id:d.id})); if (S.view==='friends') render(); }, e=>{ this.err=this.errMsg(e); if (S.view==='friends') render(); }));
+      this.unsub.push(db.collection('friendships').where('users','array-contains',id).onSnapshot(s=>{ this.list=s.docs.map(d=>({...d.data(), id:d.id})); if (S.view==='friends') render(); else if (S.view==='leaderboard'){ lb.key=''; render(); } }, e=>{ this.err=this.errMsg(e); if (S.view==='friends') render(); }));
       this.unsub.push(db.collection('blocks').doc(id).collection('list').onSnapshot(s=>{ this.blocks=s.docs.map(d=>({...d.data(), id:d.id})); if (S.view==='friends') render(); }, ()=>{}));
     }catch(e){ console.error(e); this.err=this.errMsg(e); }
-    finally{ this.loading=false; if (S.view==='friends') render(); }
+    finally{ this.loading=false; if (S.view==='friends' || S.view==='leaderboard') render(); }
     const pend=lsGet('evlog.pendingFriend'); if (pend && this.uid){ try{ localStorage.removeItem('evlog.pendingFriend'); }catch{} this.find(pend); }
   },
   other(f){ return f.from===this.uid ? {id:f.to, name:f.toName} : {id:f.from, name:f.fromName}; },
@@ -5062,7 +5070,7 @@ const fr = {
 };
 function frRow(name, sub, btns){ return `<div class="friend"><span class="av" style="background:var(--muted)">${esc((name||'?').trim().slice(0,1))}</span><span style="min-width:0;flex:1"><b>${esc(name||'이름 없음')}</b>${sub?`<span class="hint" style="display:block;margin:0">${esc(sub)}</span>`:''}</span><span class="toolbar" style="margin:0;gap:6px">${btns}</span></div>`; }
 function renderFriends(){
-  const back=`<div class="toolbar" style="margin:0 0 12px"><button class="btn" data-view="settings">‹ MY</button></div>`;
+  const back=`<div class="toolbar" style="margin:0 0 12px"><button class="btn" data-view="settings">‹ MY</button><button class="btn" data-view="leaderboard">친구 랭킹</button></div>`;
   if (store.mode!=='cloud' || !cloud.user){
     return back+`<div class="empty"><b>친구 기능은 로그인하면 쓸 수 있어요</b>Google로 로그인하면 친구 코드로 친구를 추가하고, 서로 동의한 친구끼리 ROI를 비교할 수 있어요. 로그인하지 않아도 기존 기록은 이 기기에서 그대로 쓸 수 있어요.<br><br><button class="btn primary" data-act="cloudIn">Google로 로그인</button></div>`;
   }
@@ -5123,6 +5131,124 @@ function checkFriendHash(){
   if (fr.uid) fr.find(c); else { lsSet('evlog.pendingFriend', c); if (!(store.mode==='cloud' && cloud.user)) toast('Google로 로그인하면 친구 신청을 이어서 할 수 있어요'); }
   render();
 }
+
+/* ---------- leaderboard (account mode only) ----------
+   Each account computes its own tournament stats with the same calc() as the dashboard and writes
+   only what its privacy level allows to stats/{uid}/p/{period}. Friends read them; the security rules
+   re-check friendship, opt-in, privacy level and blocks on every read. Cash games are not ranked yet. */
+const LB_MIN = {m:3, y:10, all:10};
+const LB_LV = {roi:'ROI만', roi_n:'ROI + 참가 수', roi_n_net:'ROI + 참가 수 + 순수익'};
+const lbKind = k => k==='all' ? 'all' : k[0];
+const lbRanked = e => !e.src && !e.backing && !e.trip && !isCash(e) && !!e.date;
+const lb = {
+  timer:null, writing:false, rows:null, loading:false, err:'', key:'',
+  hashKey(){ return 'evlog.statsHash.'+cloud.uid; },
+  myList(){ const me=selfId(); return me ? S.entries.filter(e=>e.player===me && lbRanked(e)) : []; },
+  periodsOf(list){ const ks=new Set(['all']); list.forEach(e=>{ ks.add('m'+e.date.slice(0,7)); ks.add('y'+e.date.slice(0,4)); }); return [...ks]; },
+  inKey(e,k){ return k==='all' || (k[0]==='m' ? e.date.slice(0,7)===k.slice(1) : e.date.slice(0,4)===k.slice(1)); },
+  statOf(list, k){ const c=calc(list.filter(e=>this.inKey(e,k))); const roi=c.spent>0 ? c.roi : null;
+    return {roi, n:c.count, net:Math.round(c.net), ok: roi!=null && c.count>=LB_MIN[lbKind(k)]}; },
+  docFor(st, lv){ const d={lv, roi: st.roi==null ? null : Math.round(st.roi*1e6)/1e6, ok:st.ok}; if (lv!=='roi') d.n=st.n; if (lv==='roi_n_net') d.net=st.net; return d; },
+  canWrite(){ return fr.uid && fr.me && fr.me.rank===true && fr.me.privacy!=='off' && selfId() && cloud.canWrite(); },
+  schedule(){ if (store.mode!=='cloud') return; clearTimeout(this.timer); this.timer=setTimeout(()=>this.publish().catch(e=>console.error(e)), 2500); },
+  async publish(force){
+    if (!this.canWrite() || this.writing) return;
+    const lv=fr.me.privacy, list=this.myList(), db=cloud.fs, col=db.collection('stats').doc(fr.uid).collection('p');
+    const want={}; this.periodsOf(list).forEach(k=>{ want[k]=this.docFor(this.statOf(list,k), lv); });
+    const h=hashVal({lv, want}); if (!force && lsGet(this.hashKey())===h) return;
+    this.writing=true;
+    try{
+      const have=await col.get(); const del=have.docs.filter(d=>!(d.id in want) || (d.data()||{}).lv!==lv);
+      for (const d of del) await col.doc(d.id).delete();   // old privacy level or emptied period: remove first
+      const keys=Object.keys(want);
+      for (let i=0;i<keys.length;i+=400){ const b=db.batch(); keys.slice(i,i+400).forEach(k=>b.set(col.doc(k), {...want[k], updatedAt:firebase.firestore.FieldValue.serverTimestamp()})); await b.commit(); }
+      lsSet(this.hashKey(), h);
+    } finally{ this.writing=false; }
+  },
+  async withdraw(){ const col=cloud.fs.collection('stats').doc(fr.uid).collection('p'); const have=await col.get(); for (const d of have.docs) await col.doc(d.id).delete(); try{ localStorage.removeItem(this.hashKey()); }catch{} },
+  async setPrefs(rank, privacy){
+    if (!fr.uid || fr.busy) return;
+    if (rank && privacy==='off') privacy='roi';
+    fr.busy=true; render();
+    try{
+      if (!rank) await this.withdraw();
+      await cloud.fs.collection('users').doc(fr.uid).update({rank, privacy, updatedAt:fr.ts()});
+      fr.me={...fr.me, rank, privacy};
+      if (rank){ try{ localStorage.removeItem(this.hashKey()); }catch{} await this.publish(true); }
+      toast(rank ? `랭킹에 참여해요 · ${LB_LV[privacy]} 공개` : '랭킹 참여를 철회했어요. 친구에게 더 이상 보이지 않아요');
+      this.rows=null; this.key='';
+    }catch(e){ console.error(e); toast(fr.errMsg(e)); }
+    finally{ fr.busy=false; render(); }
+  },
+  period(){ const p=S.lb||(S.lb={mode:'m', y:new Date().getFullYear(), m:new Date().getMonth()+1}); return p; },
+  pKey(){ const p=this.period(); return p.mode==='all' ? 'all' : p.mode==='y' ? 'y'+p.y : `m${p.y}-${String(p.m).padStart(2,'0')}`; },
+  pLabel(){ const p=this.period(); return p.mode==='all' ? '전체 기간' : p.mode==='y' ? `${p.y}년` : `${p.y}년 ${p.m}월`; },
+  async load(){
+    const k=this.pKey(), id=fr.uid; if (!id) return;
+    this.loading=true; this.err=''; this.key=k; render();
+    const mates=fr.list.filter(f=>f.status==='accepted').map(f=>fr.other(f));
+    const col=u=>cloud.fs.collection('stats').doc(u).collection('p').doc(k);
+    const rows=[];
+    await Promise.all(mates.map(async o=>{ try{ const d=await col(o.id).get(); rows.push(d.exists ? {id:o.id, name:o.name, ...d.data()} : {id:o.id, name:o.name, hidden:true}); }catch{ rows.push({id:o.id, name:o.name, hidden:true}); } }));
+    const mine=this.docFor(this.statOf(this.myList(), k), 'roi_n_net');
+    rows.push({id, name:fr.me.nickname, me:true, ...mine, lv:fr.me.privacy, out: !(fr.me.rank===true && fr.me.privacy!=='off')});
+    if (this.key===k){ this.rows=rows; this.loading=false; render(); }
+  },
+  ranked(){
+    const rows=this.rows||[], vis=rows.filter(r=>!r.hidden && !(r.me && r.out));
+    const ok=vis.filter(r=>r.ok && r.roi!=null), wait=vis.filter(r=>!(r.ok && r.roi!=null)), hidden=rows.filter(r=>r.hidden);
+    const both=(a,b,f)=>a[f]!=null && b[f]!=null;
+    const cmp=(a,b)=>{ if (Math.abs(b.roi-a.roi)>1e-9) return b.roi-a.roi;
+      if (both(a,b,'net') && b.net!==a.net) return b.net-a.net;
+      if (both(a,b,'n') && b.n!==a.n) return b.n-a.n; return 0; };
+    ok.sort(cmp); ok.forEach((r,i)=>{ r.rank = i && cmp(ok[i-1], r)===0 ? ok[i-1].rank : i+1; });
+    return {ok, wait, hidden};
+  }
+};
+function lbRow(r, kind){
+  const min=LB_MIN[lbKind(lb.pKey())];
+  const right = kind==='ok'
+    ? `<b class="n ${ud(r.roi)}" style="font-size:16px">${pct(r.roi)}</b>`
+    : `<span class="hint" style="margin:0">${r.roi==null && r.n>0 ? '바이인 0원' : `${min}회 이상 참가 시 집계`}</span>`;
+  const sub=[r.n!=null?`${r.n}회`:'', r.net!=null?sgn(r.net):''].filter(Boolean).join(' · ');
+  return `<div class="friend lb-row${r.me?' lb-me':''}">${kind==='ok'?`<span class="n lb-rank">${r.rank}</span>`:''}<span class="av" style="background:${r.me?'var(--gold)':'var(--muted)'}">${esc((r.name||'?').slice(0,1))}</span><span style="min-width:0;flex:1"><b>${esc(r.name)}${r.me?' <small class="hint" style="margin:0">나</small>':''}</b>${sub?`<span class="hint n" style="display:block;margin:0">${sub}</span>`:''}</span>${right}</div>`;
+}
+function renderLeaderboard(){
+  const back=`<div class="toolbar" style="margin:0 0 12px"><button class="btn" data-view="settings">‹ MY</button><button class="btn" data-view="friends">친구 관리</button></div>`;
+  if (store.mode!=='cloud' || !cloud.user) return back+`<div class="empty"><b>랭킹은 로그인하면 볼 수 있어요</b>Google로 로그인하고 친구를 추가하면, 서로 동의한 친구끼리 토너먼트 ROI 순위를 비교할 수 있어요.<br><br><button class="btn primary" data-act="cloudIn">Google로 로그인</button></div>`;
+  fr.check(); if (!fr.uid && !fr.loading && !fr.err) setTimeout(()=>fr.start(),0);
+  if (!fr.uid) return back+(fr.err ? `<div class="empty"><b>랭킹을 불러오지 못했어요</b>${esc(fr.err)}<br><br><button class="btn primary" data-act="frRetry">다시 시도</button></div>` : `<div class="empty"><b>불러오는 중이에요</b>잠시만 기다려 주세요.</div>`);
+  if (!selfId()) return back+`<div class="empty"><b>먼저 이 계정의 본인을 골라 주세요</b>랭킹에는 본인 플레이어의 토너먼트 기록만 들어가요.<br><br><button class="btn primary" data-view="dash">대시보드에서 고르기</button></div>`;
+  if (lb.key!==lb.pKey() && !lb.loading) setTimeout(()=>lb.load(),0);
+  const p=lb.period(), me=fr.me, on=me.rank===true && me.privacy!=='off', dis=fr.busy?'disabled':'';
+  const mates=fr.list.filter(f=>f.status==='accepted').length;
+  const {ok,wait,hidden}=lb.ranked();
+  const seg=`<div class="seg" role="group" aria-label="집계 기간">${[['m','월간'],['y','연간'],['all','전체']].map(([v,l])=>`<button type="button" data-lbmode="${v}" aria-pressed="${p.mode===v}">${l}</button>`).join('')}</div>`;
+  const step = p.mode==='all' ? '' : `<span class="stepper"><button type="button" data-lbstep="-1" aria-label="이전">‹</button><span>${lb.pLabel()}</span><button type="button" data-lbstep="1" aria-label="다음">›</button></span>`;
+  return back+`<div class="dash">
+  <section class="card s12"><h2>친구 랭킹 <button data-act="lbReload" ${lb.loading?'disabled':''}>${lb.loading?'불러오는 중…':'새로고침'}</button></h2>
+    <div class="toolbar" style="margin:0 0 14px;justify-content:space-between;flex-wrap:wrap">${step}${seg}</div>
+    ${!mates ? `<p class="hint">아직 친구가 없어요. 친구를 추가하면 여기서 순위를 비교할 수 있어요. <button class="btn" data-view="friends" style="margin-left:6px">친구 추가</button></p>` : ''}
+    ${ok.length ? `<div class="friends" style="margin-top:0">${ok.map(r=>lbRow(r,'ok')).join('')}</div>` : (mates && !lb.loading ? `<p class="hint">${esc(lb.pLabel())}에 순위에 오른 사람이 없어요.</p>` : '')}
+    ${wait.length ? `<h4 style="margin:18px 0 4px">집계 대기</h4><div class="friends" style="margin-top:0">${wait.map(r=>lbRow(r,'wait')).join('')}</div>` : ''}
+    ${hidden.length ? `<p class="hint" style="margin-top:14px">공개된 기록이 없는 친구: ${hidden.map(r=>esc(r.name)).join(', ')}</p>` : ''}
+    <p class="hint" style="margin-top:14px">토너먼트 기록만 집계해요(캐시 게임·스테이킹 투자·원정 경비·받아온 기록 제외). ROI는 대시보드와 같은 공식이고, ROI가 같으면 순수익, 참가 수 순으로 비교해요. 최소 참가: 월 ${LB_MIN.m}회 · 연 ${LB_MIN.y}회 · 전체 ${LB_MIN.all}회.</p>
+  </section>
+  <section class="card s12"><h2>내 랭킹 공개 설정</h2>
+    <p class="hint" style="margin:-6px 0 14px">${on ? `친구에게 <b style="color:var(--ink)">${LB_LV[me.privacy]}</b>을(를) 공개하고 있어요.` : '지금은 랭킹에 참여하지 않아서 친구에게 아무것도 보이지 않아요.'} 개별 대회 기록, 바이인, 스테이킹, 원정, 정산 정보는 어떤 설정에서도 공개되지 않아요.</p>
+    <div class="toolbar" style="margin:0;flex-wrap:wrap">${Object.keys(LB_LV).map(k=>`<button type="button" class="btn ${on && me.privacy===k?'primary':''}" data-lbpriv="${k}" ${dis}>${LB_LV[k]}</button>`).join('')}${on?`<button type="button" class="btn ghost" data-act="lbOut" ${dis}>참여 철회</button>`:''}</div>
+  </section></div>`;
+}
+document.addEventListener('click', async ev=>{
+  const t=ev.target.closest('[data-lbmode],[data-lbstep],[data-lbpriv],[data-act="lbReload"],[data-act="lbOut"]'); if (!t) return;
+  const p=lb.period();
+  if (t.dataset.lbmode){ p.mode=t.dataset.lbmode; render(); return; }
+  if (t.dataset.lbstep){ const d=+t.dataset.lbstep; if (p.mode==='y') p.y+=d; else { p.m+=d; if (p.m<1){ p.m=12; p.y--; } if (p.m>12){ p.m=1; p.y++; } } render(); return; }
+  if (t.dataset.lbpriv){ const k=t.dataset.lbpriv; if (fr.me.rank===true && fr.me.privacy===k) return;
+    if (!(await ask(`친구에게 ${LB_LV[k]}을(를) 공개하고 랭킹에 참여할까요?`, '참여'))) return; lb.setPrefs(true, k); return; }
+  if (t.dataset.act==='lbOut'){ if (!(await ask('랭킹 참여를 철회할까요? 친구 화면에서 내 기록이 바로 사라져요.', '철회'))) return; lb.setPrefs(false, fr.me.privacy); return; }
+  if (t.dataset.act==='lbReload'){ lb.key=''; lb.load(); }
+});
 
 /* ---------- cloud sync (Firebase Auth: Google + Cloud Firestore) ----------
    Guest (not signed in): everything stays in this browser under LS_KEY, exactly as before.
